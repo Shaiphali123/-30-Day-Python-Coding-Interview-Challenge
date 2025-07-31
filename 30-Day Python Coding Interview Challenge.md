@@ -1,112 +1,83 @@
+# 🐍 Python 30-Day Interview Coding Challenge with Shaivi Connect
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🐍 Python 30-Day Challenge – Shaivi Connect</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #fffafc;
-      margin: 20px;
-      color: #333;
-    }
-    h1 {
-      color: #5f2c82;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin: 20px 0;
-    }
-    th, td {
-      text-align: left;
-      padding: 12px;
-      border-bottom: 1px solid #ddd;
-    }
-    th {
-      background-color: #ffcad4;
-    }
-    a {
-      color: #d6336c;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .highlight {
-      background-color: #ffe6e6;
-      padding: 10px;
-      border-left: 5px solid #f94c66;
-    }
-  </style>
-</head>
-<body>
-  <h1>🐍 30-Day Python Coding Interview Challenge</h1>
-  <p>👋 Welcome to the <strong>Shaivi Connect Python 30-Day Challenge</strong>! Whether you're prepping for interviews or boosting your logic — you're in the right place! 🚀</p>
+👋 Welcome to the **Python 30-Day Challenge** — a day-by-day guide to master coding questions in Python for interviews. From easy to advanced, this series is for job seekers, freshers, and anyone preparing for coding rounds. 🚀
 
-  <div class="highlight">
-    <strong>What you'll learn:</strong>
-    <ul>
-      <li>Python Basics to Advanced</li>
-      <li>Interview-Focused Problems</li>
-      <li>Tips, Tricks & Optimization</li>
-      <li>Real-Time Automation Scenarios</li>
-    </ul>
-  </div>
+---
 
-  <h2>📅 Daily Python Topics</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Day</th>
-        <th>Topic</th>
-        <th>Link</th>
-      </tr>
-    </thead>
-    <tbody>
-<tr><td>✅ Day 1</td><td>Variables & Data Types</td><td><a href="./Day01_Topic_Name/">Go to Day 1</a></td></tr>
-<tr><td>🔜 Day 2</td><td>Lists, Tuples, Sets, Dicts</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 3</td><td>Loops & Conditionals</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 4</td><td>String Manipulation</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 5</td><td>Functions & Recursion</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 6</td><td>List Comprehension & Lambda</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 7</td><td>Practice + Quiz</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 8</td><td>Pattern Problems</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 9</td><td>Math Problems</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 10</td><td>Number Theory</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 11</td><td>Two Pointer Approach</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 12</td><td>Sliding Window</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 13</td><td>Hashing Techniques</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 14</td><td>Practice + Poll</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 15</td><td>Sorting & Searching</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 16</td><td>Recursion & Backtracking</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 17</td><td>Stack & Queue</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 18</td><td>Linked List Problems</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 19</td><td>Dictionary Use Cases</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 20</td><td>Set Operations</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 21</td><td>Mini Mock Test</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 22</td><td>Tricky String & Arrays</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 23</td><td>Bit Manipulation</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 24</td><td>OOP Interview Scenarios</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 25</td><td>Python Tricks</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 26</td><td>Decorators & Generators</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 27</td><td>Debugging Python Code</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 28</td><td>System Design with Python</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 29</td><td>Full Coding Assignment</td><td>Coming Soon</td></tr>
-<tr><td>🔜 Day 30</td><td>Final Interview Mock</td><td>Coming Soon</td></tr>
+## ✅ What You’ll Practice
 
-    </tbody>
-  </table>
+- Python Basics & Loops
+- Data Structures: List, Tuple, Set, Dict
+- Functions, Recursion, Lambda
+- OOPs & Design Patterns
+- File Handling & Exceptions
+- Problem Solving & Coding Patterns
+- Real Interview Coding Questions
 
-  <h2>📺 Follow for Daily Reels & Updates</h2>
-  <ul>
-    <li>📸 Instagram: <a href="https://www.instagram.com/shaiviconnect/">@shaiviconnect</a></li>
-    <li>💼 LinkedIn: <a href="https://www.linkedin.com/company/107863493/">Shaivi Connect</a></li>
-    <li>📺 YouTube: <a href="https://www.youtube.com/@shaiphali43">@shaiphali43</a></li>
-  </ul>
+---
 
-  <blockquote><strong>“Coding consistency is your superpower!” – Shaivi Connect</strong></blockquote>
-</body>
-</html>
+## 📅 Daily Coding Schedule
+
+| Day | Topic | Link |
+|-----|-------|------|
+| 🔜 Day 1 | Python Basics & Input/Output | Coming Soon |
+| 🔜 Day 2 | Variables, Data Types, Type Casting | Coming Soon |
+| 🔜 Day 3 | If-Else, Loops & Patterns | Coming Soon |
+| 🔜 Day 4 | Functions and Recursion | Coming Soon |
+| 🔜 Day 5 | List & List Comprehension | Coming Soon |
+| 🔜 Day 6 | Tuple and Set | Coming Soon |
+| 🔜 Day 7 | Dictionary and Operations | Coming Soon |
+| 🔜 Day 8 | String Manipulation | Coming Soon |
+| 🔜 Day 9 | Slicing and Indexing | Coming Soon |
+| 🔜 Day 10 | Lambda, Map, Filter, Reduce | Coming Soon |
+| 🔜 Day 11 | Exception Handling | Coming Soon |
+| 🔜 Day 12 | File I/O Operations | Coming Soon |
+| 🔜 Day 13 | List vs Tuple vs Set vs Dict | Coming Soon |
+| 🔜 Day 14 | Time & Date Modules | Coming Soon |
+| 🔜 Day 15 | OOPs - Classes & Objects | Coming Soon |
+| 🔜 Day 16 | Inheritance & Polymorphism | Coming Soon |
+| 🔜 Day 17 | Encapsulation & Abstraction | Coming Soon |
+| 🔜 Day 18 | Python Design Patterns | Coming Soon |
+| 🔜 Day 19 | Decorators & Generators | Coming Soon |
+| 🔜 Day 20 | Python Logging | Coming Soon |
+| 🔜 Day 21 | Regex in Python | Coming Soon |
+| 🔜 Day 22 | Python Libraries Overview | Coming Soon |
+| 🔜 Day 23 | Python for Web Scraping | Coming Soon |
+| 🔜 Day 24 | Python for Automation | Coming Soon |
+| 🔜 Day 25 | Real Coding Problems - Easy | Coming Soon |
+| 🔜 Day 26 | Real Coding Problems - Medium | Coming Soon |
+| 🔜 Day 27 | Real Coding Problems - Hard | Coming Soon |
+| 🔜 Day 28 | Mock Interview Round 1 | Coming Soon |
+| 🔜 Day 29 | Mock Interview Round 2 | Coming Soon |
+| 🔜 Day 30 | Final Recap + Resume Tips | Coming Soon |
+
+---
+
+## 🧠 What You’ll Get Daily
+
+- ✅ Concept Explanation
+- 💻 Python Code with Output
+- ❓ Interview Questions
+- 🧪 Practice Tasks
+- 🧠 Tips for Solving
+
+---
+
+## 🎥 Follow Shaivi Connect
+
+- 📸 Instagram: [@shaiviconnect](https://www.instagram.com/shaiviconnect/)
+- 💼 LinkedIn: [Shaivi Connect](https://www.linkedin.com/company/107863493/)
+- 📺 YouTube: [@shaiphali43](https://www.youtube.com/@shaiphali43)
+
+---
+
+## 🤝 Let’s Grow Together!
+
+Post your progress using **#ShaiviPythonChallenge**  
+Tag and get featured in stories! 🎉
+
+> *“Practice makes progress.” – Shaivi Connect*
+
+---
+
+📢 **New Python challenge every day — Don’t miss it!**
