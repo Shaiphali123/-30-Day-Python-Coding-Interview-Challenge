@@ -15,7 +15,7 @@ Each folder contains:
 - `notes.md` – Concepts, explanations, and edge cases
 
 ## 📢 Stay Connected
-- 💼 LinkedIn: https://linkedin.com/in/YOURNAME
+- 💼 LinkedIn: https://linkedin.com/in/shaiviconnect
 - 📺 YouTube: Shaivi Connect
 - 🐙 GitHub: https://github.com/Shaiphali123
 
