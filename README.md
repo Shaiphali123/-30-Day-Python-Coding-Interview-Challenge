@@ -25,4 +25,5 @@ Each folder contains:
 3. Raise a PR and help others 💙
 
 ## 📌 Challenge Roadmap
-📅 [Click here to view full 30-day challenge plan](file:///C:/Users/91912/Downloads/index%20(1).html).
+📅 [Click here to view full 30-day challenge plan](https://shaiphali123.github.io/-30-Day-Python-Coding-Interview-Challenge/index(1).html)
+
