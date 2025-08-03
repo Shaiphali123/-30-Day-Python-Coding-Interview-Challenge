@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Day 1: Python Variables & Data Types – Notes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1 {
+            color: #2b5876;
+            text-align: center;
+        }
+        h3 {
+            color: #444;
+        }
+        .note-section {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Fira Code', monospace;
+            color: #c7254e;
+        }
+    </style>
+</head>
+<body>
+    <h1>Day 1: Python Variables & Data Types – Notes</h1>
+
+    <div class="note-section">
+        <h3>✅ Variables</h3>
+        <ul>
+            <li>No need to declare data types explicitly.</li>
+            <li>Python is dynamically typed.</li>
+        </ul>
+        <pre><code>x = 10     # int
+name = "Shaivi"  # str</code></pre>
+    </div>
+
+    <div class="note-section">
+        <h3>✅ Data Types</h3>
+        <p><strong>int</strong>, <strong>float</strong>, <strong>str</strong>, <strong>bool</strong>, <strong>list</strong>, <strong>tuple</strong>, <strong>dict</strong>, <strong>set</strong></p>
+        <p>Use <code>type(variable)</code> to check.</p>
+    </div>
+
+    <div class="note-section">
+        <h3>✅ Input/Output</h3>
+        <pre><code>x = input("Enter value: ")  # Always returns str
+y = int(x)  # Convert to int if needed</code></pre>
+    </div>
+
+    <div class="note-section">
+        <h3>✅ Type Conversion</h3>
+        <pre><code>str(10) → '10'
+int('20') → 20
+float('3.14') → 3.14</code></pre>
+    </div>
+
+    <div class="note-section">
+        <h3>✅ Tip:</h3>
+        <p>Use f-strings for clean output:</p>
+        <pre><code>print(f"The value is {{x}}")</code></pre>
+    </div>
+</body>
+</html>
