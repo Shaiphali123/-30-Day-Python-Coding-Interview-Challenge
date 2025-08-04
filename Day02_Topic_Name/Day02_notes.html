@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Day 2 - Python Collections</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: auto; }
+        h2, h3 { color: #2c3e50; }
+        pre { background-color: #f4f4f4; padding: 10px; border-left: 4px solid #ccc; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+<h2>📘 Day 2: Lists, Tuples, Sets & Dictionaries in Python</h2>
+<hr>
+<h3>🔹 1. Lists</h3>
+<ul>
+<li>Lists are <b>ordered</b>, <b>mutable</b>, and allow <b>duplicate</b> values.</li>
+<li>Defined using square brackets <code>[]</code>.</li>
+</ul>
+<pre><code>fruits = ["apple", "banana", "cherry"]
+fruits.append("orange")
+fruits[1] = "mango"
+print(fruits)  # ['apple', 'mango', 'cherry', 'orange']</code></pre>
+<b>✅ Common Methods</b>: <code>append()</code>, <code>insert()</code>, <code>remove()</code>, <code>pop()</code>, <code>sort()</code>, <code>reverse()</code>
+<hr>
+<h3>🔹 2. Tuples</h3>
+<ul>
+<li>Tuples are <b>ordered</b>, <b>immutable</b>, and allow <b>duplicates</b>.</li>
+<li>Defined using parentheses <code>()</code>.</li>
+</ul>
+<pre><code>coordinates = (10, 20)
+print(coordinates[0])  # 10
+# coordinates[0] = 30  ❌ Error!</code></pre>
+✅ Used when values should <b>not change</b>, e.g., GPS coordinates.
+<hr>
+<h3>🔹 3. Sets</h3>
+<ul>
+<li>Sets are <b>unordered</b>, <b>mutable</b>, and <b>do not allow duplicates</b>.</li>
+<li>Defined using curly braces <code>{}</code> or <code>set()</code> function.</li>
+</ul>
+<pre><code>unique_numbers = {1, 2, 3, 2, 4}
+print(unique_numbers)  # {1, 2, 3, 4}</code></pre>
+✅ <b>Common Uses</b>: Removing duplicates, set operations (union, intersection, difference)
+<hr>
+<h3>🔹 4. Dictionaries</h3>
+<ul>
+<li>Dictionaries are <b>unordered (insertion ordered as of Python 3.6+)</b>, <b>mutable</b>, and store <b>key-value</b> pairs.</li>
+<li>Defined using curly braces <code>{key: value}</code>.</li>
+</ul>
+<pre><code>person = {"name": "Alice", "age": 25}
+person["city"] = "New York"
+print(person["name"])  # Alice</code></pre>
+✅ Access with keys, <b>not indexes</b>.
+<hr>
+<h3>📌 Summary Table</h3>
+<table border="1">
+<tr><th>Data Type</th><th>Ordered</th><th>Mutable</th><th>Allows Duplicates</th><th>Syntax</th></tr>
+<tr><td>List</td><td>✅</td><td>✅</td><td>✅</td><td>[]</td></tr>
+<tr><td>Tuple</td><td>✅</td><td>❌</td><td>✅</td><td>()</td></tr>
+<tr><td>Set</td><td>❌</td><td>✅</td><td>❌</td><td>{}</td></tr>
+<tr><td>Dictionary</td><td>✅*</td><td>✅</td><td>❌ (keys)</td><td>{key:val}</td></tr>
+</table>
+<hr>
+<h3>💡 Interview Tips</h3>
+<ul>
+<li>Prefer <b>tuples</b> when values shouldn't change.</li>
+<li>Use <b>sets</b> to remove duplicates.</li>
+<li><b>Dictionaries</b> are ideal for key-based lookups.</li>
+<li>Understand list vs set performance in <b>search</b> operations.</li>
+</ul>
+<hr>
+<h3>🔍 Practice Questions</h3>
+<ul>
+<li>List vs Tuple: When and why?</li>
+<li>How to convert a list to set and vice versa?</li>
+<li>How to merge two dictionaries?</li>
+<li>Use case of tuple in real-world apps?</li>
+</ul>
+</body>
+</html>
