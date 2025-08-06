@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Day 4 – String Manipulation in Python</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9fbfc;
+      padding: 40px;
+      max-width: 900px;
+      margin: auto;
+      color: #2c3e50;
+    }
+
+    h1, h2 {
+      color: #1a237e;
+    }
+
+    ul {
+      margin-left: 20px;
+    }
+
+    code {
+      background-color: #eee;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+
+    .code-block {
+      background-color: #f4f4f4;
+      border-left: 5px solid #2196f3;
+      padding: 10px;
+      margin: 10px 0;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Day 4 – String Manipulation in Python</h1>
+
+  <p>Strings are sequences of characters, enclosed in single or double quotes. Mastering string manipulation is crucial for coding interviews.</p>
+
+  <h2>🧵 1. Creating Strings</h2>
+  <ul>
+    <li><code>str1 = "Hello"</code></li>
+    <li><code>str2 = 'World'</code></li>
+    <li>Multi-line: <code>"""This is multiline string"""</code></li>
+  </ul>
+
+  <h2>📏 2. String Indexing & Slicing</h2>
+  <ul>
+    <li>Indexing: <code>str[0]</code> for first character</li>
+    <li>Negative indexing: <code>str[-1]</code> for last character</li>
+    <li>Slicing: <code>str[1:4]</code> gives characters from index 1 to 3</li>
+  </ul>
+
+  <h2>🔁 3. Common String Operations</h2>
+  <ul>
+    <li><code>len(s)</code>: Length of the string</li>
+    <li><code>s.upper()</code>, <code>s.lower()</code>, <code>s.title()</code>, <code>s.capitalize()</code></li>
+    <li><code>s.strip()</code>: Removes whitespaces</li>
+    <li><code>s.replace("a", "b")</code>: Replace characters</li>
+    <li><code>s.find("word")</code>, <code>s.index("word")</code></li>
+    <li><code>"Python" in s</code>: Check if substring exists</li>
+  </ul>
+
+  <h2>🧩 4. String Concatenation & Formatting</h2>
+  <ul>
+    <li>Using <code>+</code>: <code>"Hello" + " World"</code></li>
+    <li>Using f-strings: <code>f"Hello {name}"</code></li>
+    <li>Using <code>format()</code>: <code>"{} is {}".format("Python", "awesome")</code></li>
+  </ul>
+
+  <h2>🔢 5. String Conversion</h2>
+  <ul>
+    <li><code>str(123)</code>: Convert int to string</li>
+    <li><code>int("123")</code>: Convert string to int</li>
+    <li><code>float("3.14")</code></li>
+  </ul>
+
+  <h2>🔍 6. String Methods (Interview Focus)</h2>
+  <ul>
+    <li><code>split()</code>: Split into list of words</li>
+    <li><code>join()</code>: Combine list into string</li>
+    <li><code>startswith()</code>, <code>endswith()</code></li>
+    <li><code>isdigit()</code>, <code>isalpha()</code>, <code>isalnum()</code></li>
+    <li><code>count(sub)</code>: Count occurrences</li>
+  </ul>
+
+  <h2>🎯 7. String Immutability</h2>
+  <p>Strings are immutable in Python. Operations return a new string instead of modifying the original.</p>
+
+  <h2>❓ 8. Common Interview Questions</h2>
+  <ul>
+    <li>Reverse a string</li>
+    <li>Check for palindrome</li>
+    <li>Find duplicate characters</li>
+    <li>Count vowels and consonants</li>
+    <li>Remove punctuation from a string</li>
+  </ul>
+
+  <h2>🧠 9. Example: Reverse a String</h2>
+  <div class="code-block">
+s = "Python"
+reversed_s = s[::-1]
+print(reversed_s)  # nohtyP
+  </div>
+
+  <h2>📘 10. Resources</h2>
+  <ul>
+    <li><a href="https://docs.python.org/3/library/stdtypes.html#string-methods" target="_blank">Official Python String Methods</a></li>
+    <li><a href="https://www.w3schools.com/python/python_strings.asp" target="_blank">W3Schools - Python Strings</a></li>
+  </ul>
+
+  <p>🔁 Practice daily to master these concepts!</p>
+</body>
+</html>
