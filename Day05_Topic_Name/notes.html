@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Day 5: Functions and Recursion - Python Series</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        ul, ol {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Day 5: Functions and Recursion in Python</h1>
+
+    <h2>📌 What is a Function?</h2>
+    <p>A function is a block of organized, reusable code used to perform a single, related action.</p>
+
+    <h2>🛠️ How to Define and Call a Function</h2>
+    <pre><code>def greet():
+    print("Hello, World!")
+greet()</code></pre>
+
+    <h2>🧩 Types of Functions</h2>
+    <ul>
+        <li><strong>Built-in functions</strong> (e.g., <code>print()</code>, <code>len()</code>)</li>
+        <li><strong>User-defined functions</strong></li>
+        <li><strong>Lambda functions</strong> (anonymous functions)</li>
+    </ul>
+
+    <h2>⚙️ Function Arguments</h2>
+    <ul>
+        <li><strong>Default arguments:</strong> <code>def greet(name="Guest")</code></li>
+        <li><strong>Keyword arguments:</strong> <code>greet(name="Alice")</code></li>
+        <li><strong>Variable-length:</strong> <code>*args</code>, <code>**kwargs</code></li>
+    </ul>
+
+    <h2>🔄 Return Statement</h2>
+    <p>Use <code>return</code> to send a result back from the function.</p>
+
+    <h2>⚡ Lambda Functions</h2>
+    <p>One-line anonymous function: <code>square = lambda x: x*x</code></p>
+
+    <h2>🧠 What is Recursion?</h2>
+    <p>Recursion is a process in which a function calls itself directly or indirectly.</p>
+    
+    <h3>✅ Base Case & Recursive Case</h3>
+    <pre><code>def factorial(n):
+    if n == 0:
+        return 1  # base case
+    return n * factorial(n - 1)  # recursive case</code></pre>
+
+    <h3>🆚 Recursion vs Iteration</h3>
+    <ul>
+        <li>Recursion is elegant and closer to mathematical logic.</li>
+        <li>Iteration uses loops and is generally more memory efficient.</li>
+    </ul>
+
+    <h2>💡 Common Recursion Examples</h2>
+    <ul>
+        <li>Factorial of a number</li>
+        <li>Fibonacci series</li>
+        <li>Sum of digits</li>
+        <li>GCD calculation</li>
+    </ul>
+
+    <h2>🧪 Interview Questions on Functions & Recursion</h2>
+    <ol>
+        <li>What is the difference between a function and a method?</li>
+        <li>How does Python handle default arguments?</li>
+        <li>What are <code>*args</code> and <code>**kwargs</code>?</li>
+        <li>Explain recursion with an example.</li>
+        <li>How would you prevent a recursion from running infinitely?</li>
+        <li>What are the advantages of using recursion?</li>
+        <li>Write a recursive function to calculate the factorial of a number.</li>
+        <li>Compare recursion with iteration. Which is better and why?</li>
+        <li>What is a lambda function and where would you use it?</li>
+        <li>How do you return multiple values from a function?</li>
+    </ol>
+</body>
+</html>
