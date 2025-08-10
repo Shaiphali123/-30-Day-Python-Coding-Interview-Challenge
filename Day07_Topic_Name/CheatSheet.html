@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 7 Python CheatSheet - Quick Revision</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .topic-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .topic-section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .topic-section h2::before {
+            content: "📚";
+            margin-right: 10px;
+            font-size: 0.8em;
+        }
+        
+        .topic-section p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            overflow-x: auto;
+            border: 1px solid #4a5568;
+        }
+        
+        .code-block code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .highlight {
+            background: #ffeaa7;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .key-points {
+            background: #e8f5e8;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .key-points h4 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        
+        .key-points ul {
+            padding-left: 20px;
+        }
+        
+        .footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐍 Python Day 7 CheatSheet</h1>
+            <p>Quick Revision Guide - All Topics Covered</p>
+        </div>
+        
+        <div class="content">
+            <!-- Variables & Data Types -->
+            <div class="topic-section">
+                <h2>Variables & Data Types</h2>
+                <p>Python variables are containers for storing data values. Python has several built-in data types.</p>
+                
+                <div class="code-block">
+                    <code><pre># Variable Assignment
+name = "Alice"          # String
+age = 25               # Integer  
+height = 5.6           # Float
+is_student = True      # Boolean
+
+# Type Checking
+print(type(name))      # &lt;class 'str'&gt;
+print(isinstance(age, int))  # True
+
+# Type Conversion
+str_num = "123"
+int_num = int(str_num)  # Convert to integer
+float_num = float(str_num)  # Convert to float</pre></code>
+                </div>
+                
+                <div class="key-points">
+                    <h4>Key Points:</h4>
+                    <ul>
+                        <li>Python is <span class="highlight">dynamically typed</span></li>
+                        <li>Variable names must start with letter or underscore</li>
+                        <li>Use <code>type()</code> to check data type</li>
+                        <li>Main types: int, float, str, bool, list, tuple, dict, set</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Lists -->
+            <div class="topic-section">
+                <h2>Lists</h2>
+                <p>Lists are ordered, mutable collections that can store multiple items.</p>
+                
+                <div class="code-block">
+                    <code><pre># Creating Lists
+fruits = ["apple", "banana", "orange"]
+numbers = [1, 2, 3, 4, 5]
+mixed = [1, "hello", 3.14, True]
+
+# List Methods
+fruits.append("grape")        # Add to end
+fruits.insert(1, "mango")    # Insert at index
+fruits.remove("banana")      # Remove by value
+popped = fruits.pop()        # Remove last item
+
+# List Operations
+print(len(fruits))           # Length
+print(fruits[0])             # First item
+print(fruits[-1])            # Last item
+print(fruits[1:3])           # Slicing
+
+# List Comprehension Preview
+squares = [x**2 for x in range(5)]  # [0, 1, 4, 9, 16]</pre></code>
+                </div>
+                
+                <div class="key-points">
+                    <h4>Key Points:</h4>
+                    <ul>
+                        <li>Lists are <span class="highlight">mutable</span> (can be changed)</li>
+                        <li>Indexed from 0, negative indexing supported</li>
+                        <li>Can contain different data types</li>
+                        <li>Common methods: append(), insert(), remove(), pop()</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tuples -->
+            <div class="topic-section">
+                <h2>Tuples</h2>
+                <p>Tuples are ordered, immutable collections. Once created, they cannot be changed.</p>
+                
+                <div class="code-block">
+                    <code><pre># Creating Tuples
+coordinates = (10, 20)
+colors = ("red", "green", "blue")
+single_item = (42,)  # Note the comma for single item
+
+# Tuple Operations
+print(coordinates[0])        # Accessing elements
+print(len(colors))          # Length
+print("red" in colors)      # Membership test
+
+# Tuple Unpacking
+x, y = coordinates          # x=10, y=20
+first, *rest = colors       # first="red", rest=["green", "blue"]
+
+# Tuple Methods (only 2!)
+numbers = (1, 2, 2, 3, 2)
+print(numbers.count(2))     # Count occurrences: 3
+print(numbers.index(3))     # Find index of value: 3</pre></code>
+                </div>
+                
+                <div class="key-points">
+                    <h4>Key Points:</h4>
+                    <ul>
+                        <li>Tuples are <span class="highlight">immutable</span> (cannot be changed)</li>
+                        <li>Faster than lists for fixed data</li>
+                        <li>Can be used as dictionary keys</li>
+                        <li>Perfect for coordinates, RGB values, database records</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sets -->
+            <div class="topic-section">
+                <h2>Sets</h2>
+                <p>Sets are unordered collections of unique elements. No duplicates allowed.</p>
+                
+                <div class="code-block">
+                    <code><pre># Creating Sets
+fruits = {"apple", "banana", "orange"}
+numbers = set([1, 2, 3, 2, 1])  # {1, 2, 3} - duplicates removed
+
+# Set Operations
+fruits.add("grape")          # Add element
+fruits.discard("banana")     # Remove element (no error if not found)
+fruits.remove("apple")       # Remove element (error if not found)
+
+# Set Math Operations
+set1 = {1, 2, 3, 4}
+set2 = {3, 4, 5, 6}
+
+union = set1 | set2          # {1, 2, 3, 4, 5, 6}
+intersection = set1 & set2   # {3, 4}
+difference = set1 - set2     # {1, 2}
+symmetric_diff = set1 ^ set2 # {1, 2, 5, 6}
+
+# Set Methods
+print(len(fruits))           # Size
+print("apple" in fruits)     # Membership test</pre></code>
+                </div>
+                
+                <div class="key-points">
+                    <h4>Key Points:</h4>
+                    <ul>
+                        <li>Sets contain <span class="highlight">unique elements only</span></li>
+                        <li>Unordered - no indexing</li>
+                        <li>Mutable but elements must be immutable</li>
+                        <li>Great for removing duplicates and set operations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Dictionaries -->
+            <div class="topic-section">
+                <h2>Dictionaries</h2>
+                <p>Dictionaries store key-value pairs. Keys must be unique and immutable.</p>
+                
+                <div class="code-block">
+                    <code><pre># Creating Dictionaries
+student = {"name": "Alice", "age": 20, "grade": "A"}
+empty_dict = {}
+dict_from_pairs = dict([("a", 1), ("b", 2)])
+
+# Dictionary Operations
+print(student["name"])       # Access value
+student["city"] = "NYC"      # Add new key-value
+student["age"] = 21          # Update existing value
+del student["grade"]         # Delete key-value pair
+
+# Dictionary Methods
+keys = student.keys()        # Get all keys
+values = student.values()    # Get all values  
+items = student.items()      # Get key-value pairs
+
+# Safe Access
+age = student.get("age", 0)  # Returns 0 if key not found
+popped = student.pop("city", None)  # Remove and return value
+
+# Dictionary Comprehension Preview
+squares = {x: x**2 for x in range(5)}  # {0:0, 1:1, 2:4, 3:9, 4:16}</pre></code>
+                </div>
+                
+                <div class="key-points">
+                    <h4>Key Points:</h4>
+                    <ul>
+                        <li>Keys must be <span class="highlight">unique and immutable</span></li>
+                        <li>Values can be any data type</li>
+                        <li>Insertion order preserved (Python 3.7+)</li>
+                        <li>Use get() method for safe access</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Loops & Conditionals -->
+            <div class="topic-section">
+                <h2>Loops & Conditionals</h2>
+                <p>Control flow statements to make decisions and repeat actions.</p>
+                
+                <div class="code-block">
+                    <code><pre># If-Elif-Else
+score = 85
+if score >= 90:
+    grade = "A"
+elif score >= 80:
+    grade = "B"
+elif score >= 70:
+    grade = "C"
+else:
+    grade = "F"
+
+# For Loops
+fruits = ["apple", "banana", "orange"]
+for fruit in fruits:
+    print(fruit)
+
+for i in range(5):           # 0 to 4
+    print(i)
+
+for i, fruit in enumerate(fruits):  # Get index and value
+    print(f"{i}: {fruit}")
+
+# While Loops
+count = 0
+while count < 5:
+    print(count)
+    count += 1
+
+# Loop Control
+for i in range(10):
+    if i == 3:
+        continue             # Skip this iteration
+    if i == 7:
+        break               # Exit loop
+    print(i)</pre></code>
+                </div>
+                
+                <div class="key-points">
+                    <h4>Key Points:</h4>
+                    <ul>
+                        <li><span class="highlight">Indentation</span> defines code blocks</li>
+                        <li>Use elif for multiple conditions</li>
+                        <li>for loops iterate over sequences</li>
+                        <li>while loops continue until condition is False</li>
+                        <li>break exits loop, continue skips iteration</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- String Manipulation -->
+            <div class="topic-section">
+                <h2>String Manipulation</h2>
+                <p>Strings are sequences of characters with many built-in methods.</p>
+                
+                <div class="code-block">
+                    <code><pre># String Creation
+name = "Alice"
+message = 'Hello World'
+multiline = """This is
+a multiline
+string"""
+
+# String Methods
+text = "  Hello Python World  "
+print(text.strip())          # Remove whitespace
+print(text.lower())          # Convert to lowercase
+print(text.upper())          # Convert to uppercase
+print(text.replace("Python", "Java"))  # Replace substring
+
+# String Checking
+print(text.startswith("Hello"))  # False (whitespace)
+print(text.strip().startswith("Hello"))  # True
+print("123".isdigit())       # True
+print("abc".isalpha())       # True
+
+# String Formatting
+name = "Alice"
+age = 25
+# f-strings (Python 3.6+)
+message = f"My name is {name} and I'm {age} years old"
+# format() method
+message = "My name is {} and I'm {} years old".format(name, age)
+# % formatting (older)
+message = "My name is %s and I'm %d years old" % (name, age)
+
+# String Slicing
+text = "Python"
+print(text[0])     # 'P'
+print(text[-1])    # 'n'
+print(text[1:4])   # 'yth'
+print(text[::-1])  # 'nohtyP' (reverse)</pre></code>
+                </div>
+                
+                <div class="key-points">
+                    <h4>Key Points:</h4>
+                    <ul>
+                        <li>Strings are <span class="highlight">immutable</span></li>
+                        <li>Many useful methods: strip(), split(), join(), replace()</li>
+                        <li>f-strings are the modern way to format strings</li>
+                        <li>Slicing works like lists</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Functions & Recursion -->
+            <div class="topic-section">
+                <h2>Functions & Recursion</h2>
+                <p>Functions are reusable blocks of code. Recursion is when a function calls itself.</p>
+                
+                <div class="code-block">
+                    <code><pre># Basic Function
+def greet(name):
+    return f"Hello, {name}!"
+
+# Function with Default Parameters
+def greet_with_title(name, title="Mr/Ms"):
+    return f"Hello, {title} {name}!"
+
+# Function with Multiple Return Values
+def get_name_age():
+    return "Alice", 25
+
+name, age = get_name_age()  # Tuple unpacking
+
+# Variable Arguments
+def sum_all(*args):         # *args for multiple positional arguments
+    return sum(args)
+
+def print_info(**kwargs):   # **kwargs for keyword arguments
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+# Recursion Example - Factorial
+def factorial(n):
+    if n <= 1:              # Base case
+        return 1
+    return n * factorial(n - 1)  # Recursive call
+
+# Recursion Example - Fibonacci
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+# Local vs Global Variables
+global_var = "I'm global"
+
+def my_function():
+    local_var = "I'm local"
+    global global_var
+    global_var = "Modified global"
+    return local_var</pre></code>
+                </div>
+                
+                <div class="key-points">
+                    <h4>Key Points:</h4>
+                    <ul>
+                        <li>Functions promote <span class="highlight">code reusability</span></li>
+                        <li>Use def keyword to define functions</li>
+                        <li>Recursion needs a base case to stop</li>
+                        <li>*args and **kwargs for flexible parameters</li>
+                        <li>Local variables exist only within function scope</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- List Comprehension & Lambda -->
+            <div class="topic-section">
+                <h2>List Comprehension & Lambda</h2>
+                <p>Advanced techniques for creating lists and small anonymous functions.</p>
+                
+                <div class="code-block">
+                    <code><pre># List Comprehension - Basic
+numbers = [1, 2, 3, 4, 5]
+squares = [x**2 for x in numbers]  # [1, 4, 9, 16, 25]
+
+# List Comprehension with Condition
+evens = [x for x in numbers if x % 2 == 0]  # [2, 4]
+
+# List Comprehension with if-else
+result = [x**2 if x % 2 == 0 else x**3 for x in numbers]
+
+# Nested List Comprehension
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+flattened = [num for row in matrix for num in row]  # [1,2,3,4,5,6,7,8,9]
+
+# Dictionary Comprehension
+squares_dict = {x: x**2 for x in range(5)}  # {0:0, 1:1, 2:4, 3:9, 4:16}
+
+# Set Comprehension
+unique_squares = {x**2 for x in [1, -1, 2, -2]}  # {1, 4}
+
+# Lambda Functions
+add = lambda x, y: x + y
+print(add(5, 3))  # 8
+
+# Lambda with Built-in Functions
+numbers = [1, 2, 3, 4, 5]
+squared = list(map(lambda x: x**2, numbers))  # [1, 4, 9, 16, 25]
+evens = list(filter(lambda x: x % 2 == 0, numbers))  # [2, 4]
+
+# Sorting with Lambda
+students = [('Alice', 85), ('Bob', 90), ('Charlie', 78)]
+sorted_by_grade = sorted(students, key=lambda x: x[1])  # Sort by grade
+
+# Lambda in List Comprehension
+operations = [(lambda x: x**2), (lambda x: x**3), (lambda x: x**0.5)]
+results = [op(4) for op in operations]  # [16, 64, 2.0]</pre></code>
+                </div>
+                
+                <div class="key-points">
+                    <h4>Key Points:</h4>
+                    <ul>
+                        <li>List comprehensions are <span class="highlight">more Pythonic</span> than loops</li>
+                        <li>Syntax: [expression for item in iterable if condition]</li>
+                        <li>Lambda functions are small, anonymous functions</li>
+                        <li>Great with map(), filter(), and sorted()</li>
+                        <li>Use comprehensions for simple operations only</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>🚀 Keep practicing and happy coding! 🐍</p>
+        </div>
+    </div>
+</body>
+</html>
