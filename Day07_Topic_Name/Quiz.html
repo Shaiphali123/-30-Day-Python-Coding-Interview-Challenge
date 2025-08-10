@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 7 Python Quiz - 60 Questions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        h2 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            margin: 30px 0 20px 0;
+            border-radius: 10px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+        
+        .question {
+            background: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: #4CAF50;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .question-text {
+            margin: 15px 0;
+            font-size: 1.1em;
+            color: #333;
+        }
+        
+        .options {
+            margin: 20px 0;
+        }
+        
+        .option {
+            margin: 12px 0;
+            padding: 8px 0;
+            font-size: 1em;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        
+        .text-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            margin: 10px 0;
+        }
+        
+        .text-input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        
+        .code-snippet {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        details {
+            margin-top: 15px;
+            border: 2px solid #e8f5e8;
+            border-radius: 8px;
+            background: #f8fff8;
+        }
+        
+        summary {
+            padding: 12px 15px;
+            background: #e8f5e8;
+            cursor: pointer;
+            font-weight: bold;
+            color: #2e7d32;
+            border-radius: 6px;
+        }
+        
+        summary:hover {
+            background: #dcedc8;
+        }
+        
+        .solution {
+            padding: 15px;
+            color: #2e7d32;
+        }
+        
+        .solution code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 10px;
+            border-radius: 5px;
+            display: block;
+            margin: 10px 0;
+            font-family: 'Consolas', monospace;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 30px;
+            background: #f8f9fa;
+            border-top: 3px solid #4CAF50;
+        }
+        
+        .nav-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .true-false {
+            display: flex;
+            gap: 30px;
+            margin: 15px 0;
+        }
+        
+        .true-false label {
+            font-size: 1.1em;
+            cursor: pointer;
+        }
+        
+        .true-false input[type="radio"] {
+            margin-right: 8px;
+            transform: scale(1.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Python Day 7 Quiz</h1>
+            <p>90 Questions Covering All Topics - Test Your Knowledge!</p>
+        </div>
+        
+        <div class="content">
+            <form id="quizForm">
+                
+                <!-- Variables & Data Types -->
+                <h2>📊 1. Variables & Data Types (10 Questions)</h2>
+                
+                <div class="question">
+                    <div class="question-number">Q1.</div>
+                    <div class="question-text">Which of the following is a valid variable name in Python?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q1" value="A"> A) 2variable</div>
+                        <div class="option"><input type="radio" name="q1" value="B"> B) variable-name</div>
+                        <div class="option"><input type="radio" name="q1" value="C"> C) _variable2</div>
+                        <div class="option"><input type="radio" name="q1" value="D"> D) class</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: C) _variable2</strong><br>
+                            Variable names can start with letters or underscore, not numbers. "class" is a reserved keyword.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q2.</div>
+                    <div class="question-text">What will be the output of the following code?</div>
+                    <div class="code-snippet">x = 5
+print(type(x))</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q2" value="A"> A) int</div>
+                        <div class="option"><input type="radio" name="q2" value="B"> B) &lt;class 'int'&gt;</div>
+                        <div class="option"><input type="radio" name="q2" value="C"> C) integer</div>
+                        <div class="option"><input type="radio" name="q2" value="D"> D) number</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: B) &lt;class 'int'&gt;</strong><br>
+                            The type() function returns the full class representation of the data type.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q3.</div>
+                    <div class="question-text">True or False: Python is statically typed.</div>
+                    <div class="true-false">
+                        <label><input type="radio" name="q3" value="true"> True</label>
+                        <label><input type="radio" name="q3" value="false"> False</label>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: False</strong><br>
+                            Python is dynamically typed - variable types are determined at runtime, not compile time.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q4.</div>
+                    <div class="question-text">What is the result of: <span class="highlight">int("123.45")</span>?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q4" value="A"> A) 123</div>
+                        <div class="option"><input type="radio" name="q4" value="B"> B) 123.45</div>
+                        <div class="option"><input type="radio" name="q4" value="C"> C) ValueError</div>
+                        <div class="option"><input type="radio" name="q4" value="D"> D) "123"</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: C) ValueError</strong><br>
+                            int() cannot convert a string with decimal point directly. Use float() first, then int().
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q5.</div>
+                    <div class="question-text">Which function returns the type of a variable?</div>
+                    <input type="text" name="q5" class="text-input" placeholder="Enter your answer...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: type()</strong><br>
+                            The type() function returns the data type of any Python object.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q6.</div>
+                    <div class="question-text">What are the 4 main built-in data types in Python?</div>
+                    <input type="text" name="q6" class="text-input" placeholder="Enter the 4 types...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: int, float, str, bool</strong><br>
+                            These are the four fundamental built-in data types in Python.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q7.</div>
+                    <div class="question-text">True or False: In Python, you must declare variable types explicitly.</div>
+                    <div class="true-false">
+                        <label><input type="radio" name="q7" value="true"> True</label>
+                        <label><input type="radio" name="q7" value="false"> False</label>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: False</strong><br>
+                            Python uses dynamic typing - types are inferred automatically from the assigned values.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q8.</div>
+                    <div class="question-text">What will <span class="highlight">bool("")</span> return?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q8" value="A"> A) True</div>
+                        <div class="option"><input type="radio" name="q8" value="B"> B) False</div>
+                        <div class="option"><input type="radio" name="q8" value="C"> C) None</div>
+                        <div class="option"><input type="radio" name="q8" value="D"> D) Error</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: B) False</strong><br>
+                            Empty strings are considered "falsy" values in Python, so bool("") returns False.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q9.</div>
+                    <div class="question-text">Which method checks if a variable is of a specific type?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q9" value="A"> A) type()</div>
+                        <div class="option"><input type="radio" name="q9" value="B"> B) isinstance()</div>
+                        <div class="option"><input type="radio" name="q9" value="C"> C) check_type()</div>
+                        <div class="option"><input type="radio" name="q9" value="D"> D) verify()</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: B) isinstance()</strong><br>
+                            isinstance(obj, type) is the preferred way to check if an object is of a specific type.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q10.</div>
+                    <div class="question-text">Convert the string "3.14" to a float and store in variable 'pi':</div>
+                    <input type="text" name="q10" class="text-input" placeholder="Write the Python code...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer:</strong>
+                            <code>pi = float("3.14")</code>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Lists -->
+                <h2>📝 2. Lists (10 Questions)</h2>
+                
+                <div class="question">
+                    <div class="question-number">Q11.</div>
+                    <div class="question-text">What will be the output of: <span class="highlight">my_list = [1, 2, 3]; print(my_list[-1])</span>?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q11" value="A"> A) 1</div>
+                        <div class="option"><input type="radio" name="q11" value="B"> B) 2</div>
+                        <div class="option"><input type="radio" name="q11" value="C"> C) 3</div>
+                        <div class="option"><input type="radio" name="q11" value="D"> D) Error</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: C) 3</strong><br>
+                            Negative indexing starts from the end. -1 refers to the last element.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q12.</div>
+                    <div class="question-text">True or False: Lists in Python are mutable.</div>
+                    <div class="true-false">
+                        <label><input type="radio" name="q12" value="true"> True</label>
+                        <label><input type="radio" name="q12" value="false"> False</label>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: True</strong><br>
+                            Lists are mutable, meaning you can change, add, or remove elements after creation.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q13.</div>
+                    <div class="question-text">Which method adds an element to the end of a list?</div>
+                    <input type="text" name="q13" class="text-input" placeholder="Method name...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: append()</strong><br>
+                            The append() method adds a single element to the end of the list.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q14.</div>
+                    <div class="question-text">What does <span class="highlight">[1, 2, 3][1:3]</span> return?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q14" value="A"> A) [1, 2]</div>
+                        <div class="option"><input type="radio" name="q14" value="B"> B) [2, 3]</div>
+                        <div class="option"><input type="radio" name="q14" value="C"> C) [1, 2, 3]</div>
+                        <div class="option"><input type="radio" name="q14" value="D"> D) [2]</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: B) [2, 3]</strong><br>
+                            Slicing [1:3] includes indices 1 and 2, but excludes 3. So elements at positions 1 and 2.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q15.</div>
+                    <div class="question-text">How do you insert an element at a specific position in a list?</div>
+                    <input type="text" name="q15" class="text-input" placeholder="Method and syntax...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: insert(index, value)</strong><br>
+                            Example: my_list.insert(0, "first") inserts "first" at index 0.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q16.</div>
+                    <div class="question-text">What is the difference between remove() and pop()?</div>
+                    <input type="text" name="q16" class="text-input" placeholder="Explain the difference...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer:</strong><br>
+                            remove() removes the first occurrence of a value, pop() removes element by index and returns it.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q17.</div>
+                    <div class="question-text">True or False: Lists can contain different data types.</div>
+                    <div class="true-false">
+                        <label><input type="radio" name="q17" value="true"> True</label>
+                        <label><input type="radio" name="q17" value="false"> False</label>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: True</strong><br>
+                            Lists can contain mixed data types: [1, "hello", 3.14, True] is valid.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q18.</div>
+                    <div class="question-text">How do you find the length of a list?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q18" value="A"> A) list.length()</div>
+                        <div class="option"><input type="radio" name="q18" value="B"> B) len(list)</div>
+                        <div class="option"><input type="radio" name="q18" value="C"> C) list.size()</div>
+                        <div class="option"><input type="radio" name="q18" value="D"> D) count(list)</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: B) len(list)</strong><br>
+                            len() is the built-in function to get the length of any sequence in Python.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q19.</div>
+                    <div class="question-text">Create an empty list in Python:</div>
+                    <input type="text" name="q19" class="text-input" placeholder="Two ways to create empty list...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer:</strong><br>
+                            <code>my_list = []</code> or <code>my_list = list()</code>
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q20.</div>
+                    <div class="question-text">What does the extend() method do?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q20" value="A"> A) Adds one element to the list</div>
+                        <div class="option"><input type="radio" name="q20" value="B"> B) Adds multiple elements from an iterable</div>
+                        <div class="option"><input type="radio" name="q20" value="C"> C) Makes the list longer</div>
+                        <div class="option"><input type="radio" name="q20" value="D"> D) Copies the list</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: B) Adds multiple elements from an iterable</strong><br>
+                            extend() adds all elements from another iterable (list, tuple, string) to the current list.
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Tuples -->
+                <h2>🔒 3. Tuples (10 Questions)</h2>
+                
+                <div class="question">
+                    <div class="question-number">Q21.</div>
+                    <div class="question-text">True or False: Tuples are mutable in Python.</div>
+                    <div class="true-false">
+                        <label><input type="radio" name="q21" value="true"> True</label>
+                        <label><input type="radio" name="q21" value="false"> False</label>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: False</strong><br>
+                            Tuples are immutable - once created, they cannot be changed.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q22.</div>
+                    <div class="question-text">How do you create a tuple with a single element?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q22" value="A"> A) (5)</div>
+                        <div class="option"><input type="radio" name="q22" value="B"> B) (5,)</div>
+                        <div class="option"><input type="radio" name="q22" value="C"> C) tuple(5)</div>
+                        <div class="option"><input type="radio" name="q22" value="D"> D) [5]</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: B) (5,)</strong><br>
+                            The comma is essential to create a single-element tuple. Without it, (5) is just parentheses around an integer.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q23.</div>
+                    <div class="question-text">What are the only two methods available for tuples?</div>
+                    <input type="text" name="q23" class="text-input" placeholder="Two methods...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: count() and index()</strong><br>
+                            count() counts occurrences, index() finds the first occurrence of a value.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q24.</div>
+                    <div class="question-text">What is tuple unpacking?</div>
+                    <input type="text" name="q24" class="text-input" placeholder="Explain with example...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer:</strong><br>
+                            Assigning tuple elements to multiple variables: x, y = (1, 2) assigns x=1, y=2
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q25.</div>
+                    <div class="question-text">True or False: Tuples can be used as dictionary keys.</div>
+                    <div class="true-false">
+                        <label><input type="radio" name="q25" value="true"> True</label>
+                        <label><input type="radio" name="q25" value="false"> False</label>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: True</strong><br>
+                            Since tuples are immutable, they can be used as dictionary keys (unlike lists).
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q26.</div>
+                    <div class="question-text">What does <span class="highlight">len((1, 2, 3, 4))</span> return?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q26" value="A"> A) 3</div>
+                        <div class="option"><input type="radio" name="q26" value="B"> B) 4</div>
+                        <div class="option"><input type="radio" name="q26" value="C"> C) 10</div>
+                        <div class="option"><input type="radio" name="q26" value="D"> D) Error</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: B) 4</strong><br>
+                            len() returns the number of elements in the tuple.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q27.</div>
+                    <div class="question-text">Convert a list [1, 2, 3] to a tuple:</div>
+                    <input type="text" name="q27" class="text-input" placeholder="Python code...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer:</strong>
+                            <code>my_tuple = tuple([1, 2, 3])</code>
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q28.</div>
+                    <div class="question-text">What happens when you try to modify a tuple element?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q28" value="A"> A) It works fine</div>
+                        <div class="option"><input type="radio" name="q28" value="B"> B) TypeError occurs</div>
+                        <div class="option"><input type="radio" name="q28" value="C"> C) ValueError occurs</div>
+                        <div class="option"><input type="radio" name="q28" value="D"> D) Nothing happens</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: B) TypeError occurs</strong><br>
+                            Attempting to modify a tuple raises TypeError: 'tuple' object does not support item assignment.
+                        </div>
+                    </details>
+                </div>
+                
+                                    <div class="question">
+                    <div class="question-number">Q29.</div>
+                    <div class="question-text">What is tuple concatenation? Give an example.</div>
+                    <input type="text" name="q29" class="text-input" placeholder="Explain and show example...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer:</strong><br>
+                            Joining tuples using +: (1, 2) + (3, 4) = (1, 2, 3, 4)
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q30.</div>
+                    <div class="question-text">True or False: Tuples are faster than lists for accessing elements.</div>
+                    <div class="true-false">
+                        <label><input type="radio" name="q30" value="true"> True</label>
+                        <label><input type="radio" name="q30" value="false"> False</label>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: True</strong><br>
+                            Tuples are faster for accessing elements because they are immutable and have less overhead.
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Sets -->
+                <h2>🔄 4. Sets (10 Questions)</h2>
+                
+                <div class="question">
+                    <div class="question-number">Q31.</div>
+                    <div class="question-text">What happens when you create a set from [1, 2, 2, 3, 3, 3]?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q31" value="A"> A) {1, 2, 2, 3, 3, 3}</div>
+                        <div class="option"><input type="radio" name="q31" value="B"> B) {1, 2, 3}</div>
+                        <div class="option"><input type="radio" name="q31" value="C"> C) [1, 2, 3]</div>
+                        <div class="option"><input type="radio" name="q31" value="D"> D) Error</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: B) {1, 2, 3}</strong><br>
+                            Sets automatically remove duplicates, keeping only unique elements.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q32.</div>
+                    <div class="question-text">True or False: Sets are ordered collections.</div>
+                    <div class="true-false">
+                        <label><input type="radio" name="q32" value="true"> True</label>
+                        <label><input type="radio" name="q32" value="false"> False</label>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: False</strong><br>
+                            Sets are unordered collections (though insertion order is preserved in Python 3.7+, they're still conceptually unordered).
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q33.</div>
+                    <div class="question-text">What does {1, 2, 3} | {3, 4, 5} return?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q33" value="A"> A) {3}</div>
+                        <div class="option"><input type="radio" name="q33" value="B"> B) {1, 2, 3, 4, 5}</div>
+                        <div class="option"><input type="radio" name="q33" value="C"> C) {1, 2, 4, 5}</div>
+                        <div class="option"><input type="radio" name="q33" value="D"> D) Error</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: B) {1, 2, 3, 4, 5}</strong><br>
+                            The | operator performs union operation, combining all unique elements from both sets.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q34.</div>
+                    <div class="question-text">Which method safely removes an element from a set without raising an error if element doesn't exist?</div>
+                    <input type="text" name="q34" class="text-input" placeholder="Method name...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: discard()</strong><br>
+                            discard() removes an element if it exists, does nothing if it doesn't. remove() raises KeyError if element not found.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q35.</div>
+                    <div class="question-text">What does {1, 2, 3} & {3, 4, 5} return?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q35" value="A"> A) {3}</div>
+                        <div class="option"><input type="radio" name="q35" value="B"> B) {1, 2, 3, 4, 5}</div>
+                        <div class="option"><input type="radio" name="q35" value="C"> C) {1, 2, 4, 5}</div>
+                        <div class="option"><input type="radio" name="q35" value="D"> D) Empty set</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: A) {3}</strong><br>
+                            The & operator performs intersection, returning elements common to both sets.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q36.</div>
+                    <div class="question-text">Create an empty set in Python:</div>
+                    <input type="text" name="q36" class="text-input" placeholder="Python code...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer:</strong>
+                            <code>my_set = set()</code><br>
+                            Note: {} creates an empty dictionary, not an empty set!
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q37.</div>
+                    <div class="question-text">What does {1, 2, 3} - {2, 3, 4} return?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q37" value="A"> A) {1}</div>
+                        <div class="option"><input type="radio" name="q37" value="B"> B) {4}</div>
+                        <div class="option"><input type="radio" name="q37" value="C"> C) {2, 3}</div>
+                        <div class="option"><input type="radio" name="q37" value="D"> D) {1, 4}</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: A) {1}</strong><br>
+                            The - operator performs difference operation, returning elements in first set but not in second.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q38.</div>
+                    <div class="question-text">True or False: Sets can contain mutable objects like lists.</div>
+                    <div class="true-false">
+                        <label><input type="radio" name="q38" value="true"> True</label>
+                        <label><input type="radio" name="q38" value="false"> False</label>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: False</strong><br>
+                            Sets can only contain immutable (hashable) objects. Lists are mutable and cannot be set elements.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q39.</div>
+                    <div class="question-text">What method adds an element to a set?</div>
+                    <input type="text" name="q39" class="text-input" placeholder="Method name...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: add()</strong><br>
+                            The add() method adds a single element to the set.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q40.</div>
+                    <div class="question-text">What does {1, 2, 3} ^ {3, 4, 5} return?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q40" value="A"> A) {3}</div>
+                        <div class="option"><input type="radio" name="q40" value="B"> B) {1, 2, 4, 5}</div>
+                        <div class="option"><input type="radio" name="q40" value="C"> C) {1, 2, 3, 4, 5}</div>
+                        <div class="option"><input type="radio" name="q40" value="D"> D) Empty set</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: B) {1, 2, 4, 5}</strong><br>
+                            The ^ operator performs symmetric difference, returning elements in either set but not in both.
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Dictionaries -->
+                <h2>📖 5. Dictionaries (10 Questions)</h2>
+                
+                <div class="question">
+                    <div class="question-number">Q41.</div>
+                    <div class="question-text">What will <span class="highlight">{"a": 1, "b": 2}["c"]</span> return?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q41" value="A"> A) None</div>
+                        <div class="option"><input type="radio" name="q41" value="B"> B) KeyError</div>
+                        <div class="option"><input type="radio" name="q41" value="C"> C) 0</div>
+                        <div class="option"><input type="radio" name="q41" value="D"> D) ""</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: B) KeyError</strong><br>
+                            Accessing a non-existent key with bracket notation raises KeyError.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q42.</div>
+                    <div class="question-text">Which method safely gets a value from a dictionary without raising an error?</div>
+                    <input type="text" name="q42" class="text-input" placeholder="Method name...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: get()</strong><br>
+                            dict.get(key, default) returns the value or default if key doesn't exist.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q43.</div>
+                    <div class="question-text">True or False: Dictionary keys must be unique.</div>
+                    <div class="true-false">
+                        <label><input type="radio" name="q43" value="true"> True</label>
+                        <label><input type="radio" name="q43" value="false"> False</label>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: True</strong><br>
+                            Dictionary keys must be unique. If you assign to an existing key, it updates the value.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q44.</div>
+                    <div class="question-text">How do you get all keys from a dictionary?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q44" value="A"> A) dict.keys()</div>
+                        <div class="option"><input type="radio" name="q44" value="B"> B) dict.get_keys()</div>
+                        <div class="option"><input type="radio" name="q44" value="C"> C) keys(dict)</div>
+                        <div class="option"><input type="radio" name="q44" value="D"> D) dict.all_keys()</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: A) dict.keys()</strong><br>
+                            The keys() method returns a view of all dictionary keys.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q45.</div>
+                    <div class="question-text">Create a dictionary from two lists: keys = ["a", "b"] and values = [1, 2]</div>
+                    <input type="text" name="q45" class="text-input" placeholder="Python code...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer:</strong>
+                            <code>my_dict = dict(zip(keys, values))</code>
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q46.</div>
+                    <div class="question-text">What does the pop() method do for dictionaries?</div>
+                    <input type="text" name="q46" class="text-input" placeholder="Explain...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer:</strong><br>
+                            pop(key) removes the key-value pair and returns the value. Can provide default if key not found.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q47.</div>
+                    <div class="question-text">True or False: Lists can be used as dictionary keys.</div>
+                    <div class="true-false">
+                        <label><input type="radio" name="q47" value="true"> True</label>
+                        <label><input type="radio" name="q47" value="false"> False</label>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: False</strong><br>
+                            Dictionary keys must be immutable (hashable). Lists are mutable and cannot be keys.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q48.</div>
+                    <div class="question-text">How do you check if a key exists in a dictionary?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q48" value="A"> A) key in dict</div>
+                        <div class="option"><input type="radio" name="q48" value="B"> B) dict.has_key(key)</div>
+                        <div class="option"><input type="radio" name="q48" value="C"> C) dict.contains(key)</div>
+                        <div class="option"><input type="radio" name="q48" value="D"> D) exists(key, dict)</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: A) key in dict</strong><br>
+                            Use the 'in' operator to check if a key exists in the dictionary.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q49.</div>
+                    <div class="question-text">What method returns both keys and values as pairs?</div>
+                    <input type="text" name="q49" class="text-input" placeholder="Method name...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: items()</strong><br>
+                            The items() method returns key-value pairs as tuples.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q50.</div>
+                    <div class="question-text">Update dictionary d1 with all key-value pairs from d2:</div>
+                    <input type="text" name="q50" class="text-input" placeholder="Method call...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer:</strong>
+                            <code>d1.update(d2)</code>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Loops & Conditionals -->
+                <h2>🔄 6. Loops & Conditionals (10 Questions)</h2>
+                
+                <div class="question">
+                    <div class="question-number">Q51.</div>
+                    <div class="question-text">What will this code print?</div>
+                    <div class="code-snippet">for i in range(3):
+    if i == 1:
+        continue
+    print(i)</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q51" value="A"> A) 0 1 2</div>
+                        <div class="option"><input type="radio" name="q51" value="B"> B) 0 2</div>
+                        <div class="option"><input type="radio" name="q51" value="C"> C) 1 2</div>
+                        <div class="option"><input type="radio" name="q51" value="D"> D) 0</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: B) 0 2</strong><br>
+                            continue skips the current iteration when i=1, so only 0 and 2 are printed.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q52.</div>
+                    <div class="question-text">True or False: Python uses curly braces {} to define code blocks.</div>
+                    <div class="true-false">
+                        <label><input type="radio" name="q52" value="true"> True</label>
+                        <label><input type="radio" name="q52" value="false"> False</label>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: False</strong><br>
+                            Python uses indentation to define code blocks, not curly braces.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q53.</div>
+                    <div class="question-text">What does range(1, 10, 2) generate?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q53" value="A"> A) [1, 3, 5, 7, 9]</div>
+                        <div class="option"><input type="radio" name="q53" value="B"> B) [1, 3, 5, 7, 9, 11]</div>
+                        <div class="option"><input type="radio" name="q53" value="C"> C) [2, 4, 6, 8]</div>
+                        <div class="option"><input type="radio" name="q53" value="D"> D) [1, 2, 3, 4, 5, 6, 7, 8, 9]</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: A) [1, 3, 5, 7, 9]</strong><br>
+                            range(start, stop, step) generates numbers from 1 to 9 (excluding 10) with step 2.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q54.</div>
+                    <div class="question-text">Write a while loop that prints numbers from 1 to 3:</div>
+                    <input type="text" name="q54" class="text-input" placeholder="Complete while loop code...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer:</strong>
+                            <code>i = 1
+while i <= 3:
+    print(i)
+    i += 1</code>
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q55.</div>
+                    <div class="question-text">What does the enumerate() function do?</div>
+                    <input type="text" name="q55" class="text-input" placeholder="Explain enumerate()...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer:</strong><br>
+                            enumerate() returns both index and value of each item in an iterable: for i, val in enumerate(list)
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q56.</div>
+                    <div class="question-text">What's the difference between break and continue?</div>
+                    <input type="text" name="q56" class="text-input" placeholder="Explain the difference...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer:</strong><br>
+                            break exits the loop completely, continue skips the current iteration and moves to the next.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q57.</div>
+                    <div class="question-text">True or False: elif is short for "else if".</div>
+                    <div class="true-false">
+                        <label><input type="radio" name="q57" value="true"> True</label>
+                        <label><input type="radio" name="q57" value="false"> False</label>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: True</strong><br>
+                            elif is Python's way of writing "else if" for multiple conditions.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q58.</div>
+                    <div class="question-text">What will this nested loop print?</div>
+                    <div class="code-snippet">for i in range(2):
+    for j in range(2):
+        print(i, j)</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q58" value="A"> A) 0 0, 0 1, 1 0, 1 1</div>
+                        <div class="option"><input type="radio" name="q58" value="B"> B) 0 1, 1 0</div>
+                        <div class="option"><input type="radio" name="q58" value="C"> C) 1 1, 2 2</div>
+                        <div class="option"><input type="radio" name="q58" value="D"> D) 0, 1</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: A) 0 0, 0 1, 1 0, 1 1</strong><br>
+                            Nested loop prints all combinations of i and j values.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q59.</div>
+                    <div class="question-text">How do you create an infinite loop?</div>
+                    <input type="text" name="q59" class="text-input" placeholder="Code for infinite loop...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer:</strong>
+                            <code>while True:</code><br>
+                            This creates an infinite loop that runs until broken with break statement.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q60.</div>
+                    <div class="question-text">What happens if no condition in if-elif-else is True?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q60" value="A"> A) Error occurs</div>
+                        <div class="option"><input type="radio" name="q60" value="B"> B) else block executes</div>
+                        <div class="option"><input type="radio" name="q60" value="C"> C) Nothing happens</div>
+                        <div class="option"><input type="radio" name="q60" value="D"> D) First condition executes anyway</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: B) else block executes</strong><br>
+                            If present, the else block executes when no if/elif conditions are True.
+                        </div>
+                    </details>
+                </div>
+
+                <!-- String Manipulation -->
+                <h2>🔤 7. String Manipulation (10 Questions)</h2>
+                
+                <div class="question">
+                    <div class="question-number">Q61.</div>
+                    <div class="question-text">What does <span class="highlight">"Hello World".lower()</span> return?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q61" value="A"> A) "hello world"</div>
+                        <div class="option"><input type="radio" name="q61" value="B"> B) "Hello World"</div>
+                        <div class="option"><input type="radio" name="q61" value="C"> C) "HELLO WORLD"</div>
+                        <div class="option"><input type="radio" name="q61" value="D"> D) Error</div>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: A) "hello world"</strong><br>
+                            lower() converts all characters to lowercase.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q62.</div>
+                    <div class="question-text">True or False: Strings in Python are mutable.</div>
+                    <div class="true-false">
+                        <label><input type="radio" name="q62" value="true"> True</label>
+                        <label><input type="radio" name="q62" value="false"> False</label>
+                    </div>
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: False</strong><br>
+                            Strings are immutable in Python. String methods return new strings, they don't modify the original.
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">Q63.</div>
+                    <div class="question-text">How do you remove whitespace from both ends of a string?</div>
+                    <input type="text" name="q63" class="text-input" placeholder="Method name...">
+                    <details>
+                        <summary>Show Answer</summary>
+                        <div class="solution">
+                            <strong>Answer: strip()</strong><br>
+                            strip() removes whitespace from the beginning and end of a string.
+                        </div>
+                    </details>
+                </div>
+                
+             
+
+
+
+                      
