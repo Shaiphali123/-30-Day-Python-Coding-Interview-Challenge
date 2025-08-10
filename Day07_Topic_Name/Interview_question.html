@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 7 - Python Interview Questions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .topic-section {
+            margin-bottom: 40px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .topic-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .topic-header h2 {
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        .questions-list {
+            padding: 20px;
+            background: #fafafa;
+        }
+
+        .question-item {
+            background: white;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            padding: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .question-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .question-text {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        details {
+            margin-top: 10px;
+        }
+
+        summary {
+            background: #667eea;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+
+        summary:hover {
+            background: #5a67d8;
+        }
+
+        .answer-content {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #28a745;
+        }
+
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-family: 'Courier New', Consolas, monospace;
+        }
+
+        code {
+            font-family: 'Courier New', Consolas, monospace;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .progress {
+            text-align: center;
+            color: #666;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Day 7 - Python Interview Questions</h1>
+            <p>Master Python concepts with comprehensive interview questions</p>
+        </div>
+
+        <div class="content">
+            <!-- Variables & Data Types -->
+            <div class="topic-section">
+                <div class="topic-header">
+                    <h2>1. Variables & Data Types</h2>
+                </div>
+                <div class="questions-list">
+                    <div class="question-item">
+                        <div class="question-text">1. What is the difference between mutable and immutable data types in Python?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p><strong>Mutable objects</strong> can be changed after creation (lists, dictionaries, sets), while <strong>immutable objects</strong> cannot be changed (strings, tuples, integers, floats).</p>
+                                <pre><code># Mutable example
+my_list = [1, 2, 3]
+my_list[0] = 10  # This works
+print(my_list)  # [10, 2, 3]
+
+# Immutable example
+my_string = "Hello"
+# my_string[0] = "h"  # This would raise TypeError</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">2. How do you check the type of a variable in Python?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Use <code>type()</code> for exact type or <code>isinstance()</code> for type checking including inheritance.</p>
+                                <pre><code>x = 10
+print(type(x))  # &lt;class 'int'&gt;
+print(isinstance(x, int))  # True
+
+# isinstance is preferred for type checking
+if isinstance(x, (int, float)):
+    print("x is a number")</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">3. What is the difference between '==' and 'is' operators?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p><code>==</code> checks for value equality, while <code>is</code> checks for identity (same object in memory).</p>
+                                <pre><code>a = [1, 2, 3]
+b = [1, 2, 3]
+c = a
+
+print(a == b)  # True (same values)
+print(a is b)  # False (different objects)
+print(a is c)  # True (same object)</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">4. Explain Python's dynamic typing with an example.</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Python variables can hold different types of data during runtime without explicit type declaration.</p>
+                                <pre><code>x = 10        # x is an integer
+print(type(x))  # &lt;class 'int'&gt;
+
+x = "Hello"   # x is now a string
+print(type(x))  # &lt;class 'str'&gt;
+
+x = [1, 2, 3] # x is now a list
+print(type(x))  # &lt;class 'list'&gt;</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">5. What happens when you divide by zero in Python?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Python raises a <code>ZeroDivisionError</code> exception.</p>
+                                <pre><code>try:
+    result = 10 / 0
+except ZeroDivisionError as e:
+    print(f"Error: {e}")  # Error: division by zero
+
+# For handling it gracefully
+def safe_divide(a, b):
+    try:
+        return a / b
+    except ZeroDivisionError:
+        return "Cannot divide by zero"</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">6. How do you convert between different data types in Python?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Use built-in functions for type conversion: <code>int()</code>, <code>float()</code>, <code>str()</code>, <code>list()</code>, <code>tuple()</code>, etc.</p>
+                                <pre><code># String to integer
+num = int("123")  # 123
+
+# Integer to string
+text = str(123)   # "123"
+
+# String to list
+chars = list("hello")  # ['h', 'e', 'l', 'l', 'o']
+
+# List to tuple
+tup = tuple([1, 2, 3])  # (1, 2, 3)</code></pre>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lists -->
+            <div class="topic-section">
+                <div class="topic-header">
+                    <h2>2. Lists</h2>
+                </div>
+                <div class="questions-list">
+                    <div class="question-item">
+                        <div class="question-text">1. How do you remove duplicates from a list while preserving order?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Use a set to track seen elements or dict.fromkeys() for Python 3.7+:</p>
+                                <pre><code># Method 1: Using set to track seen elements
+def remove_duplicates(lst):
+    seen = set()
+    result = []
+    for item in lst:
+        if item not in seen:
+            seen.add(item)
+            result.append(item)
+    return result
+
+# Method 2: Using dict.fromkeys() (Python 3.7+)
+original = [1, 2, 3, 2, 4, 1, 5]
+unique = list(dict.fromkeys(original))
+print(unique)  # [1, 2, 3, 4, 5]</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">2. What's the difference between append(), extend(), and insert() methods?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p><code>append()</code> adds one element, <code>extend()</code> adds multiple elements, <code>insert()</code> adds at specific position.</p>
+                                <pre><code>lst = [1, 2, 3]
+
+# append() - adds single element at end
+lst.append(4)
+print(lst)  # [1, 2, 3, 4]
+
+# extend() - adds multiple elements at end
+lst.extend([5, 6])
+print(lst)  # [1, 2, 3, 4, 5, 6]
+
+# insert() - adds element at specific index
+lst.insert(0, 0)
+print(lst)  # [0, 1, 2, 3, 4, 5, 6]</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">3. How do you find the second largest number in a list?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Multiple approaches: sorting, using set, or single pass algorithm.</p>
+                                <pre><code># Method 1: Using sorting
+def second_largest_v1(lst):
+    unique_lst = list(set(lst))
+    if len(unique_lst) < 2:
+        return None
+    unique_lst.sort()
+    return unique_lst[-2]
+
+# Method 2: Single pass
+def second_largest_v2(lst):
+    if len(lst) < 2:
+        return None
+    
+    first = second = float('-inf')
+    for num in lst:
+        if num > first:
+            second = first
+            first = num
+        elif num > second and num != first:
+            second = num
+    
+    return second if second != float('-inf') else None
+
+numbers = [3, 1, 4, 1, 5, 9, 2, 6]
+print(second_largest_v2(numbers))  # 6</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">4. How do you reverse a list in-place vs creating a new reversed list?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>In-place: <code>reverse()</code> method. New list: <code>reversed()</code> function or slicing.</p>
+                                <pre><code>original = [1, 2, 3, 4, 5]
+
+# In-place reversal
+lst1 = original.copy()
+lst1.reverse()  # Modifies the list
+print(lst1)  # [5, 4, 3, 2, 1]
+
+# Creating new reversed list
+lst2 = original[::-1]  # Slicing
+print(lst2)  # [5, 4, 3, 2, 1]
+
+lst3 = list(reversed(original))  # reversed() function
+print(lst3)  # [5, 4, 3, 2, 1]
+
+print(original)  # [1, 2, 3, 4, 5] - unchanged</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">5. Write a function to flatten a nested list.</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Recursive approach to handle arbitrarily nested lists:</p>
+                                <pre><code>def flatten_list(lst):
+    result = []
+    for item in lst:
+        if isinstance(item, list):
+            result.extend(flatten_list(item))
+        else:
+            result.append(item)
+    return result
+
+# Test
+nested = [1, [2, 3], [4, [5, 6]], 7]
+flat = flatten_list(nested)
+print(flat)  # [1, 2, 3, 4, 5, 6, 7]
+
+# One-liner using recursion
+flatten = lambda lst: [item for sublist in lst 
+                      for item in (flatten(sublist) 
+                      if isinstance(sublist, list) else [sublist])]</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">6. How do you find all indices of an element in a list?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Use enumerate() to get index-value pairs and filter by value:</p>
+                                <pre><code>def find_all_indices(lst, target):
+    return [i for i, x in enumerate(lst) if x == target]
+
+# Alternative using a loop
+def find_all_indices_v2(lst, target):
+    indices = []
+    for i, value in enumerate(lst):
+        if value == target:
+            indices.append(i)
+    return indices
+
+numbers = [1, 2, 3, 2, 4, 2, 5]
+indices = find_all_indices(numbers, 2)
+print(indices)  # [1, 3, 5]</code></pre>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tuples -->
+            <div class="topic-section">
+                <div class="topic-header">
+                    <h2>3. Tuples</h2>
+                </div>
+                <div class="questions-list">
+                    <div class="question-item">
+                        <div class="question-text">1. Why are tuples preferred over lists for storing coordinates or RGB values?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Tuples are immutable, hashable, and have a fixed structure making them ideal for representing fixed data like coordinates.</p>
+                                <pre><code># Good practice for coordinates
+point = (10, 20)  # x, y coordinates
+rgb_color = (255, 128, 0)  # Red, Green, Blue values
+
+# Tuples can be used as dictionary keys
+locations = {
+    (0, 0): "Origin",
+    (10, 20): "Point A",
+    (30, 40): "Point B"
+}
+
+# Tuples are hashable, lists are not
+# locations = {[0, 0]: "Origin"}  # This would raise TypeError</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">2. How do you swap values using tuple unpacking?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Python allows elegant variable swapping using tuple unpacking:</p>
+                                <pre><code># Traditional way (other languages)
+a, b = 10, 20
+temp = a
+a = b
+b = temp
+
+# Pythonic way using tuple unpacking
+a, b = 10, 20
+a, b = b, a  # Swap values
+print(a, b)  # 20, 10
+
+# Multiple variable swapping
+x, y, z = 1, 2, 3
+x, y, z = z, x, y
+print(x, y, z)  # 3, 1, 2</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">3. What is tuple unpacking and how is it used in functions?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Tuple unpacking allows extracting values from tuples into separate variables:</p>
+                                <pre><code># Basic unpacking
+person = ("Alice", 25, "Engineer")
+name, age, job = person
+print(f"{name} is {age} years old and works as {job}")
+
+# Function returning multiple values
+def get_name_age():
+    return "Bob", 30
+
+name, age = get_name_age()
+
+# Using * for collecting remaining items
+numbers = (1, 2, 3, 4, 5)
+first, *middle, last = numbers
+print(first)   # 1
+print(middle)  # [2, 3, 4]
+print(last)    # 5</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">4. How do you create a single-element tuple?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Add a comma after the element to create a single-element tuple:</p>
+                                <pre><code># Wrong way - this creates an integer
+not_tuple = (5)
+print(type(not_tuple))  # &lt;class 'int'&gt;
+
+# Correct way - comma makes it a tuple
+single_tuple = (5,)
+print(type(single_tuple))  # &lt;class 'tuple'&gt;
+print(single_tuple)  # (5,)
+
+# Alternative without parentheses
+another_tuple = 5,
+print(type(another_tuple))  # &lt;class 'tuple'&gt;</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">5. Can you modify a tuple? What about a tuple containing mutable objects?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Tuples themselves are immutable, but they can contain mutable objects that can be modified:</p>
+                                <pre><code># Tuple is immutable
+tup = (1, 2, 3)
+# tup[0] = 10  # This would raise TypeError
+
+# But tuple can contain mutable objects
+tup_with_list = (1, [2, 3, 4], 5)
+print(tup_with_list)  # (1, [2, 3, 4], 5)
+
+# You can modify the mutable object inside
+tup_with_list[1].append(6)
+print(tup_with_list)  # (1, [2, 3, 4, 6], 5)
+
+# But you cannot reassign the tuple element
+# tup_with_list[1] = [7, 8, 9]  # This would raise TypeError</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">6. How do you convert a tuple to a list and vice versa?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Use <code>list()</code> and <code>tuple()</code> constructors for conversion:</p>
+                                <pre><code># Tuple to list
+my_tuple = (1, 2, 3, 4, 5)
+my_list = list(my_tuple)
+print(my_list)  # [1, 2, 3, 4, 5]
+print(type(my_list))  # &lt;class 'list'&gt;
+
+# List to tuple
+my_list = [1, 2, 3, 4, 5]
+my_tuple = tuple(my_list)
+print(my_tuple)  # (1, 2, 3, 4, 5)
+print(type(my_tuple))  # &lt;class 'tuple'&gt;
+
+# Useful when you need to modify tuple data
+original_tuple = (1, 2, 3)
+temp_list = list(original_tuple)
+temp_list.append(4)
+new_tuple = tuple(temp_list)
+print(new_tuple)  # (1, 2, 3, 4)</code></pre>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dictionaries -->
+            <div class="topic-section">
+                <div class="topic-header">
+                    <h2>5. Dictionaries</h2>
+                </div>
+                <div class="questions-list">
+                    <div class="question-item">
+                        <div class="question-text">1. How do you safely access a dictionary key that might not exist?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Use <code>get()</code> method, <code>in</code> operator, or try-except block:</p>
+                                <pre><code>student = {"name": "Alice", "age": 25}
+
+# Method 1: Using get() with default value
+grade = student.get("grade", "Not found")
+print(grade)  # "Not found"
+
+# Method 2: Using 'in' operator
+if "grade" in student:
+    print(student["grade"])
+else:
+    print("Grade not found")
+
+# Method 3: Try-except
+try:
+    grade = student["grade"]
+except KeyError:
+    grade = "Not found"
+    
+# Using get() for nested operations
+score = student.get("test_scores", {}).get("math", 0)</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">2. How do you merge two dictionaries in Python?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Several methods depending on Python version and requirements:</p>
+                                <pre><code>dict1 = {"a": 1, "b": 2}
+dict2 = {"b": 3, "c": 4}
+
+# Method 1: Using ** operator (Python 3.5+)
+merged = {**dict1, **dict2}
+print(merged)  # {'a': 1, 'b': 3, 'c': 4}
+
+# Method 2: Using | operator (Python 3.9+)
+merged = dict1 | dict2
+print(merged)  # {'a': 1, 'b': 3, 'c': 4}
+
+# Method 3: Using update() (modifies original)
+dict1_copy = dict1.copy()
+dict1_copy.update(dict2)
+print(dict1_copy)  # {'a': 1, 'b': 3, 'c': 4}
+
+# Method 4: Using dict() constructor
+merged = dict(dict1, **dict2)
+print(merged)  # {'a': 1, 'b': 3, 'c': 4}</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">3. Write a function to count the frequency of each character in a string using a dictionary.</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Use dictionary to track character counts:</p>
+                                <pre><code>def count_characters(text):
+    char_count = {}
+    for char in text:
+        char_count[char] = char_count.get(char, 0) + 1
+    return char_count
+
+# Alternative using defaultdict
+from collections import defaultdict
+
+def count_characters_v2(text):
+    char_count = defaultdict(int)
+    for char in text:
+        char_count[char] += 1
+    return dict(char_count)
+
+# Using Counter (most Pythonic)
+from collections import Counter
+
+def count_characters_v3(text):
+    return dict(Counter(text))
+
+# Test
+text = "hello world"
+print(count_characters(text))
+# {'h': 1, 'e': 1, 'l': 3, 'o': 2, ' ': 1, 'w': 1, 'r': 1, 'd': 1}</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">4. How do you sort a dictionary by keys vs values?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Use <code>sorted()</code> with appropriate key function:</p>
+                                <pre><code>grades = {"Alice": 85, "Bob": 92, "Charlie": 78, "David": 95}
+
+# Sort by keys (alphabetically)
+sorted_by_keys = dict(sorted(grades.items()))
+print(sorted_by_keys)
+# {'Alice': 85, 'Bob': 92, 'Charlie': 78, 'David': 95}
+
+# Sort by values (ascending)
+sorted_by_values_asc = dict(sorted(grades.items(), key=lambda x: x[1]))
+print(sorted_by_values_asc)
+# {'Charlie': 78, 'Alice': 85, 'Bob': 92, 'David': 95}
+
+# Sort by values (descending)
+sorted_by_values_desc = dict(sorted(grades.items(), key=lambda x: x[1], reverse=True))
+print(sorted_by_values_desc)
+# {'David': 95, 'Bob': 92, 'Alice': 85, 'Charlie': 78}</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">5. What's the difference between dict.keys(), dict.values(), and dict.items()?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>These methods return different views of dictionary data:</p>
+                                <pre><code>student = {"name": "Alice", "age": 25, "grade": "A"}
+
+# keys() - returns all keys
+keys = student.keys()
+print(keys)  # dict_keys(['name', 'age', 'grade'])
+print(list(keys))  # ['name', 'age', 'grade']
+
+# values() - returns all values
+values = student.values()
+print(values)  # dict_values(['Alice', 25, 'A'])
+print(list(values))  # ['Alice', 25, 'A']
+
+# items() - returns key-value pairs as tuples
+items = student.items()
+print(items)  # dict_items([('name', 'Alice'), ('age', 25), ('grade', 'A')])
+
+# Common usage in loops
+for key in student.keys():
+    print(f"Key: {key}")
+
+for value in student.values():
+    print(f"Value: {value}")
+
+for key, value in student.items():
+    print(f"{key}: {value}")</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">6. How do you create a dictionary from two lists (keys and values)?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Use <code>zip()</code> function to pair elements from both lists:</p>
+                                <pre><code>keys = ["name", "age", "city", "job"]
+values = ["Alice", 25, "New York", "Engineer"]
+
+# Method 1: Using zip() and dict()
+person = dict(zip(keys, values))
+print(person)  # {'name': 'Alice', 'age': 25, 'city': 'New York', 'job': 'Engineer'}
+
+# Method 2: Dictionary comprehension
+person = {k: v for k, v in zip(keys, values)}
+print(person)
+
+# Handle unequal length lists
+keys_short = ["name", "age"]
+values_long = ["Bob", 30, "Boston", "Doctor"]
+
+# This will only use the shorter list's length
+person = dict(zip(keys_short, values_long))
+print(person)  # {'name': 'Bob', 'age': 30}</code></pre>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loops & Conditionals -->
+            <div class="topic-section">
+                <div class="topic-header">
+                    <h2>6. Loops & Conditionals</h2>
+                </div>
+                <div class="questions-list">
+                    <div class="question-item">
+                        <div class="question-text">1. What's the difference between break, continue, and pass statements?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p><code>break</code> exits loop, <code>continue</code> skips iteration, <code>pass</code> does nothing:</p>
+                                <pre><code># break - exits the loop completely
+for i in range(10):
+    if i == 5:
+        break  # Loop stops here
+    print(i)  # Prints: 0, 1, 2, 3, 4
+
+# continue - skips current iteration
+for i in range(10):
+    if i % 2 == 0:
+        continue  # Skip even numbers
+    print(i)  # Prints: 1, 3, 5, 7, 9
+
+# pass - placeholder, does nothing
+for i in range(5):
+    if i == 2:
+        pass  # TODO: implement later
+    print(i)  # Prints: 0, 1, 2, 3, 4
+
+# pass is useful for empty functions/classes
+def future_function():
+    pass  # Will implement later</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">2. How do you use the else clause with loops in Python?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>The <code>else</code> clause executes when loop completes normally (not broken):</p>
+                                <pre><code># for-else example
+def find_item(items, target):
+    for item in items:
+        if item == target:
+            print(f"Found {target}")
+            break
+    else:
+        print(f"{target} not found")  # Executes only if break never happened
+
+# Test
+find_item([1, 2, 3, 4, 5], 3)  # Found 3
+find_item([1, 2, 3, 4, 5], 6)  # 6 not found
+
+# while-else example
+def find_factor(n):
+    i = 2
+    while i < n:
+        if n % i == 0:
+            print(f"{n} is not prime, factor: {i}")
+            break
+        i += 1
+    else:
+        print(f"{n} is prime")
+
+find_factor(17)  # 17 is prime
+find_factor(15)  # 15 is not prime, factor: 3</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">3. Write a function that prints the Fibonacci sequence up to n terms.</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Generate Fibonacci sequence using loops:</p>
+                                <pre><code>def fibonacci_sequence(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    elif n == 2:
+        return [0, 1]
+    
+    fib_seq = [0, 1]
+    for i in range(2, n):
+        next_fib = fib_seq[i-1] + fib_seq[i-2]
+        fib_seq.append(next_fib)
+    
+    return fib_seq
+
+# Alternative using while loop
+def fibonacci_while(n):
+    if n <= 0:
+        return []
+    
+    fib_seq = []
+    a, b = 0, 1
+    count = 0
+    
+    while count < n:
+        fib_seq.append(a)
+        a, b = b, a + b
+        count += 1
+    
+    return fib_seq
+
+# Test
+print(fibonacci_sequence(10))  # [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">4. How do you iterate over multiple lists simultaneously?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Use <code>zip()</code> to iterate over multiple sequences together:</p>
+                                <pre><code>names = ["Alice", "Bob", "Charlie"]
+ages = [25, 30, 35]
+cities = ["NY", "LA", "Chicago"]
+
+# Basic zip usage
+for name, age in zip(names, ages):
+    print(f"{name} is {age} years old")
+
+# Multiple lists
+for name, age, city in zip(names, ages, cities):
+    print(f"{name}, {age}, lives in {city}")
+
+# With enumerate for index
+for i, (name, age) in enumerate(zip(names, ages)):
+    print(f"{i}: {name} is {age}")
+
+# Handle unequal length lists with itertools.zip_longest
+from itertools import zip_longest
+
+list1 = [1, 2, 3]
+list2 = ['a', 'b', 'c', 'd', 'e']
+
+for num, char in zip_longest(list1, list2, fillvalue=0):
+    print(num, char)  # (1, 'a'), (2, 'b'), (3, 'c'), (0, 'd'), (0, 'e')</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">5. What are nested loops and how do you break out of nested loops?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Nested loops require special techniques to break out of multiple levels:</p>
+                                <pre><code># Basic nested loop
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+for i, row in enumerate(matrix):
+    for j, value in enumerate(row):
+        print(f"matrix[{i}][{j}] = {value}")
+
+# Method 1: Using flag variable
+def find_in_matrix(matrix, target):
+    found = False
+    for i, row in enumerate(matrix):
+        for j, value in enumerate(row):
+            if value == target:
+                print(f"Found {target} at position ({i}, {j})")
+                found = True
+                break
+        if found:
+            break
+
+# Method 2: Using function with return
+def find_in_matrix_v2(matrix, target):
+    for i, row in enumerate(matrix):
+        for j, value in enumerate(row):
+            if value == target:
+                return (i, j)
+    return None
+
+# Method 3: Using exception handling
+class BreakNestedLoop(Exception):
+    pass
+
+def find_in_matrix_v3(matrix, target):
+    try:
+        for i, row in enumerate(matrix):
+            for j, value in enumerate(row):
+                if value == target:
+                    raise BreakNestedLoop
+    except BreakNestedLoop:
+        return (i, j)</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">6. Write a program to print all prime numbers between 1 and 100.</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Multiple approaches to find prime numbers:</p>
+                                <pre><code># Method 1: Basic approach
+def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def primes_up_to(n):
+    primes = []
+    for num in range(2, n + 1):
+        if is_prime(num):
+            primes.append(num)
+    return primes
+
+# Method 2: Sieve of Eratosthenes (more efficient)
+def sieve_of_eratosthenes(n):
+    sieve = [True] * (n + 1)
+    sieve[0] = sieve[1] = False
+    
+    for i in range(2, int(n**0.5) + 1):
+        if sieve[i]:
+            for j in range(i*i, n + 1, i):
+                sieve[j] = False
+    
+    return [i for i in range(2, n + 1) if sieve[i]]
+
+# Test
+primes = primes_up_to(100)
+print("Primes up to 100:", primes)</code></pre>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <!-- String Manipulation -->
+            <div class="topic-section">
+                <div class="topic-header">
+                    <h2>7. String Manipulation</h2>
+                </div>
+                <div class="questions-list">
+                    <div class="question-item">
+                        <div class="question-text">1. How do you reverse a string without using slicing?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Multiple approaches to reverse strings without slicing:</p>
+                                <pre><code># Method 1: Using a loop
+def reverse_string_loop(s):
+    result = ""
+    for char in s:
+        result = char + result
+    return result
+
+# Method 2: Using recursion
+def reverse_string_recursive(s):
+    if len(s) <= 1:
+        return s
+    return s[-1] + reverse_string_recursive(s[:-1])
+
+# Method 3: Using list and join
+def reverse_string_list(s):
+    char_list = list(s)
+    char_list.reverse()
+    return ''.join(char_list)
+
+# Method 4: Using reversed()
+def reverse_string_reversed(s):
+    return ''.join(reversed(s))
+
+# Test
+original = "Hello World"
+print(reverse_string_loop(original))  # "dlroW olleH"</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">2. Write a function to check if a string is a palindrome.</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Different approaches to check palindromes:</p>
+                                <pre><code># Method 1: Simple approach
+def is_palindrome_simple(s):
+    return s == s[::-1]
+
+# Method 2: Case-insensitive, ignoring spaces and punctuation
+def is_palindrome_advanced(s):
+    # Remove non-alphanumeric and convert to lowercase
+    cleaned = ''.join(char.lower() for char in s if char.isalnum())
+    return cleaned == cleaned[::-1]
+
+# Method 3: Two-pointer approach
+def is_palindrome_two_pointers(s):
+    cleaned = ''.join(char.lower() for char in s if char.isalnum())
+    left, right = 0, len(cleaned) - 1
+    
+    while left < right:
+        if cleaned[left] != cleaned[right]:
+            return False
+        left += 1
+        right -= 1
+    
+    return True
+
+# Test
+print(is_palindrome_advanced("A man a plan a canal Panama"))  # True
+print(is_palindrome_advanced("race a car"))  # False</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">3. How do you count the number of words in a string?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Various methods to count words depending on requirements:</p>
+                                <pre><code># Method 1: Using split() - simplest
+def count_words_simple(text):
+    return len(text.split())
+
+# Method 2: Handle multiple spaces and punctuation
+def count_words_advanced(text):
+    import re
+    words = re.findall(r'\b\w+\b', text)
+    return len(words)
+
+# Method 3: Manual counting
+def count_words_manual(text):
+    count = 0
+    in_word = False
+    
+    for char in text:
+        if char.isalpha():
+            if not in_word:
+                count += 1
+                in_word = True
+        else:
+            in_word = False
+    
+    return count
+
+# Test cases
+test_text = "Hello,   world! How are you today?"
+print(count_words_simple(test_text))    # 5
+print(count_words_advanced(test_text))  # 5
+print(count_words_manual(test_text))    # 5</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">4. Write a function to find the longest common substring between two strings.</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Find the longest common substring using dynamic programming:</p>
+                                <pre><code>def longest_common_substring(str1, str2):
+    m, n = len(str1), len(str2)
+    
+    # Create a table to store lengths of common substrings
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    
+    max_length = 0
+    ending_pos_i = 0
+    
+    # Fill the table
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if str1[i-1] == str2[j-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+                if dp[i][j] > max_length:
+                    max_length = dp[i][j]
+                    ending_pos_i = i
+            else:
+                dp[i][j] = 0
+    
+    # Extract the longest common substring
+    start_pos = ending_pos_i - max_length
+    return str1[start_pos:ending_pos_i]
+
+# Simpler brute force approach
+def longest_common_substring_brute(str1, str2):
+    longest = ""
+    
+    for i in range(len(str1)):
+        for j in range(i + 1, len(str1) + 1):
+            substring = str1[i:j]
+            if substring in str2 and len(substring) > len(longest):
+                longest = substring
+    
+    return longest
+
+# Test
+str1 = "programming"
+str2 = "algorithm"
+print(longest_common_substring(str1, str2))  # "gram"</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">5. How do you remove all whitespace from a string?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Different methods to remove whitespace:</p>
+                                <pre><code>text = "  Hello   World  \n\t  Python  "
+
+# Method 1: Remove all whitespace characters
+no_whitespace = ''.join(text.split())
+print(repr(no_whitespace))  # 'HelloWorldPython'
+
+# Method 2: Using replace() for specific whitespace
+no_spaces = text.replace(' ', '').replace('\n', '').replace('\t', '')
+print(repr(no_spaces))  # 'HelloWorldPython'
+
+# Method 3: Using regular expressions
+import re
+no_whitespace_regex = re.sub(r'\s+', '', text)
+print(repr(no_whitespace_regex))  # 'HelloWorldPython'
+
+# Method 4: Remove only leading/trailing whitespace
+stripped = text.strip()
+print(repr(stripped))  # 'Hello   World  \n\t  Python'
+
+# Method 5: Replace multiple spaces with single space
+single_spaces = re.sub(r'\s+', ' ', text.strip())
+print(repr(single_spaces))  # 'Hello World Python'</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">6. Write a function to capitalize the first letter of each word in a sentence.</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Multiple ways to capitalize words:</p>
+                                <pre><code># Method 1: Using built-in title()
+def capitalize_words_builtin(text):
+    return text.title()
+
+# Method 2: Using split() and join()
+def capitalize_words_split(text):
+    words = text.split()
+    capitalized_words = [word.capitalize() for word in words]
+    return ' '.join(capitalized_words)
+
+# Method 3: Manual approach preserving spacing
+def capitalize_words_manual(text):
+    result = []
+    capitalize_next = True
+    
+    for char in text:
+        if char.isalpha():
+            if capitalize_next:
+                result.append(char.upper())
+                capitalize_next = False
+            else:
+                result.append(char.lower())
+        else:
+            result.append(char)
+            capitalize_next = True
+    
+    return ''.join(result)
+
+# Method 4: Using regular expressions
+import re
+
+def capitalize_words_regex(text):
+    return re.sub(r'\b\w', lambda match: match.group(0).upper(), text.lower())
+
+# Test
+sentence = "hello world python programming"
+print(capitalize_words_builtin(sentence))  # "Hello World Python Programming"
+print(capitalize_words_manual("hello,world.python!programming"))  # "Hello,World.Python!Programming"</code></pre>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Functions & Recursion -->
+            <div class="topic-section">
+                <div class="topic-header">
+                    <h2>8. Functions & Recursion</h2>
+                </div>
+                <div class="questions-list">
+                    <div class="question-item">
+                        <div class="question-text">1. What's the difference between parameters and arguments?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p><strong>Parameters</strong> are variables in function definition, <strong>arguments</strong> are actual values passed when calling:</p>
+                                <pre><code># Parameters are 'a' and 'b' in the function definition
+def add_numbers(a, b):  # a and b are parameters
+    return a + b
+
+# Arguments are 5 and 3 when calling the function
+result = add_numbers(5, 3)  # 5 and 3 are arguments
+
+# Types of parameters
+def example_function(required_param, 
+                    default_param=10, 
+                    *args, 
+                    **kwargs):
+    print(f"Required: {required_param}")
+    print(f"Default: {default_param}")
+    print(f"Args: {args}")
+    print(f"Kwargs: {kwargs}")
+
+# Calling with different argument types
+example_function("hello", 20, 1, 2, 3, name="Alice", age=25)</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">2. Explain the concept of variable scope in Python functions.</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Python follows LEGB rule: Local, Enclosing, Global, Built-in scope:</p>
+                                <pre><code># Global scope
+global_var = "I'm global"
+
+def outer_function():
+    # Enclosing scope
+    enclosing_var = "I'm in enclosing scope"
+    
+    def inner_function():
+        # Local scope
+        local_var = "I'm local"
+        
+        # Accessing different scopes
+        print(local_var)      # Local
+        print(enclosing_var)  # Enclosing
+                    <div class="question-item">
+                        <div class="question-text">1. How do you find the intersection of two lists using sets?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Convert lists to sets and use the intersection operation:</p>
+                                <pre><code>list1 = [1, 2, 3, 4, 5]
+list2 = [4, 5, 6, 7, 8]
+
+# Method 1: Using & operator
+intersection = list(set(list1) & set(list2))
+print(intersection)  # [4, 5]
+
+# Method 2: Using intersection() method
+intersection = list(set(list1).intersection(set(list2)))
+print(intersection)  # [4, 5]
+
+# Method 3: Preserving order from first list
+intersection_ordered = [x for x in list1 if x in set(list2)]
+print(intersection_ordered)  # [4, 5]</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">2. What's the difference between union, intersection, and difference operations?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Set operations for combining or comparing sets:</p>
+                                <pre><code>set1 = {1, 2, 3, 4}
+set2 = {3, 4, 5, 6}
+
+# Union: all unique elements from both sets
+union = set1 | set2  # or set1.union(set2)
+print(f"Union: {union}")  # {1, 2, 3, 4, 5, 6}
+
+# Intersection: common elements
+intersection = set1 & set2  # or set1.intersection(set2)
+print(f"Intersection: {intersection}")  # {3, 4}
+
+# Difference: elements in set1 but not in set2
+difference = set1 - set2  # or set1.difference(set2)
+print(f"Difference: {difference}")  # {1, 2}
+
+# Symmetric difference: elements in either set but not both
+sym_diff = set1 ^ set2  # or set1.symmetric_difference(set2)
+print(f"Symmetric difference: {sym_diff}")  # {1, 2, 5, 6}</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">3. How do you check if one set is a subset of another?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Use subset/superset methods or operators:</p>
+                                <pre><code>set_a = {1, 2, 3}
+set_b = {1, 2, 3, 4, 5}
+
+# Check if set_a is subset of set_b
+is_subset = set_a <= set_b  # or set_a.issubset(set_b)
+print(f"Is {set_a} subset of {set_b}? {is_subset}")  # True
+
+# Check if set_b is superset of set_a
+is_superset = set_b >= set_a  # or set_b.issuperset(set_a)
+print(f"Is {set_b} superset of {set_a}? {is_superset}")  # True
+
+# Proper subset (subset but not equal)
+is_proper_subset = set_a < set_b
+print(f"Is {set_a} proper subset of {set_b}? {is_proper_subset}")  # True</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">4. Write a function to find unique elements that appear in exactly one of three lists.</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Use set operations to find elements that appear in only one list:</p>
+                                <pre><code>def unique_in_one_list(list1, list2, list3):
+    set1, set2, set3 = set(list1), set(list2), set(list3)
+    
+    # Elements unique to each set
+    unique_to_1 = set1 - set2 - set3
+    unique_to_2 = set2 - set1 - set3
+    unique_to_3 = set3 - set1 - set2
+    
+    # Combine all unique elements
+    return list(unique_to_1 | unique_to_2 | unique_to_3)
+
+# Test
+list1 = [1, 2, 3, 4]
+list2 = [3, 4, 5, 6]
+list3 = [5, 6, 7, 8]
+
+result = unique_in_one_list(list1, list2, list3)
+print(result)  # [1, 2, 7, 8] (order may vary)</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">5. How do you create an empty set vs an empty dictionary?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Use <code>set()</code> for empty set, <code>{}</code> creates empty dictionary:</p>
+                                <pre><code># Empty set
+empty_set = set()
+print(type(empty_set))  # &lt;class 'set'&gt;
+print(empty_set)  # set()
+
+# Empty dictionary (not empty set!)
+empty_dict = {}
+print(type(empty_dict))  # &lt;class 'dict'&gt;
+print(empty_dict)  # {}
+
+# Adding elements
+empty_set.add(1)
+print(empty_set)  # {1}
+
+empty_dict['key'] = 'value'
+print(empty_dict)  # {'key': 'value'}</code></pre>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-text">6. What happens when you try to add a mutable object to a set?</div>
+                        <details>
+                            <summary>Show Answer</summary>
+                            <div class="answer-content">
+                                <p>Sets can only contain hashable (immutable) objects. Adding mutable objects raises a TypeError:</p>
+                                <pre><code># This works - immutable objects
+my_set = {1, 2, 3, "hello", (1, 2, 3)}
+print(my_set)
+
+# This raises TypeError - mutable objects
+try:
+    my_set.add([1, 2, 3])  # Lists are mutable
+except TypeError as e:
+    print(f"Error: {e}")  # unhashable type: 'list'
+
+try:
+    my_set.add({1, 2, 3})  # Sets are mutable
+except TypeError as e:
+    print(f"Error: {e}")  # unhashable type: 'set'
+
+# Convert to tuple if you need list-like data in set
+my_set.add(tuple([1, 2, 3]))  # This works
+print(my_set)</code></pre>
+                            </div>
+                        </details>
+                    </div>
