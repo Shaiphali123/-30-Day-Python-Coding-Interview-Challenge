@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 6: List Comprehension & Lambda Functions - Python Notes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .toc {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+
+        .toc h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .toc ul {
+            list-style: none;
+            columns: 2;
+            column-gap: 30px;
+        }
+
+        .toc li {
+            margin: 8px 0;
+            break-inside: avoid;
+        }
+
+        .toc a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .toc a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .section {
+            margin: 40px 0;
+            padding: 25px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid #667eea;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        h3 {
+            color: #555;
+            font-size: 1.3em;
+            margin: 25px 0 15px 0;
+            padding-left: 10px;
+            border-left: 3px solid #764ba2;
+        }
+
+        h4 {
+            color: #666;
+            font-size: 1.1em;
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid #4a5568;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .inline-code {
+            background: #e2e8f0;
+            color: #2d3748;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .note {
+            background: #e7f3ff;
+            border-left: 4px solid #3182ce;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning {
+            background: #fef5e7;
+            border-left: 4px solid #d69e2e;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .tip {
+            background: #f0fff4;
+            border-left: 4px solid #38a169;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .practice-problem {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .practice-problem h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            border-left: none;
+            padding-left: 0;
+        }
+
+        .cheat-sheet {
+            background: #2d3748;
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .cheat-sheet h2 {
+            color: white;
+            border-bottom-color: #4a5568;
+        }
+
+        .cheat-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: #4a5568;
+            border-radius: 6px;
+        }
+
+        .cheat-section h4 {
+            color: #e2e8f0;
+            margin-bottom: 10px;
+        }
+
+        .cheat-section code {
+            color: #90cdf4;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 40px;
+            color: #666;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .toc ul {
+                columns: 1;
+            }
+            
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Day 6: List Comprehension & Lambda Functions</h1>
+            <p>Master Python's most elegant functional programming features</p>
+            <div class="badges">
+                <span class="badge">List Comprehension</span>
+                <span class="badge">Lambda</span>
+                <span class="badge">Functional Programming</span>
+                <span class="badge">Python Advanced</span>
+            </div>
+        </div>
+
+        <div class="toc">
+            <h2>📚 Table of Contents</h2>
+            <ul>
+                <li><a href="#list-comprehensions">List Comprehensions</a></li>
+                <li><a href="#basic-syntax">Basic Syntax & Usage</a></li>
+                <li><a href="#conditional-comprehensions">Conditional Comprehensions</a></li>
+                <li><a href="#nested-comprehensions">Nested Comprehensions</a></li>
+                <li><a href="#generators-vs-comprehensions">Generator Expressions</a></li>
+                <li><a href="#lambda-functions">Lambda Functions</a></li>
+                <li><a href="#lambda-syntax">Lambda Syntax & Use Cases</a></li>
+                <li><a href="#map-filter-reduce">Map, Filter & Reduce</a></li>
+                <li><a href="#combining">Combining Comprehensions & Lambdas</a></li>
+                <li><a href="#performance">Performance Notes</a></li>
+                <li><a href="#pitfalls">Common Pitfalls & Best Practices</a></li>
+                <li><a href="#interview-questions">Interview Questions</a></li>
+                <li><a href="#cheat-sheet">Quick Reference Cheat Sheet</a></li>
+            </ul>
+        </div>
+
+        <div class="section" id="list-comprehensions">
+            <h2>🔥 List Comprehensions</h2>
+            <p>List comprehensions provide a concise way to create lists. They're more readable and often faster than traditional for loops for creating lists.</p>
+
+            <h3 id="basic-syntax">Basic Syntax & Usage</h3>
+            <p>The basic syntax follows the pattern: <span class="inline-code">[expression for item in iterable]</span></p>
+
+            <pre><code># Traditional approach
+squares = []
+for i in range(10):
+    squares.append(i**2)
+
+# List comprehension approach
+squares = [i**2 for i in range(10)]
+print(squares)  # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+# More examples
+words = ['hello', 'world', 'python', 'list']
+lengths = [len(word) for word in words]
+print(lengths)  # [5, 5, 6, 4]
+
+# String operations
+names = ['alice', 'bob', 'charlie']
+capitalized = [name.capitalize() for name in names]
+print(capitalized)  # ['Alice', 'Bob', 'Charlie']
+
+# Mathematical operations
+numbers = [1, 2, 3, 4, 5]
+doubled = [x * 2 for x in numbers]
+cubed = [x**3 for x in numbers]
+print(doubled)  # [2, 4, 6, 8, 10]
+print(cubed)    # [1, 8, 27, 64, 125]</code></pre>
+
+            <h3 id="conditional-comprehensions">Conditional Comprehensions</h3>
+            <p>Add filtering and conditional logic to your comprehensions.</p>
+
+            <h4>Filtering with if condition</h4>
+            <pre><code># Filter even numbers
+numbers = range(10)
+evens = [x for x in numbers if x % 2 == 0]
+print(evens)  # [0, 2, 4, 6, 8]
+
+# Filter strings by length
+words = ['a', 'hello', 'hi', 'python', 'world']
+long_words = [word for word in words if len(word) > 3]
+print(long_words)  # ['hello', 'python', 'world']
+
+# Multiple conditions
+numbers = range(20)
+result = [x for x in numbers if x % 2 == 0 if x % 3 == 0]
+print(result)  # [0, 6, 12, 18] (divisible by both 2 and 3)
+
+# Alternative: using 'and'
+result = [x for x in numbers if x % 2 == 0 and x % 3 == 0]</code></pre>
+
+            <h4>Conditional expressions (ternary operator)</h4>
+            <pre><code># Conditional expression in the output
+numbers = range(-5, 6)
+abs_values = [x if x >= 0 else -x for x in numbers]
+print(abs_values)  # [5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5]
+
+# Categorize numbers
+categories = ['positive' if x > 0 else 'negative' if x < 0 else 'zero' 
+              for x in numbers]
+print(categories)  # ['negative', 'negative', ..., 'zero', 'positive', ...]
+
+# Replace values
+data = [1, 2, 0, 4, 0, 6]
+cleaned = [x if x != 0 else 'missing' for x in data]
+print(cleaned)  # [1, 2, 'missing', 4, 'missing', 6]</code></pre>
+
+            <div class="note">
+                <strong>Note:</strong> The syntax <code>[expression for item in iterable if condition]</code> filters items, while <code>[expression if condition else alternative for item in iterable]</code> applies conditional logic to the expression.
+            </div>
+
+            <h3 id="nested-comprehensions">Nested Comprehensions</h3>
+            <p>Handle nested data structures and create complex transformations.</p>
+
+            <h4>List of Lists</h4>
+            <pre><code># Flatten a matrix
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+flattened = [num for row in matrix for num in row]
+print(flattened)  # [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+# Create multiplication table
+multiplication_table = [[i * j for j in range(1, 4)] for i in range(1, 4)]
+print(multiplication_table)  # [[1, 2, 3], [2, 4, 6], [3, 6, 9]]
+
+# Transpose matrix
+transposed = [[row[i] for row in matrix] for i in range(len(matrix[0]))]
+print(transposed)  # [[1, 4, 7], [2, 5, 8], [3, 6, 9]]</code></pre>
+
+            <h4>Working with Nested Structures</h4>
+            <pre><code># Extract specific data from nested dictionaries
+students = [
+    {'name': 'Alice', 'grades': [85, 90, 78]},
+    {'name': 'Bob', 'grades': [92, 88, 95]},
+    {'name': 'Charlie', 'grades': [78, 85, 82]}
+]
+
+# Get all grades
+all_grades = [grade for student in students for grade in student['grades']]
+print(all_grades)  # [85, 90, 78, 92, 88, 95, 78, 85, 82]
+
+# Get high grades only
+high_grades = [grade for student in students for grade in student['grades'] 
+               if grade >= 85]
+print(high_grades)  # [85, 90, 92, 88, 95, 85]
+
+# Nested comprehension with conditions
+coordinates = [(x, y) for x in range(3) for y in range(3) if x != y]
+print(coordinates)  # [(0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1)]</code></pre>
+
+            <h3 id="generators-vs-comprehensions">Generator Expressions vs List Comprehensions</h3>
+            <p>Understanding when to use generator expressions for memory efficiency.</p>
+
+            <pre><code># List comprehension - creates entire list in memory
+list_comp = [x**2 for x in range(1000000)]
+print(type(list_comp))  # <class 'list'>
+
+# Generator expression - creates generator object
+gen_exp = (x**2 for x in range(1000000))
+print(type(gen_exp))    # <class 'generator'>
+
+# Memory usage comparison
+import sys
+list_size = sys.getsizeof([x for x in range(1000)])
+gen_size = sys.getsizeof((x for x in range(1000)))
+print(f"List: {list_size} bytes, Generator: {gen_size} bytes")
+
+# Using generator expressions
+def process_large_file():
+    # Efficient for large datasets
+    return (line.strip().upper() for line in open('file.txt'))
+
+# Convert generator to list when needed
+squares_gen = (x**2 for x in range(10))
+squares_list = list(squares_gen)
+print(squares_list)  # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]</code></pre>
+
+            <h4>When to Use Each</h4>
+            <div class="tip">
+                <strong>Use List Comprehensions when:</strong>
+                <ul>
+                    <li>You need to access elements multiple times</li>
+                    <li>You need the length of the collection</li>
+                    <li>You need indexing capabilities</li>
+                    <li>The dataset is relatively small</li>
+                </ul>
+                <strong>Use Generator Expressions when:</strong>
+                <ul>
+                    <li>Working with large datasets</li>
+                    <li>You only iterate through once</li>
+                    <li>Memory efficiency is important</li>
+                    <li>You want lazy evaluation</li>
+                </ul>
+            </div>
+
+            <h4>Other Comprehension Types</h4>
+            <pre><code># Set comprehensions
+numbers = [1, 2, 2, 3, 3, 4, 5]
+unique_squares = {x**2 for x in numbers}
+print(unique_squares)  # {1, 4, 9, 16, 25}
+
+# Dictionary comprehensions
+words = ['hello', 'world', 'python']
+word_lengths = {word: len(word) for word in words}
+print(word_lengths)  # {'hello': 5, 'world': 5, 'python': 6}
+
+# Dictionary comprehension with conditions
+numbers = range(10)
+even_squares = {x: x**2 for x in numbers if x % 2 == 0}
+print(even_squares)  # {0: 0, 2: 4, 4: 16, 6: 36, 8: 64}</code></pre>
+        </div>
+
+        <div class="section" id="lambda-functions">
+            <h2>🚀 Lambda Functions</h2>
+            <p>Lambda functions are small anonymous functions that can have any number of arguments but can only have one expression.</p>
+
+            <h3 id="lambda-syntax">Lambda Syntax & Use Cases</h3>
+            <p>Basic syntax: <span class="inline-code">lambda arguments: expression</span></p>
+
+            <h4>Basic Lambda Examples</h4>
+            <pre><code># Basic lambda function
+square = lambda x: x**2
+print(square(5))  # 25
+
+# Multiple arguments
+add = lambda x, y: x + y
+print(add(3, 7))  # 10
+
+# Lambda with default arguments
+greet = lambda name, greeting="Hello": f"{greeting}, {name}!"
+print(greet("Alice"))  # Hello, Alice!
+print(greet("Bob", "Hi"))  # Hi, Bob!
+
+# Conditional lambda
+max_of_two = lambda x, y: x if x > y else y
+print(max_of_two(10, 5))  # 10
+
+# Lambda returning lambda (higher-order function)
+multiply_by = lambda n: lambda x: x * n
+double = multiply_by(2)
+triple = multiply_by(3)
+print(double(5))  # 10
+print(triple(5))  # 15</code></pre>
+
+            <h4>Common Use Cases</h4>
+            <pre><code># Sorting with custom key
+students = [('Alice', 85), ('Bob', 90), ('Charlie', 78)]
+# Sort by grade (second element)
+sorted_by_grade = sorted(students, key=lambda x: x[1])
+print(sorted_by_grade)  # [('Charlie', 78), ('Alice', 85), ('Bob', 90)]
+
+# Sort by name length
+words = ['python', 'java', 'c', 'javascript']
+sorted_by_length = sorted(words, key=lambda x: len(x))
+print(sorted_by_length)  # ['c', 'java', 'python', 'javascript']
+
+# Complex sorting
+data = [{'name': 'Alice', 'age': 25, 'score': 85},
+        {'name': 'Bob', 'age': 23, 'score': 90},
+        {'name': 'Charlie', 'age': 25, 'score': 78}]
+
+# Sort by age, then by score
+sorted_data = sorted(data, key=lambda x: (x['age'], x['score']))
+print(sorted_data)
+
+# Event handling (conceptual example)
+button_actions = {
+    'save': lambda: print("File saved!"),
+    'load': lambda: print("File loaded!"),
+    'exit': lambda: print("Goodbye!")
+}
+button_actions['save']()  # File saved!</code></pre>
+
+            <h4>Lambda Limitations</h4>
+            <div class="warning">
+                <strong>Lambda Limitations:</strong>
+                <ul>
+                    <li>Can only contain expressions, not statements</li>
+                    <li>No annotations or docstrings</li>
+                    <li>Limited to single expression</li>
+                    <li>Can't contain print, return, pass, assert statements</li>
+                    <li>Harder to debug than named functions</li>
+                </ul>
+            </div>
+
+            <pre><code># These don't work with lambda:
+# lambda x: print(x)  # print is a statement
+# lambda x: return x  # return is a statement
+# lambda x: pass      # pass is a statement
+
+# These work:
+# Use expression equivalents
+output = lambda x: x  # Instead of print, return the value
+condition = lambda x: x if x > 0 else 0  # Instead of if statement</code></pre>
+        </div>
+
+        <div class="section" id="map-filter-reduce">
+            <h2>🔧 Map, Filter & Reduce with Lambdas</h2>
+            <p>Functional programming tools that work beautifully with lambda functions.</p>
+
+            <h3>Map Function</h3>
+            <p>Applies a function to every item in an iterable.</p>
+
+            <pre><code># Basic map usage
+numbers = [1, 2, 3, 4, 5]
+squares = list(map(lambda x: x**2, numbers))
+print(squares)  # [1, 4, 9, 16, 25]
+
+# Multiple iterables
+list1 = [1, 2, 3, 4]
+list2 = [10, 20, 30, 40]
+products = list(map(lambda x, y: x * y, list1, list2))
+print(products)  # [10, 40, 90, 160]
+
+# String operations
+words = ['hello', 'world', 'python']
+capitalized = list(map(lambda x: x.upper(), words))
+print(capitalized)  # ['HELLO', 'WORLD', 'PYTHON']
+
+# Complex transformations
+data = ['1,2,3', '4,5,6', '7,8,9']
+parsed = list(map(lambda x: [int(i) for i in x.split(',')], data))
+print(parsed)  # [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+# Map vs List comprehension
+# These are equivalent:
+result1 = list(map(lambda x: x**2, range(5)))
+result2 = [x**2 for x in range(5)]
+print(result1 == result2)  # True</code></pre>
+
+            <h3>Filter Function</h3>
+            <p>Filters elements from an iterable based on a condition.</p>
+
+            <pre><code># Basic filter usage
+numbers = range(10)
+evens = list(filter(lambda x: x % 2 == 0, numbers))
+print(evens)  # [0, 2, 4, 6, 8]
+
+# Filter strings
+words = ['apple', 'banana', 'cherry', 'date', 'elderberry']
+long_words = list(filter(lambda x: len(x) > 5, words))
+print(long_words)  # ['banana', 'cherry', 'elderberry']
+
+# Filter with complex conditions
+students = [
+    {'name': 'Alice', 'grade': 85, 'age': 20},
+    {'name': 'Bob', 'grade': 92, 'age': 19},
+    {'name': 'Charlie', 'grade': 78, 'age': 21},
+    {'name': 'Diana', 'grade': 88, 'age': 20}
+]
+
+high_achievers = list(filter(lambda s: s['grade'] > 80 and s['age'] < 21, students))
+print(high_achievers)  # [{'name': 'Alice', ...}, {'name': 'Bob', ...}]
+
+# Remove None values
+mixed_data = [1, None, 2, None, 3, 0, 4]
+cleaned = list(filter(lambda x: x is not None, mixed_data))
+print(cleaned)  # [1, 2, 3, 0, 4]
+
+# Filter vs List comprehension
+# These are equivalent:
+result1 = list(filter(lambda x: x > 0, [-2, -1, 0, 1, 2]))
+result2 = [x for x in [-2, -1, 0, 1, 2] if x > 0]
+print(result1 == result2)  # True</code></pre>
+
+            <h3>Reduce Function</h3>
+            <p>Applies a rolling computation to sequential pairs of values in a list.</p>
+
+            <pre><code>from functools import reduce
+
+# Basic reduce usage - sum
+numbers = [1, 2, 3, 4, 5]
+total = reduce(lambda x, y: x + y, numbers)
+print(total)  # 15
+
+# Product of all numbers
+product = reduce(lambda x, y: x * y, numbers)
+print(product)  # 120
+
+# Find maximum
+numbers = [3, 7, 2, 9, 1, 5]
+maximum = reduce(lambda x, y: x if x > y else y, numbers)
+print(maximum)  # 9
+
+# String concatenation
+words = ['Hello', ' ', 'World', '!']
+sentence = reduce(lambda x, y: x + y, words)
+print(sentence)  # Hello World!
+
+# With initial value
+numbers = [1, 2, 3, 4, 5]
+total_with_initial = reduce(lambda x, y: x + y, numbers, 10)
+print(total_with_initial)  # 25 (10 + 1 + 2 + 3 + 4 + 5)
+
+# Complex reduce operations
+transactions = [100, -50, 200, -75, 150]
+final_balance = reduce(lambda balance, transaction: balance + transaction, 
+                      transactions, 0)
+print(final_balance)  # 325</code></pre>
+
+            <h4>Chaining Map, Filter, and Reduce</h4>
+            <pre><code># Process data through multiple stages
+data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# Filter evens, square them, then sum
+result = reduce(lambda x, y: x + y,
+               map(lambda x: x**2,
+                  filter(lambda x: x % 2 == 0, data)))
+print(result)  # 220 (2² + 4² + 6² + 8² + 10² = 4 + 16 + 36 + 64 + 100)
+
+# More readable version using variables
+evens = filter(lambda x: x % 2 == 0, data)
+squares = map(lambda x: x**2, evens)
+total = reduce(lambda x, y: x + y, squares)
+print(total)  # 220</code></pre>
+        </div>
+
+        <div class="section" id="combining">
+            <h2>🔗 Combining Comprehensions & Lambdas</h2>
+            <p>Powerful patterns that combine the elegance of both features.</p>
+
+            <h3>Lambdas within Comprehensions</h3>
+            <pre><code># Using lambda in list comprehensions
+numbers = [1, 2, 3, 4, 5]
+operations = [lambda x: x**2, lambda x: x**3, lambda x: x*2]
+
+# Apply each operation to each number
+results = [[op(num) for op in operations] for num in numbers]
+print(results)  # [[1, 1, 2], [4, 8, 4], [9, 27, 6], [16, 64, 8], [25, 125, 10]]
+
+# Create function mapping
+func_map = {f'op{i}': op for i, op in enumerate(operations)}
+applied = [func_map['op0'](x) for x in numbers]  # Apply first operation
+print(applied)  # [1, 4, 9, 16, 25]
+
+# Dynamic function creation
+multipliers = [lambda x, n=i: x * n for i in range(1, 6)]
+results = [mult(10) for mult in multipliers]
+print(results)  # [10, 20, 30, 40, 50]</code></pre>
+
+            <h3>Comprehensions with Map/Filter/Reduce</h3>
+            <pre><code># List comprehension equivalent to map + filter
+data = range(10)
+# Using map and filter
+result1 = list(map(lambda x: x**2, filter(lambda x: x % 2 == 0, data)))
+# Using list comprehension
+result2 = [x**2 for x in data if x % 2 == 0]
+print(result1 == result2)  # True
+
+# Complex data processing
+students = [
+    {'name': 'Alice', 'scores': [85, 90, 78]},
+    {'name': 'Bob', 'scores': [92, 88, 95]},
+    {'name': 'Charlie', 'scores': [78, 85, 82]}
+]
+
+# Calculate average scores using comprehension + lambda
+averages = [(student['name'], 
+            sum(student['scores']) / len(student['scores']))
+           for student in students]
+print(averages)  # [('Alice', 84.33), ('Bob', 91.67), ('Charlie', 81.
