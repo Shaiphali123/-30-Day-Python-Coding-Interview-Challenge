@@ -716,4 +716,402 @@ students = [
 averages = [(student['name'], 
             sum(student['scores']) / len(student['scores']))
            for student in students]
-print(averages)  # [('Alice', 84.33), ('Bob', 91.67), ('Charlie', 81.
+print(averages)  # [('Alice', 84.33), ('Bob', 91.67), ('Charlie', 81.67)]
+
+# Using map with comprehension results
+words = ['hello', 'world', 'python']
+word_data = [{'word': word, 'length': len(word), 'upper': word.upper()} 
+             for word in words]
+lengths = list(map(lambda x: x['length'], word_data))
+print(lengths)  # [5, 5, 6]</code></pre>
+
+            <h3>Advanced Combinations</h3>
+            <pre><code># Matrix operations with comprehensions and lambdas
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+# Apply function to each element
+apply_func = lambda x: x**2
+squared_matrix = [[apply_func(cell) for cell in row] for row in matrix]
+print(squared_matrix)  # [[1, 4, 9], [16, 25, 36], [49, 64, 81]]
+
+# Conditional operations
+transform = lambda x: x * 2 if x % 2 == 0 else x * 3
+transformed = [[transform(cell) for cell in row] for row in matrix]
+print(transformed)  # [[3, 4, 9], [8, 15, 12], [21, 16, 27]]
+
+# Functional pipeline
+def process_data(data, *functions):
+    """Apply a series of functions to data"""
+    result = data
+    for func in functions:
+        result = func(result)
+    return result
+
+# Example usage
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+result = process_data(
+    numbers,
+    lambda x: filter(lambda n: n % 2 == 0, x),  # Filter evens
+    lambda x: map(lambda n: n**2, x),           # Square them
+    lambda x: [n for n in x if n > 10],         # Filter > 10
+    list                                        # Convert to list
+)
+print(result)  # [16, 36, 64, 100]</code></pre>
+        </div>
+
+        <div class="section" id="performance">
+            <h2>⚡ Performance Notes</h2>
+            <p>Understanding the performance characteristics of comprehensions and lambdas.</p>
+
+            <h3>Performance Comparisons</h3>
+            <pre><code>import time
+
+# Performance test function
+def time_function(func, *args, iterations=1000000):
+    start = time.time()
+    for _ in range(iterations):
+        func(*args)
+    end = time.time()
+    return end - start
+
+# Test data
+numbers = list(range(100))
+
+# List comprehension vs for loop
+def for_loop_squares(nums):
+    result = []
+    for num in nums:
+        result.append(num**2)
+    return result
+
+def list_comp_squares(nums):
+    return [num**2 for num in nums]
+
+# List comprehension vs map
+def map_squares(nums):
+    return list(map(lambda x: x**2, nums))
+
+# Performance results (approximate)
+print("For loop:", time_function(for_loop_squares, numbers))
+print("List comp:", time_function(list_comp_squares, numbers))
+print("Map + lambda:", time_function(map_squares, numbers))</code></pre>
+
+            <h3>Memory Usage</h3>
+            <pre><code>import sys
+
+# Memory comparison
+def memory_usage_example():
+    n = 10000
+    
+    # List comprehension
+    list_comp = [x**2 for x in range(n)]
+    list_size = sys.getsizeof(list_comp)
+    
+    # Generator expression
+    gen_exp = (x**2 for x in range(n))
+    gen_size = sys.getsizeof(gen_exp)
+    
+    print(f"List comprehension: {list_size} bytes")
+    print(f"Generator expression: {gen_size} bytes")
+    print(f"Ratio: {list_size / gen_size:.1f}x larger")
+
+memory_usage_example()</code></pre>
+
+            <div class="tip">
+                <strong>Performance Tips:</strong>
+                <ul>
+                    <li>List comprehensions are generally faster than equivalent for loops</li>
+                    <li>Generator expressions use constant memory regardless of input size</li>
+                    <li>Built-in functions (map, filter) can be faster for simple operations</li>
+                    <li>Avoid complex lambdas in performance-critical code</li>
+                    <li>Use appropriate data structure (list vs generator) based on usage pattern</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section" id="pitfalls">
+            <h2>⚠️ Common Pitfalls & Best Practices</h2>
+
+            <h3>Late Binding Trap</h3>
+            <p>The most common pitfall when using lambdas in loops.</p>
+
+            <pre><code># WRONG: Late binding trap
+functions = []
+for i in range(5):
+    functions.append(lambda: i)  # All lambdas capture the same 'i'
+
+# All functions return 4 (the final value of i)
+for func in functions:
+    print(func())  # 4, 4, 4, 4, 4
+
+# CORRECT: Early binding with default parameter
+functions = []
+for i in range(5):
+    functions.append(lambda x=i: x)  # Capture current value of i
+
+for func in functions:
+    print(func())  # 0, 1, 2, 3, 4
+
+# ALTERNATIVE: Using list comprehension (recommended)
+functions = [lambda x=i: x for i in range(5)]
+for func in functions:
+    print(func())  # 0, 1, 2, 3, 4</code></pre>
+
+            <h3>Readability Issues</h3>
+            <pre><code># AVOID: Complex nested comprehensions
+result = [[func(x) for func in [lambda n: n**2, lambda n: n**3]] 
+          for x in range(5) if x % 2 == 0]
+
+# BETTER: Break it down
+operations = [lambda n: n**2, lambda n: n**3]
+even_numbers = [x for x in range(5) if x % 2 == 0]
+result = [[func(x) for func in operations] for x in even_numbers]
+
+# EVEN BETTER: Use named functions
+def square(n): return n**2
+def cube(n): return n**3
+
+operations = [square, cube]
+result = [[func(x) for func in operations] for x in even_numbers]</code></pre>
+
+            <h3>Best Practices</h3>
+            <div class="note">
+                <strong>List Comprehension Best Practices:</strong>
+                <ul>
+                    <li>Keep comprehensions simple and readable</li>
+                    <li>Limit to 2-3 levels of nesting maximum</li>
+                    <li>Use meaningful variable names</li>
+                    <li>Consider breaking complex comprehensions into multiple steps</li>
+                    <li>Use generator expressions for large datasets</li>
+                </ul>
+            </div>
+
+            <div class="note">
+                <strong>Lambda Best Practices:</strong>
+                <ul>
+                    <li>Use lambdas for simple, one-line functions</li>
+                    <li>Prefer named functions for complex logic</li>
+                    <li>Be careful with variable capture in loops</li>
+                    <li>Don't assign lambdas to variables (use def instead)</li>
+                    <li>Use lambdas primarily with map, filter, sort, etc.</li>
+                </ul>
+            </div>
+
+            <h3>When NOT to Use Comprehensions/Lambdas</h3>
+            <pre><code># AVOID: Side effects in comprehensions
+# BAD
+[print(x) for x in range(5)]  # Don't use comprehensions for side effects
+
+# GOOD
+for x in range(5):
+    print(x)
+
+# AVOID: Complex logic
+# BAD
+result = [x if x > 0 else -x if x < 0 else 0 for x in numbers]
+
+# GOOD
+def absolute_value(x):
+    if x > 0:
+        return x
+    elif x < 0:
+        return -x
+    else:
+        return 0
+
+result = [absolute_value(x) for x in numbers]</code></pre>
+        </div>
+
+        <div class="section" id="interview-questions">
+            <h2>🎯 Interview Questions & Practice Problems</h2>
+
+            <div class="two-column">
+                <div class="practice-problem">
+                    <h4>Problem 1: Flatten Nested Lists</h4>
+                    <p>Flatten a list of lists using list comprehension.</p>
+                    <pre><code># Input
+nested = [[1, 2], [3, 4, 5], [6]]
+# Output: [1, 2, 3, 4, 5, 6]</code></pre>
+                    <pre><code># Solution
+flattened = [item for sublist in nested for item in sublist]</code></pre>
+                </div>
+
+                <div class="practice-problem">
+                    <h4>Problem 2: Prime Numbers Filter</h4>
+                    <p>Find all prime numbers in a range using filter and lambda.</p>
+                    <pre><code># Input: numbers 2 to 20
+# Output: [2, 3, 5, 7, 11, 13, 17, 19]</code></pre>
+                    <pre><code># Solution
+is_prime = lambda n: n > 1 and all(n % i != 0 for i in range(2, int(n**0.5) + 1))
+primes = list(filter(is_prime, range(2, 21)))</code></pre>
+                </div>
+
+                <div class="practice-problem">
+                    <h4>Problem 3: Dictionary from Lists</h4>
+                    <p>Create a dictionary from two lists using comprehension.</p>
+                    <pre><code># Input
+keys = ['a', 'b', 'c']
+values = [1, 2, 3]
+# Output: {'a': 1, 'b': 2, 'c': 3}</code></pre>
+                    <pre><code># Solution
+result = {k: v for k, v in zip(keys, values)}</code></pre>
+                </div>
+
+                <div class="practice-problem">
+                    <h4>Problem 4: Word Frequency Counter</h4>
+                    <p>Count word frequencies using comprehension and reduce.</p>
+                    <pre><code># Input
+text = "hello world hello python world"
+# Output: {'hello': 2, 'world': 2, 'python': 1}</code></pre>
+                    <pre><code># Solution
+from functools import reduce
+words = text.split()
+freq = reduce(lambda acc, word: {**acc, word: acc.get(word, 0) + 1}, words, {})</code></pre>
+                </div>
+
+                <div class="practice-problem">
+                    <h4>Problem 5: Matrix Transpose</h4>
+                    <p>Transpose a matrix using list comprehension.</p>
+                    <pre><code># Input
+matrix = [[1, 2, 3], [4, 5, 6]]
+# Output: [[1, 4], [2, 5], [3, 6]]</code></pre>
+                    <pre><code># Solution
+transposed = [[row[i] for row in matrix] for i in range(len(matrix[0]))]</code></pre>
+                </div>
+
+                <div class="practice-problem">
+                    <h4>Problem 6: Custom Sort with Lambda</h4>
+                    <p>Sort students by grade descending, then by name ascending.</p>
+                    <pre><code># Input
+students = [('Alice', 85), ('Bob', 90), ('Charlie', 85)]
+# Output: [('Bob', 90), ('Alice', 85), ('Charlie', 85)]</code></pre>
+                    <pre><code># Solution
+sorted_students = sorted(students, key=lambda x: (-x[1], x[0]))</code></pre>
+                </div>
+            </div>
+
+            <h3>Advanced Interview Questions</h3>
+
+            <div class="practice-problem">
+                <h4>Problem 7: Fibonacci with Generators</h4>
+                <p>Generate Fibonacci sequence using generator expression and lambda.</p>
+                <pre><code># Create first 10 Fibonacci numbers
+def fibonacci_gen():
+    a, b = 0, 1
+    while True:
+        yield a
+        a, b = b, a + b
+
+fib_gen = fibonacci_gen()
+first_10 = [next(fib_gen) for _ in range(10)]
+print(first_10)  # [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]</code></pre>
+            </div>
+
+            <div class="practice-problem">
+                <h4>Problem 8: Complex Data Processing</h4>
+                <p>Process nested JSON-like data structure.</p>
+                <pre><code># Extract all email addresses from nested user data
+users = [
+    {'name': 'Alice', 'contacts': [{'type': 'email', 'value': 'alice@email.com'}]},
+    {'name': 'Bob', 'contacts': [{'type': 'phone', 'value': '123'}, {'type': 'email', 'value': 'bob@email.com'}]}
+]
+
+# Solution
+emails = [contact['value'] for user in users 
+          for contact in user['contacts'] 
+          if contact['type'] == 'email']
+print(emails)  # ['alice@email.com', 'bob@email.com']</code></pre>
+            </div>
+        </div>
+
+        <div class="cheat-sheet" id="cheat-sheet">
+            <h2>📋 Quick Reference Cheat Sheet</h2>
+            
+            <div class="cheat-section">
+                <h4>List Comprehension Syntax</h4>
+                <pre><code># Basic: [expression for item in iterable]
+squares = [x**2 for x in range(10)]
+
+# With condition: [expression for item in iterable if condition]
+evens = [x for x in range(10) if x % 2 == 0]
+
+# With conditional expression: [expr1 if condition else expr2 for item in iterable]
+signs = ['positive' if x > 0 else 'negative' for x in numbers]
+
+# Nested: [expression for item1 in iterable1 for item2 in iterable2]
+pairs = [(x, y) for x in range(3) for y in range(3)]</code></pre>
+            </div>
+
+            <div class="cheat-section">
+                <h4>Lambda Syntax</h4>
+                <pre><code># Basic: lambda arguments: expression
+add = lambda x, y: x + y
+
+# With default args: lambda x, y=default: expression
+greet = lambda name, msg="Hello": f"{msg}, {name}"
+
+# Higher-order: lambda that returns lambda
+multiply_by = lambda n: lambda x: x * n</code></pre>
+            </div>
+
+            <div class="cheat-section">
+                <h4>Map, Filter, Reduce</h4>
+                <pre><code># Map: apply function to all items
+squared = list(map(lambda x: x**2, [1, 2, 3, 4]))
+
+# Filter: select items that match condition
+evens = list(filter(lambda x: x % 2 == 0, range(10)))
+
+# Reduce: accumulate values (need to import)
+from functools import reduce
+total = reduce(lambda x, y: x + y, [1, 2, 3, 4, 5])</code></pre>
+            </div>
+
+            <div class="cheat-section">
+                <h4>Other Comprehensions</h4>
+                <pre><code># Set comprehension
+unique_squares = {x**2 for x in [1, 2, 2, 3, 3]}
+
+# Dictionary comprehension
+word_lengths = {word: len(word) for word in ['hello', 'world']}
+
+# Generator expression (memory efficient)
+gen = (x**2 for x in range(1000000))</code></pre>
+            </div>
+
+            <div class="cheat-section">
+                <h4>Common Patterns</h4>
+                <pre><code># Flatten nested list
+flat = [item for sublist in nested for item in sublist]
+
+# Matrix transpose
+transposed = [[row[i] for row in matrix] for i in range(len(matrix[0]))]
+
+# Dictionary inversion
+inverted = {v: k for k, v in original.items()}
+
+# Conditional filtering
+filtered = [x for x in data if condition(x)]</code></pre>
+            </div>
+
+            <div class="cheat-section">
+                <h4>Performance Tips</h4>
+                <pre><code># Use generator for large data
+gen = (process(x) for x in huge_list)
+
+# Chain operations efficiently
+result = [transform(x) for x in data if filter_condition(x)]
+
+# Avoid side effects in comprehensions
+# DON'T: [print(x) for x in data]
+# DO: for x in data: print(x)</code></pre>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Day 6 of the Python Learning Series - List Comprehension & Lambda Functions</p>
+            <p>Master these functional programming concepts to write more elegant and efficient Python code!</p>
+        </div>
+    </div>
+</body>
+</html>
