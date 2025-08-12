@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 8 — Pattern Problems — Practice & Quiz | Shaivi Connect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #fdfdfd;
+            color: #333;
+        }
+        header {
+            background: #007acc;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 1rem;
+        }
+        .problem-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        .problem-card h2 {
+            margin-top: 0;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 0.5rem;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        button {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .hint {
+            display: none;
+            margin-top: 0.5rem;
+            background: #eef7ff;
+            padding: 0.5rem;
+            border-left: 3px solid #007acc;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.9rem;
+            padding: 1rem;
+            color: #666;
+            margin-top: 2rem;
+        }
+        .quiz {
+            margin-top: 2rem;
+            background: #fff3cd;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ffeeba;
+        }
+    </style>
+    <script>
+        function toggleHint(id) {
+            const hint = document.getElementById(id);
+            hint.style.display = (hint.style.display === "block") ? "none" : "block";
+        }
+    </script>
+</head>
+<body>
+
+<header>
+    <h1>Shaivi Connect</h1>
+    <p>Day 8 — Pattern Problems — Practice & Quiz</p>
+</header>
+
+<div class="container">
+
+    <!-- Problem List -->
+    <h2>📝 Practice Problems</h2>
+
+    <!-- Problem Template -->
+    <div class="problem-card">
+        <h2>1. Easy — Right-angled Star Triangle</h2>
+        <p>Given n, print a right-angled triangle of stars with n rows.</p>
+        <strong>Input:</strong> n (integer)<br>
+        <strong>Sample Output (n=4):</strong>
+        <pre>
+*
+**
+***
+****
+        </pre>
+        <button onclick="toggleHint('hint1')">Show Hint</button>
+        <div class="hint" id="hint1">Use a nested loop where the inner loop prints i stars for row i.</div>
+    </div>
+
+    <div class="problem-card">
+        <h2>2. Easy — Floyd’s Triangle</h2>
+        <p>Print Floyd's triangle for n rows starting from 1.</p>
+        <strong>Sample Output (n=4):</strong>
+        <pre>
+1
+2 3
+4 5 6
+7 8 9 10
+        </pre>
+        <button onclick="toggleHint('hint2')">Show Hint</button>
+        <div class="hint" id="hint2">Maintain a counter that increments each time you print a number.</div>
+    </div>
+
+    <div class="problem-card">
+        <h2>3. Easy — Inverted Right Triangle of Numbers</h2>
+        <p>Print an inverted right triangle of numbers starting from 1 to the current row length.</p>
+        <strong>Sample Output (n=4):</strong>
+        <pre>
+1234
+123
+12
+1
+        </pre>
+        <button onclick="toggleHint('hint3')">Show Hint</button>
+        <div class="hint" id="hint3">Outer loop decreases from n to 1, inner loop runs from 1 to i.</div>
+    </div>
+
+    <div class="problem-card">
+        <h2>4. Medium — Centered Pyramid of Numbers</h2>
+        <p>Print a pyramid of numbers with each row showing 1 to row number, centered with spaces.</p>
+        <strong>Sample Output (n=4):</strong>
+        <pre>
+   1
+  1 2
+ 1 2 3
+1 2 3 4
+        </pre>
+        <button onclick="toggleHint('hint4')">Show Hint</button>
+        <div class="hint" id="hint4">Use string center alignment or space padding before the numbers.</div>
+    </div>
+
+    <div class="problem-card">
+        <h2>5. Medium — Diamond of Stars</h2>
+        <p>Print a diamond of stars with a total of (2n - 1) rows.</p>
+        <strong>Sample Output (n=3):</strong>
+        <pre>
+  *
+ ***
+*****
+ ***
+  *
+        </pre>
+        <button onclick="toggleHint('hint5')">Show Hint</button>
+        <div class="hint" id="hint5">First build the upper pyramid, then the inverted one.</div>
+    </div>
+
+    <div class="problem-card">
+        <h2>6. Medium — Numeric Palindrome Pyramid</h2>
+        <p>Create a numeric pyramid where numbers increase and then decrease symmetrically.</p>
+        <strong>Sample Output (n=5):</strong>
+        <pre>
+1
+121
+12321
+1234321
+123454321
+        </pre>
+        <button onclick="toggleHint('hint6')">Show Hint</button>
+        <div class="hint" id="hint6">Use one loop to build ascending numbers, then another for descending.</div>
+    </div>
+
+    <div class="problem-card">
+        <h2>7. Medium — Hollow Diamond</h2>
+        <p>Print a hollow diamond pattern of stars for given odd size.</p>
+        <button onclick="toggleHint('hint7')">Show Hint</button>
+        <div class="hint" id="hint7">Print stars only at the borders and spaces inside.</div>
+    </div>
+
+    <div class="problem-card">
+        <h2>8. Hard — Zig-Zag / Wave Pattern</h2>
+        <p>Print a zig-zag pattern across k columns and n rows.</p>
+        <button onclick="toggleHint('hint8')">Show Hint</button>
+        <div class="hint" id="hint8">Alternate upward and downward diagonals.</div>
+    </div>
+
+    <div class="problem-card">
+        <h2>9. Hard — Pascal’s Triangle</h2>
+        <p>Generate Pascal's triangle formatted as centered numbers for n rows.</p>
+        <button onclick="toggleHint('hint9')">Show Hint</button>
+        <div class="hint" id="hint9">Use the formula C(n, k) = n! / (k! * (n-k)!).</div>
+    </div>
+
+    <div class="problem-card">
+        <h2>10. Hard — Alternating 0s and 1s Pyramid</h2>
+        <p>Print a pyramid pattern where each row alternates between 0 and 1.</p>
+        <button onclick="toggleHint('hint10')">Show Hint</button>
+        <div class="hint" id="hint10">Use (i + j) % 2 to decide whether to print 0 or 1.</div>
+    </div>
+
+    <!-- Quiz Section -->
+    <div class="quiz">
+        <h2>🧠 Quick Quiz</h2>
+        <ol>
+            <li>What is the typical time complexity of most pattern problems?</li>
+            <li>Which method can be used to center a string in Python?</li>
+            <li>True/False: Nested loops are always required for pattern problems.</li>
+            <li>What does `str.join()` do?</li>
+            <li>Which operator helps in alternating 0s and 1s in a pattern?</li>
+        </ol>
+    </div>
+
+    <p>
+        📥 <a href="Solution.py" download>Download Solutions</a>
+    </p>
+
+</div>
+
+<footer>
+    Shaivi Connect • Part of the <a href="https://shaiphali123.github.io/-30-Day-Python-Coding-Interview-Challenge/">30-Day Python Coding Interview Challenge</a>
+</footer>
+
+</body>
+</html>
