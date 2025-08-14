@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 9: Math Problems - Interview Notes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border-radius: 15px;
+            margin: -20px -20px 40px -20px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #4ecdc4;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #4ecdc4;
+            padding-bottom: 10px;
+        }
+        
+        .section h3 {
+            color: #34495e;
+            margin: 20px 0 15px 0;
+            font-size: 1.4em;
+        }
+        
+        .concept-box {
+            background: #f8f9ff;
+            border: 2px solid #e3e8ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .formula {
+            background: #fff5f5;
+            border: 2px solid #fed7d7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-weight: bold;
+            color: #c53030;
+        }
+        
+        .complexity {
+            background: #f0fff4;
+            border: 2px solid #c6f6d5;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .tip {
+            background: #fffaf0;
+            border: 2px solid #fbd38d;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 5px solid #ed8936;
+        }
+        
+        .warning {
+            background: #fef5e7;
+            border: 2px solid #f6ad55;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 5px solid #dd6b20;
+        }
+        
+        code {
+            background: #f7fafc;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e53e3e;
+        }
+        
+        .code-block {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #2d3748;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #4ecdc4;
+        }
+        
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔢 Day 9: Math Problems</h1>
+            <p>Master Mathematical Algorithms for Coding Interviews</p>
+        </div>
+
+        <div class="section">
+            <h2>📚 Core Mathematical Concepts</h2>
+            
+            <h3>🎯 Prime Numbers</h3>
+            <div class="concept-box">
+                <p><strong>Definition:</strong> A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself.</p>
+                
+                <div class="formula">
+                    Prime Check Optimization: Only test divisors up to √n
+                </div>
+                
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(√n) for single prime check<br>
+                    <strong>Space Complexity:</strong> O(1)
+                </div>
+                
+                <div class="tip">
+                    <strong>💡 Interview Tip:</strong> Always check for n ≤ 1, n = 2, and even numbers first before entering the loop.
+                </div>
+            </div>
+
+            <h3>📊 Sieve of Eratosthenes</h3>
+            <div class="concept-box">
+                <p><strong>Purpose:</strong> Find all prime numbers up to a given limit efficiently.</p>
+                
+                <div class="formula">
+                    Mark multiples starting from i² (not 2i) for optimization
+                </div>
+                
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(n log log n)<br>
+                    <strong>Space Complexity:</strong> O(n)
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔢 Factorial Problems</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>Basic Factorial</h3>
+                    <div class="formula">n! = n × (n-1) × (n-2) × ... × 1</div>
+                    <p><strong>Key Point:</strong> 0! = 1 by definition</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Trailing Zeros</h3>
+                    <div class="formula">Count factors of 5 in n!</div>
+                    <p><strong>Why:</strong> Trailing zeros come from factors of 10 = 2 × 5, and there are always more factors of 2 than 5.</p>
+                </div>
+            </div>
+            
+            <div class="warning">
+                <strong>⚠️ Large Numbers:</strong> Factorial grows extremely fast. For n > 20, consider using modular arithmetic or special libraries.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🌀 Fibonacci Sequence</h2>
+            
+            <div class="concept-box">
+                <div class="formula">F(n) = F(n-1) + F(n-2), where F(0) = 0, F(1) = 1</div>
+                
+                <h3>Different Approaches:</h3>
+                <ul>
+                    <li><strong>Recursive:</strong> O(2ⁿ) - Exponential time, avoid in interviews!</li>
+                    <li><strong>Dynamic Programming:</strong> O(n) time, O(n) space</li>
+                    <li><strong>Optimized Iterative:</strong> O(n) time, O(1) space</li>
+                    <li><strong>Matrix Exponentiation:</strong> O(log n) time - Advanced technique</li>
+                </ul>
+                
+                <div class="tip">
+                    <strong>💡 Golden Rule:</strong> Always use the iterative approach with two variables for interviews unless specifically asked for recursion.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔗 GCD & LCM</h2>
+            
+            <h3>Greatest Common Divisor (GCD)</h3>
+            <div class="concept-box">
+                <div class="formula">gcd(a, b) = gcd(b, a mod b) - Euclidean Algorithm</div>
+                
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(log min(a, b))<br>
+                    <strong>Space Complexity:</strong> O(1) iterative, O(log min(a, b)) recursive
+                </div>
+            </div>
+            
+            <h3>Least Common Multiple (LCM)</h3>
+            <div class="concept-box">
+                <div class="formula">lcm(a, b) = |a × b| / gcd(a, b)</div>
+                
+                <div class="warning">
+                    <strong>⚠️ Overflow Protection:</strong> Calculate as (a / gcd(a, b)) × b to avoid integer overflow.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎲 Number Manipulation</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3><span class="emoji">🔄</span>Digit Reversal</h3>
+                    <p>Extract digits using modulo and integer division</p>
+                    <div class="code-block">while n > 0:
+    digit = n % 10
+    result = result * 10 + digit
+    n //= 10</div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">➕</span>Digit Sum</h3>
+                    <p>Sum all digits in a number</p>
+                    <div class="code-block">sum(int(d) for d in str(n))</div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">🔢</span>Palindrome Check</h3>
+                    <p>Check if number reads same forwards and backwards</p>
+                    <div class="code-block">str(n) == str(n)[::-1]</div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">💎</span>Perfect Numbers</h3>
+                    <p>Number equals sum of its proper divisors</p>
+                    <p><strong>Example:</strong> 28 = 1 + 2 + 4 + 7 + 14</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚡ Advanced Techniques</h2>
+            
+            <h3>Fast Exponentiation</h3>
+            <div class="concept-box">
+                <p><strong>Problem:</strong> Calculate a^n efficiently</p>
+                <div class="formula">If n is even: a^n = (a^(n/2))²<br>If n is odd: a^n = a × a^(n-1)</div>
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(log n) instead of O(n)
+                </div>
+            </div>
+            
+            <h3>Newton's Method for Square Root</h3>
+            <div class="concept-box">
+                <div class="formula">x₁ = (x₀ + n/x₀) / 2</div>
+                <p>Iteratively refine the guess until desired precision</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Interview Strategy</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3><span class="emoji">⚡</span>Optimization Priority</h3>
+                    <ol>
+                        <li>Correctness first</li>
+                        <li>Time complexity optimization</li>
+                        <li>Space complexity optimization</li>
+                        <li>Code readability</li>
+                    </ol>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">🚨</span>Common Edge Cases</h3>
+                    <ul>
+                        <li>Zero and negative inputs</li>
+                        <li>Single digit numbers</li>
+                        <li>Very large numbers</li>
+                        <li>Empty or null inputs</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="tip">
+                <strong>💡 Pro Tip:</strong> Always discuss your approach before coding. Mention the time/space complexity and any edge cases you're considering.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📈 Complexity Analysis Quick Reference</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>Prime Problems</h3>
+                    <ul>
+                        <li>Single prime check: O(√n)</li>
+                        <li>Sieve of Eratosthenes: O(n log log n)</li>
+                        <li>Prime factorization: O(√n)</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>Sequence Problems</h3>
+                    <ul>
+                        <li>Fibonacci (iterative): O(n)</li>
+                        <li>Factorial: O(n)</li>
+                        <li>GCD: O(log min(a,b))</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔥 Key Takeaways</h2>
+            
+            <div class="highlight">
+                <ul>
+                    <li><strong>Master the fundamentals:</strong> GCD, prime check, factorial algorithms</li>
+                    <li><strong>Optimize ruthlessly:</strong> Always aim for the most efficient solution</li>
+                    <li><strong>Handle edge cases:</strong> Zero, negative numbers, and boundary conditions</li>
+                    <li><strong>Know multiple approaches:</strong> Iterative, recursive, mathematical shortcuts</li>
+                    <li><strong>Practice number theory:</strong> Divisibility, modular arithmetic, perfect squares</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
