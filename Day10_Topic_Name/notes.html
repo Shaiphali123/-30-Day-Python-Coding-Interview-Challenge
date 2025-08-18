@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 10 - Number Theory: Logic, Concepts & Understanding</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #b0b0b0;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 30px;
+            border-left: 4px solid #4facfe;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #4facfe;
+            display: flex;
+            align-items: center;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin: 25px 0 15px 0;
+            color: #00f2fe;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            margin: 20px 0 10px 0;
+            color: #ffb347;
+        }
+
+        .concept-box {
+            background: rgba(76, 172, 254, 0.1);
+            border: 1px solid rgba(76, 172, 254, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .logic-box {
+            background: rgba(255, 179, 71, 0.1);
+            border: 1px solid rgba(255, 179, 71, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .example-box {
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .why-box {
+            background: rgba(144, 238, 144, 0.1);
+            border: 1px solid rgba(144, 238, 144, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .algorithm-steps {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border-left: 3px solid #4facfe;
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #00f2fe;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            color: #00f2fe;
+            overflow-x: auto;
+        }
+
+        .math-formula {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 1.1rem;
+            color: #ffb347;
+        }
+
+        .icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            background: linear-gradient(45deg, rgba(76, 172, 254, 0.2), rgba(0, 242, 254, 0.2));
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .complexity {
+            background: rgba(255, 99, 132, 0.1);
+            border: 1px solid rgba(255, 99, 132, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            background: rgba(76, 172, 254, 0.2);
+            color: #4facfe;
+            font-weight: bold;
+        }
+
+        .visual-demo {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧮 Day 10 - Number Theory</h1>
+        <p class="subtitle">Logic, Concepts, and Deep Understanding</p>
+
+        <!-- INTRODUCTION -->
+        <div class="section">
+            <h2><span class="icon">🎯</span>What is Number Theory?</h2>
+            
+            <div class="concept-box">
+                <h4>🧠 Core Concept:</h4>
+                <p>Number theory is the branch of mathematics that studies the properties and relationships of integers. In programming interviews, it helps us solve problems involving:</p>
+                <ul>
+                    <li><strong>Prime numbers</strong> - Building blocks of all integers</li>
+                    <li><strong>Divisibility</strong> - Understanding when one number divides another</li>
+                    <li><strong>Modular arithmetic</strong> - Working with remainders efficiently</li>
+                    <li><strong>Greatest Common Divisor (GCD)</strong> - Finding common factors</li>
+                </ul>
+            </div>
+
+            <div class="why-box">
+                <h4>🤔 Why Learn This?</h4>
+                <p>Number theory appears in:</p>
+                <ul>
+                    <li>Cryptography and security algorithms</li>
+                    <li>Hash functions and data structures</li>
+                    <li>Algorithm optimization techniques</li>
+                    <li>Mathematical problem-solving in competitive programming</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PRIME NUMBERS -->
+        <div class="section">
+            <h2><span class="icon">🔢</span>Prime Numbers: The Building Blocks</h2>
+            
+            <div class="concept-box">
+                <h4>📚 What is a Prime Number?</h4>
+                <p>A prime number is a natural number greater than 1 that has exactly two factors: 1 and itself.</p>
+                
+                <div class="highlight">
+                    <strong>Examples:</strong> 2, 3, 5, 7, 11, 13, 17, 19, 23...<br>
+                    <strong>Not Prime:</strong> 1 (only one factor), 4 (factors: 1,2,4), 9 (factors: 1,3,9)
+                </div>
+            </div>
+
+            <h3>🧠 Logic Behind Prime Checking</h3>
+            <div class="logic-box">
+                <h4>💡 Naive Approach Logic:</h4>
+                <p>To check if n is prime, test if any number from 2 to n-1 divides n.</p>
+                
+                <div class="algorithm-steps">
+                    <div class="step"><strong>Step 1:</strong> If n < 2, return False (by definition)</div>
+                    <div class="step"><strong>Step 2:</strong> For i from 2 to n-1, check if n % i == 0</div>
+                    <div class="step"><strong>Step 3:</strong> If any i divides n, return False</div>
+                    <div class="step"><strong>Step 4:</strong> If no divisor found, return True</div>
+                </div>
+
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(n) - We check every number<br>
+                    <strong>Problem:</strong> Very slow for large numbers!
+                </div>
+            </div>
+
+            <h3>⚡ Optimized Prime Checking Logic</h3>
+            <div class="logic-box">
+                <h4>💡 Key Insight:</h4>
+                <p>If n has a factor greater than √n, it must also have a factor less than √n!</p>
+                
+                <div class="why-box">
+                    <h4>🤔 Why √n Works:</h4>
+                    <p>Consider n = a × b where a ≤ b</p>
+                    <ul>
+                        <li>If both a > √n and b > √n, then a × b > √n × √n = n</li>
+                        <li>This is impossible since a × b = n</li>
+                        <li>Therefore, at least one factor must be ≤ √n</li>
+                    </ul>
+                </div>
+
+                <div class="example-box">
+                    <h4>🎯 Example: Is 49 prime?</h4>
+                    <p>√49 = 7, so we only check divisors up to 7</p>
+                    <ul>
+                        <li>49 ÷ 2 = 24.5 (not divisible)</li>
+                        <li>49 ÷ 3 = 16.33... (not divisible)</li>
+                        <li>49 ÷ 4 = 12.25 (not divisible)</li>
+                        <li>49 ÷ 5 = 9.8 (not divisible)</li>
+                        <li>49 ÷ 6 = 8.16... (not divisible)</li>
+                        <li>49 ÷ 7 = 7 ✓ (divisible!)</li>
+                    </ul>
+                    <p><strong>Result:</strong> 49 is not prime (49 = 7 × 7)</p>
+                </div>
+
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(√n) - Much faster!
+                </div>
+            </div>
+
+            <h3>🏭 Sieve of Eratosthenes: Bulk Prime Generation</h3>
+            <div class="logic-box">
+                <h4>💡 The Big Idea:</h4>
+                <p>Instead of checking each number individually, eliminate all composite numbers systematically.</p>
+
+                <div class="algorithm-steps">
+                    <div class="step"><strong>Step 1:</strong> Create array [2, 3, 4, 5, 6, 7, 8, 9, 10, 11...]</div>
+                    <div class="step"><strong>Step 2:</strong> Start with first prime (2)</div>
+                    <div class="step"><strong>Step 3:</strong> Mark all multiples of 2 as composite (4, 6, 8, 10...)</div>
+                    <div class="step"><strong>Step 4:</strong> Move to next unmarked number (3)</div>
+                    <div class="step"><strong>Step 5:</strong> Mark all multiples of 3 as composite (9, 15, 21...)</div>
+                    <div class="step"><strong>Step 6:</strong> Repeat until √n</div>
+                </div>
+
+                <div class="visual-demo">
+                    <h4>🎨 Visual Example: Sieve up to 30</h4>
+                    <div class="code-block">
+Initial: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+
+After 2:  [2, 3, ✗, 5, ✗, 7, ✗, 9, ✗, 11, ✗, 13, ✗, 15, ✗, 17, ✗, 19, ✗, 21, ✗, 23, ✗, 25, ✗, 27, ✗, 29, ✗]
+
+After 3:  [2, 3, ✗, 5, ✗, 7, ✗, ✗, ✗, 11, ✗, 13, ✗, ✗, ✗, 17, ✗, 19, ✗, ✗, ✗, 23, ✗, 25, ✗, ✗, ✗, 29, ✗]
+
+After 5:  [2, 3, ✗, 5, ✗, 7, ✗, ✗, ✗, 11, ✗, 13, ✗, ✗, ✗, 17, ✗, 19, ✗, ✗, ✗, 23, ✗, ✗, ✗, ✗, ✗, 29, ✗]
+
+Final Primes: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+                    </div>
+                </div>
+
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(n log log n)<br>
+                    <strong>Space Complexity:</strong> O(n)<br>
+                    <strong>Best For:</strong> Finding all primes up to a limit
+                </div>
+            </div>
+        </div>
+
+        <!-- GCD AND LCM -->
+        <div class="section">
+            <h2><span class="icon">🔗</span>GCD & LCM: Finding Common Ground</h2>
+
+            <div class="concept-box">
+                <h4>📚 Definitions:</h4>
+                <p><strong>GCD (Greatest Common Divisor):</strong> Largest number that divides both a and b</p>
+                <p><strong>LCM (Least Common Multiple):</strong> Smallest number that both a and b divide</p>
+                
+                <div class="math-formula">
+                    GCD(a, b) × LCM(a, b) = a × b
+                </div>
+            </div>
+
+            <h3>🧠 Euclidean Algorithm Logic</h3>
+            <div class="logic-box">
+                <h4>💡 The Brilliant Insight:</h4>
+                <p>GCD(a, b) = GCD(b, a mod b)</p>
+                
+                <div class="why-box">
+                    <h4>🤔 Why This Works:</h4>
+                    <p>If d divides both a and b, then:</p>
+                    <ul>
+                        <li>a = d × k₁ for some integer k₁</li>
+                        <li>b = d × k₂ for some integer k₂</li>
+                        <li>a mod b = a - (a÷b) × b = d × k₁ - (a÷b) × d × k₂</li>
+                        <li>So d also divides (a mod b)</li>
+                    </ul>
+                    <p>This means any common divisor of (a,b) is also a common divisor of (b, a mod b)</p>
+                </div>
+
+                <div class="example-box">
+                    <h4>🎯 Example: GCD(48, 18)</h4>
+                    <div class="algorithm-steps">
+                        <div class="step">GCD(48, 18) → 48 mod 18 = 12</div>
+                        <div class="step">GCD(18, 12) → 18 mod 12 = 6</div>
+                        <div class="step">GCD(12, 6) → 12 mod 6 = 0</div>
+                        <div class="step">GCD(6, 0) → Answer: 6</div>
+                    </div>
+                    
+                    <p><strong>Verification:</strong> 48 = 6×8, 18 = 6×3, so GCD is indeed 6!</p>
+                </div>
+
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(log min(a, b))<br>
+                    <strong>Why so fast:</strong> Each step reduces the problem size by at least half!
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULAR ARITHMETIC -->
+        <div class="section">
+            <h2><span class="icon">🔄</span>Modular Arithmetic: The Art of Remainders</h2>
+
+            <div class="concept-box">
+                <h4>📚 What is Modular Arithmetic?</h4>
+                <p>Working with remainders instead of actual numbers. It's like clock arithmetic!</p>
+                
+                <div class="highlight">
+                    <strong>Notation:</strong> a ≡ b (mod m) means "a and b have the same remainder when divided by m"<br>
+                    <strong>Example:</strong> 17 ≡ 5 (mod 12) because both 17 and 5 leave remainder 5 when divided by 12
+                </div>
+            </div>
+
+            <h3>⚡ Fast Modular Exponentiation</h3>
+            <div class="logic-box">
+                <h4>💡 The Problem:</h4>
+                <p>Computing a^b mod m directly can overflow for large numbers!</p>
+                
+                <div class="example-box">
+                    <h4>🚨 Example Problem:</h4>
+                    <p>Calculate 2^1000 mod 1000000007</p>
+                    <ul>
+                        <li>2^1000 has about 301 digits!</li>
+                        <li>No standard data type can hold this</li>
+                        <li>We need a smarter approach</li>
+                    </ul>
+                </div>
+
+                <h4>💡 The Solution: Binary Exponentiation</h4>
+                <p>Key insight: a^b = (a^(b/2))^2 when b is even</p>
+
+                <div class="algorithm-steps">
+                    <div class="step"><strong>Step 1:</strong> If exponent is 0, return 1</div>
+                    <div class="step"><strong>Step 2:</strong> If exponent is odd, multiply result by base</div>
+                    <div class="step"><strong>Step 3:</strong> Square the base, halve the exponent</div>
+                    <div class="step"><strong>Step 4:</strong> Repeat until exponent becomes 0</div>
+                    <div class="step"><strong>Key:</strong> Take mod at each step to prevent overflow!</div>
+                </div>
+
+                <div class="example-box">
+                    <h4>🎯 Example: 3^10 mod 7</h4>
+                    <div class="visual-demo">
+                        <div class="code-block">
+Initial: base=3, exp=10, result=1, mod=7
+
+Step 1: exp=10 (even), base²=(3²) mod 7 = 9 mod 7 = 2, exp=5
+Step 2: exp=5 (odd), result=(1×2) mod 7 = 2, exp=4
+Step 3: exp=4 (even), base²=(2²) mod 7 = 4, exp=2  
+Step 4: exp=2 (even), base²=(4²) mod 7 = 16 mod 7 = 2, exp=1
+Step 5: exp=1 (odd), result=(2×2) mod 7 = 4, exp=0
+
+Final Answer: 4
+                        </div>
+                    </div>
+                    
+                    <p><strong>Verification:</strong> 3^10 = 59049, 59049 mod 7 = 4 ✓</p>
+                </div>
+
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(log b)<br>
+                    <strong>Space Complexity:</strong> O(1)<br>
+                    <strong>Magic:</strong> Reduces 1000 multiplications to just 10!
+                </div>
+            </div>
+        </div>
+
+        <!-- EULER'S TOTIENT FUNCTION -->
+        <div class="section">
+            <h2><span class="icon">φ</span>Euler's Totient Function</h2>
+
+            <div class="concept-box">
+                <h4>📚 Definition:</h4>
+                <p>φ(n) = count of integers from 1 to n that are coprime to n (GCD = 1)</p>
+                
+                <div class="highlight">
+                    <strong>Examples:</strong><br>
+                    φ(6) = 2 (numbers 1, 5 are coprime to 6)<br>
+                    φ(9) = 6 (numbers 1, 2, 4, 5, 7, 8 are coprime to 9)
+                </div>
+            </div>
+
+            <h3>🧠 The Logic Behind the Formula</h3>
+            <div class="logic-box">
+                <h4>💡 Key Insight:</h4>
+                <p>For a prime p: φ(p) = p - 1 (all numbers except multiples of p)</p>
+                
+                <div class="math-formula">
+                    φ(n) = n × ∏(1 - 1/p) for all prime factors p of n
+                </div>
+
+                <div class="why-box">
+                    <h4>🤔 Why This Formula Works:</h4>
+                    <ul>
+                        <li>Start with all n numbers: {1, 2, 3, ..., n}</li>
+                        <li>Remove multiples of first prime p₁: n - n/p₁ numbers left</li>
+                        <li>Remove multiples of second prime p₂: multiply by (1 - 1/p₂)</li>
+                        <li>Continue for all prime factors</li>
+                    </ul>
+                </div>
+
+                <div class="example-box">
+                    <h4>🎯 Example: φ(12)</h4>
+                    <p>12 = 2² × 3, so prime factors are 2 and 3</p>
+                    <div class="algorithm-steps">
+                        <div class="step">φ(12) = 12 × (1 - 1/2) × (1 - 1/3)</div>
+                        <div class="step">= 12 × (1/2) × (2/3)</div>
+                        <div class="step">= 12 × 1/3 = 4</div>
+                    </div>
+                    
+                    <p><strong>Verification:</strong> Numbers coprime to 12: {1, 5, 7, 11} → Count = 4 ✓</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- DIVISORS -->
+        <div class="section">
+            <h2><span class="icon">🔢</span>Divisors and Perfect Numbers</h2>
+
+            <div class="concept-box">
+                <h4>📚 Understanding Divisors:</h4>
+                <p>Divisors of n are all positive integers that divide n evenly.</p>
+                
+                <div class="highlight">
+                    <strong>Example:</strong> Divisors of 12 are {1, 2, 3, 4, 6, 12}
+                </div>
+            </div>
+
+            <h3>🧠 Smart Divisor Finding Logic</h3>
+            <div class="logic-box">
+                <h4>💡 Key Insight:</h4>
+                <p>Divisors come in pairs! If d divides n, then n/d also divides n.</p>
+                
+                <div class="algorithm-steps">
+                    <div class="step"><strong>Step 1:</strong> Only check up to √n</div>
+                    <div class="step"><strong>Step 2:</strong> For each divisor i found, also add n/i</div>
+                    <div class="step"><strong>Step 3:</strong> Special case: if i² = n, only add i once</div>
+                </div>
+
+                <div class="example-box">
+                    <h4>🎯 Example: Find divisors of 36</h4>
+                    <p>√36 = 6, so check 1, 2, 3, 4, 5, 6</p>
+                    <ul>
+                        <li>1 divides 36 → add 1 and 36/1 = 36</li>
+                        <li>2 divides 36 → add 2 and 36/2 = 18</li>
+                        <li>3 divides 36 → add 3 and 36/3 = 12</li>
+                        <li>4 divides 36 → add 4 and 36/4 = 9</li>
+                        <li>6 divides 36 → add 6 and 36/6 = 6 (but 6 = 6, so add once)</li>
+                    </ul>
+                    <p><strong>Result:</strong> {1, 2, 3, 4, 6, 9, 12, 18, 36}</p>
+                </div>
+
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(√n)<br>
+                    <strong>Space Complexity:</strong> O(d(n)) where d(n) is number of divisors
+                </div>
+            </div>
+
+            <h3>✨ Perfect Numbers</h3>
+            <div class="concept-box">
+                <h4>📚 Definition:</h4>
+                <p>A perfect number equals the sum of its proper divisors (excluding itself).</p>
+                
+                <div class="example-box">
+                    <h4>🎯 Example: 6 is perfect</h4>
+                    <ul>
+                        <li>Divisors of 6: {1, 2, 3, 6}</li>
+                        <li>Proper divisors: {1, 2, 3}</li>
+                        <li>Sum: 1 + 2 + 3 = 6 ✓</li>
+                    </ul>
+                    
+                    <h4>🎯 Example: 28 is perfect</h4>
+                    <ul>
+                        <li>Proper divisors: {1, 2, 4, 7, 14}</li>
+                        <li>Sum: 1 + 2 + 4 + 7 + 14 = 28 ✓</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- APPLICATIONS -->
+        <div class="section">
+            <h2><span class="icon">🚀</span>Real-World Applications & Interview Problems</h2>
+
+            <div class="concept-box">
+                <h4>🎯 Common Interview Patterns:</h4>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Problem Type</th>
+                                <th>Key Concept</th>
+                                <th>Example Problems</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Prime Checking</td>
+                                <td>Optimized √n algorithm</td>
+                                <td>Count Primes, Prime Factorization</td>
+                            </tr>
+                            <tr>
+                                <td>Bulk Prime Finding</td>
+                                <td>Sieve of Eratosthenes</td>
+                                <td>Find all primes in range</td>
+                            </tr>
+                            <tr>
+                                <td>Common Factors</td>
+                                <td>Euclidean Algorithm</td>
+                                <td>Simplify fractions, array GCD</td>
+                            </tr>
+                            <tr>
+                                <td>Large Exponents</td>
+                                <td>Fast modular exponentiation</td>
+                                <td>Power calculations, RSA crypto</td>
+                            </tr>
+                            <tr>
+                                <td>Counting Problems</td>
+                                <td>Euler's totient function</td>
+                                <td>Coprime counting, cyclic groups</td>
