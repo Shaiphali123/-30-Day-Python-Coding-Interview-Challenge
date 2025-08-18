@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 11: Two Pointer Approach - Notes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #2980b9;
+            margin-top: 25px;
+        }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+        }
+        .tip {
+            background: #d1ecf1;
+            padding: 15px;
+            border-left: 4px solid #17a2b8;
+            margin: 15px 0;
+        }
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        .complexity {
+            background: #f8f9fa;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .interview-questions {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        .day-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="day-header">
+            <h1>30-Day Python Coding Interview Challenge</h1>
+            <h2 style="color: white; border: none; padding: 0; margin: 10px 0;">Day 11: Two Pointer Approach</h2>
+            <p style="margin: 0; opacity: 0.9;">Master the art of efficient array traversal</p>
+        </div>
+
+        <h2>1. What is the Two Pointer Approach?</h2>
+        <p>The Two Pointer Approach is a technique that uses two pointers (or indices) to traverse an array or string, typically moving them toward each other or in the same direction. This approach is particularly effective for solving problems involving searching, comparing, or manipulating elements in sorted arrays.</p>
+
+        <div class="highlight">
+            <strong>Key Concept:</strong> Instead of using nested loops (O(n²)), we use two strategically placed pointers to solve problems in O(n) time.
+        </div>
+
+        <h2>2. Why and When to Use Two Pointers?</h2>
+        
+        <h3>Advantages:</h3>
+        <ul>
+            <li><strong>Time Efficiency:</strong> Reduces O(n²) brute force to O(n)</li>
+            <li><strong>Space Efficiency:</strong> Usually requires O(1) extra space</li>
+            <li><strong>Simplicity:</strong> Often more intuitive than complex algorithms</li>
+            <li><strong>In-place Operations:</strong> Can modify arrays without extra space</li>
+        </ul>
+
+        <h3>When to Use:</h3>
+        <ul>
+            <li>Problems involving <strong>sorted arrays</strong></li>
+            <li>Finding <strong>pairs or triplets</strong> with specific properties</li>
+            <li><strong>Palindrome</strong> checking</li>
+            <li><strong>Reversing</strong> or <strong>rearranging</strong> elements</li>
+            <li><strong>Sliding window</strong> problems</li>
+            <li><strong>Removing duplicates</strong> from sorted arrays</li>
+        </ul>
+
+        <h2>3. Common Problems Solved</h2>
+        <ol>
+            <li><strong>Two Sum (Sorted Array):</strong> Find pair with target sum</li>
+            <li><strong>Remove Duplicates:</strong> Remove duplicates from sorted array</li>
+            <li><strong>Reverse Array:</strong> Reverse array in-place</li>
+            <li><strong>Palindrome Check:</strong> Check if string is palindrome</li>
+            <li><strong>Container With Most Water:</strong> Find maximum area</li>
+            <li><strong>Three Sum:</strong> Find triplets that sum to zero</li>
+            <li><strong>Move Zeros:</strong> Move all zeros to end</li>
+        </ol>
+
+        <h2>4. How It Works - Step by Step Example</h2>
+        <p><strong>Problem:</strong> Find if pair exists with target sum in sorted array</p>
+        <p><strong>Input:</strong> arr = [1, 2, 4, 7, 11, 15], target = 15</p>
+
+        <h3>Step-by-Step Process:</h3>
+        <ol>
+            <li><strong>Initialize:</strong> left = 0, right = len(arr) - 1</li>
+            <li><strong>Calculate sum:</strong> arr[left] + arr[right]</li>
+            <li><strong>Compare with target:</strong>
+                <ul>
+                    <li>If sum == target → Found pair!</li>
+                    <li>If sum < target → Move left pointer right</li>
+                    <li>If sum > target → Move right pointer left</li>
+                </ul>
+            </li>
+            <li><strong>Repeat</strong> until pointers meet</li>
+        </ol>
+
+        <div class="code-block">
+<pre>
+# Visual representation:
+arr = [1, 2, 4, 7, 11, 15], target = 15
+       ↑              ↑
+      left           right
+
+Step 1: 1 + 15 = 16 > 15 → move right left
+Step 2: 1 + 11 = 12 < 15 → move left right  
+Step 3: 2 + 11 = 13 < 15 → move left right
+Step 4: 4 + 11 = 15 = 15 → Found pair! ✓
+</pre>
+        </div>
+
+        <h2>5. Pseudocode Template</h2>
+        <div class="code-block">
+<pre>
+def two_pointer_approach(arr, target):
+    left = 0
+    right = len(arr) - 1
+    
+    while left < right:
+        current_sum = arr[left] + arr[right]
+        
+        if current_sum == target:
+            return True  # or return indices [left, right]
+        elif current_sum < target:
+            left += 1    # Need larger sum
+        else:
+            right -= 1   # Need smaller sum
+    
+    return False  # No pair found
+</pre>
+        </div>
+
+        <h2>6. Time & Space Complexity Analysis</h2>
+        <div class="complexity">
+            <h3>Two Pointer Approach:</h3>
+            <ul>
+                <li><strong>Time Complexity:</strong> O(n) - Single pass through array</li>
+                <li><strong>Space Complexity:</strong> O(1) - Only using two pointer variables</li>
+            </ul>
+            
+            <h3>Brute Force Comparison:</h3>
+            <ul>
+                <li><strong>Time Complexity:</strong> O(n²) - Nested loops</li>
+                <li><strong>Space Complexity:</strong> O(1) - No extra space</li>
+            </ul>
+            
+            <p><strong>Result:</strong> Two pointer is significantly faster for large arrays!</p>
+        </div>
+
+        <h2>7. Interview Tips</h2>
+        <div class="tip">
+            <h3>Before Coding:</h3>
+            <ul>
+                <li>Ask if the array is sorted (crucial for two pointers)</li>
+                <li>Clarify what to return (boolean, indices, values, count)</li>
+                <li>Discuss edge cases (empty array, single element, no solution)</li>
+            </ul>
+        </div>
+
+        <div class="tip">
+            <h3>During Implementation:</h3>
+            <ul>
+                <li>Start with brute force, then optimize to two pointers</li>
+                <li>Explain your pointer movement logic clearly</li>
+                <li>Handle edge cases explicitly</li>
+                <li>Test with provided examples step by step</li>
+            </ul>
+        </div>
+
+        <div class="tip">
+            <h3>Common Mistakes to Avoid:</h3>
+            <ul>
+                <li>Using two pointers on unsorted arrays (sort first!)</li>
+                <li>Infinite loops (ensure pointers actually move)</li>
+                <li>Off-by-one errors in pointer initialization</li>
+                <li>Not handling duplicate elements properly</li>
+            </ul>
+        </div>
+
+        <h2>8. Variations of Two Pointer</h2>
+        <h3>Opposite Direction (Most Common):</h3>
+        <div class="code-block">
+<pre>
+left = 0, right = len(arr) - 1
+while left < right:
+    # Process and move pointers toward each other
+</pre>
+        </div>
+
+        <h3>Same Direction (Fast & Slow):</h3>
+        <div class="code-block">
+<pre>
+slow = 0
+for fast in range(len(arr)):
+    # Process and conditionally move slow pointer
+</pre>
+        </div>
+
+        <div class="interview-questions">
+            <h2>🎯 Interview Questions</h2>
+            <ol>
+                <li><strong>What is the Two Pointer Approach and why is it efficient?</strong>
+                    <br><em>Answer: Technique using two indices to traverse arrays, reducing O(n²) to O(n) time complexity.</em>
+                </li>
+                
+                <li><strong>In which type of arrays/problems do we apply the two-pointer technique?</strong>
+                    <br><em>Answer: Primarily sorted arrays, palindrome checks, pair/triplet finding, and sliding window problems.</em>
+                </li>
+                
+                <li><strong>Compare two-pointer with brute force in terms of complexity.</strong>
+                    <br><em>Answer: Two-pointer: O(n) time, O(1) space vs Brute force: O(n²) time, O(1) space.</em>
+                </li>
+                
+                <li><strong>Can the two-pointer technique be used on unsorted arrays? How?</strong>
+                    <br><em>Answer: Generally no for sum problems. Must sort first (O(n log n)) or use hash map approach instead.</em>
+                </li>
+                
+                <li><strong>Give real-world examples where two pointers are useful.</strong>
+                    <br><em>Answer: DNA sequence analysis, text processing, merge operations, collision detection in games.</em>
+                </li>
+                
+                <li><strong>Difference between sliding window and two-pointer approach.</strong>
+                    <br><em>Answer: Sliding window maintains fixed/variable window size; two-pointer focuses on element relationships regardless of window size.</em>
+                </li>
+                
+                <li><strong>What are edge cases to handle in two-pointer problems?</strong>
+                    <br><em>Answer: Empty arrays, single elements, all same elements, no valid pairs, pointer collision.</em>
+                </li>
+                
+                <li><strong>How does space complexity improve using two pointers?</strong>
+                    <br><em>Answer: Eliminates need for hash maps or additional arrays, achieving O(1) space in most cases.</em>
+                </li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+            <h3>🚀 Ready for Day 11 Problem?</h3>
+            <p>Now that you understand the two pointer approach, let's apply it to solve the pair sum problem!</p>
+        </div>
+    </div>
+</body>
+</html>
