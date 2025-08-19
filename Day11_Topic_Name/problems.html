@@ -1,230 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 11 Problem: Find Pair with Target Sum</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            border-bottom: 3px solid #e74c3c;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-        }
-        h2 {
-            color: #34495e;
-            border-left: 4px solid #e74c3c;
-            padding-left: 15px;
-            margin-top: 30px;
-        }
-        .problem-header {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .code-block {
-            background: #2c3e50;
-            color: #ecf0f1;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            overflow-x: auto;
-            font-family: 'Courier New', monospace;
-        }
-        .example {
-            background: #f8f9fa;
-            padding: 15px;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            margin: 15px 0;
-        }
-        .constraint {
-            background: #fff3cd;
-            padding: 15px;
-            border-left: 4px solid #ffc107;
-            margin: 15px 0;
-        }
-        .hint {
-            background: #d1ecf1;
-            padding: 15px;
-            border-left: 4px solid #17a2b8;
-            margin: 15px 0;
-        }
-        .difficulty {
-            display: inline-block;
-            background: #28a745;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        .tag {
-            display: inline-block;
-            background: #6c757d;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 0.9em;
-            margin: 3px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Day 11 - Two Pointer Approach | 30 Day Python Coding Interview Challenge</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    header {
+      background: #222;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    section {
+      padding: 20px;
+      margin: 10px auto;
+      max-width: 900px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3 {
+      color: #333;
+    }
+    ul {
+      list-style: square;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #222;
+      color: #fff;
+      margin-top: 20px;
+    }
+    .watermark {
+      font-size: 12px;
+      text-align: right;
+      color: #777;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="problem-header">
-            <h1>Day 11 Challenge</h1>
-            <h2 style="color: white; border: none; padding: 0; margin: 10px 0;">Find Pair with Target Sum</h2>
-            <div class="difficulty">Easy</div>
-            <div style="margin-top: 10px;">
-                <span class="tag">Two Pointers</span>
-                <span class="tag">Array</span>
-                <span class="tag">Sorted Array</span>
-            </div>
-        </div>
+  <header>
+    <h1>Day 11 - Two Pointer Approach</h1>
+    <p>30-Day Python Coding Interview Challenge</p>
+  </header>
 
-        <h2>Problem Statement</h2>
-        <p>Given a sorted array of integers and a target sum, determine whether there exists a pair of numbers in the array that adds up to the target sum.</p>
-        
-        <p>Write a function that returns <code>True</code> if such a pair exists, and <code>False</code> otherwise.</p>
+  <section>
+    <h2>📌 Interview Questions on Two Pointer Technique</h2>
+    <ol>
+      <li>Find if there exist two numbers in a sorted array that sum up to a given target.</li>
+      <li>Remove duplicates from a sorted array in-place and return the new length.</li>
+      <li>Return a new array of squares from a sorted array, sorted in non-decreasing order.</li>
+      <li>Find all unique triplets in an array that sum up to zero (3-Sum Problem).</li>
+      <li>Sort an array containing only 0s, 1s, and 2s (Dutch National Flag Problem).</li>
+      <li>Check if a given string is a palindrome using two pointers.</li>
+      <li>Find the maximum water trapped between two vertical lines (Container With Most Water problem).</li>
+      <li>Merge two sorted arrays into one sorted array in-place using two pointers.</li>
+      <li>Find the intersection of two sorted arrays using the two pointer technique.</li>
+      <li>Check if there exists a pair in a rotated sorted array that sums to a given target.</li>
+    </ol>
+    <p class="watermark">Shaivi Connect © 2025</p>
+  </section>
 
-        <h2>Function Signature</h2>
-        <div class="code-block">
-<pre>
-def has_pair_with_sum(arr, target):
-    """
-    Args:
-        arr (List[int]): A sorted array of integers
-        target (int): The target sum to find
-    
-    Returns:
-        bool: True if pair exists, False otherwise
-    """
-    pass
-</pre>
-        </div>
-
-        <h2>Input/Output Format</h2>
-        <div class="example">
-            <h3>Input:</h3>
-            <ul>
-                <li><strong>arr:</strong> A sorted list of integers</li>
-                <li><strong>target:</strong> An integer representing the target sum</li>
-            </ul>
-            
-            <h3>Output:</h3>
-            <ul>
-                <li><strong>Boolean:</strong> True if a pair exists that sums to target, False otherwise</li>
-            </ul>
-        </div>
-
-        <h2>Constraints</h2>
-        <div class="constraint">
-            <ul>
-                <li>1 ≤ len(arr) ≤ 10⁵</li>
-                <li>-10⁹ ≤ arr[i] ≤ 10⁹</li>
-                <li>-10⁹ ≤ target ≤ 10⁹</li>
-                <li>Array is sorted in ascending order</li>
-                <li>Array may contain duplicate elements</li>
-            </ul>
-        </div>
-
-        <h2>Sample Test Cases</h2>
-        
-        <div class="example">
-            <h3>Test Case 1:</h3>
-            <div class="code-block">
-<pre>
-Input: arr = [1, 2, 4, 7, 11, 15], target = 15
-Output: True
-Explanation: 4 + 11 = 15 (pair found at indices 2 and 4)
-</pre>
-            </div>
-        </div>
-
-        <div class="example">
-            <h3>Test Case 2:</h3>
-            <div class="code-block">
-<pre>
-Input: arr = [1, 2, 3, 4, 5], target = 10
-Output: False
-Explanation: No two numbers in the array sum to 10
-</pre>
-            </div>
-        </div>
-
-        <div class="example">
-            <h3>Test Case 3:</h3>
-            <div class="code-block">
-<pre>
-Input: arr = [-1, 0, 1, 2, 3], target = 2
-Output: True
-Explanation: -1 + 3 = 2 or 0 + 2 = 2 (multiple valid pairs exist)
-</pre>
-            </div>
-        </div>
-
-        <div class="example">
-            <h3>Test Case 4 (Edge Case):</h3>
-            <div class="code-block">
-<pre>
-Input: arr = [1], target = 1
-Output: False
-Explanation: Only one element, cannot form a pair
-</pre>
-            </div>
-        </div>
-
-        <h2>Expected Approach</h2>
-        <p>Use the <strong>Two Pointer Approach</strong> to solve this efficiently:</p>
-        <ul>
-            <li>Time Complexity: O(n)</li>
-            <li>Space Complexity: O(1)</li>
-            <li>Take advantage of the sorted array property</li>
-        </ul>
-
-        <div class="hint">
-            <h3>💡 Hints (Try to solve before reading)</h3>
-            <details>
-                <summary><strong>Hint 1:</strong> Think about pointer placement</summary>
-                <p>Place one pointer at the beginning and one at the end of the array. This gives you the smallest and largest available values.</p>
-            </details>
-            
-            <details>
-                <summary><strong>Hint 2:</strong> Consider the sum comparison</summary>
-                <p>If current sum is less than target, you need a larger sum (move left pointer right). If current sum is greater than target, you need a smaller sum (move right pointer left).</p>
-            </details>
-            
-            <details>
-                <summary><strong>Hint 3:</strong> Think about the termination condition</summary>
-                <p>The algorithm terminates when pointers meet (left >= right) or when you find the target pair.</p>
-            </details>
-        </div>
-
-        <div style="text-align: center; margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
-            <h3>🎯 Challenge Yourself!</h3>
-            <p>Try to implement both the brute force O(n²) solution and the optimized two-pointer O(n) solution.</p>
-            <p><strong>Bonus:</strong> Can you modify your solution to return the actual indices of the pair instead of just True/False?</p>
-        </div>
-    </div>
+  <footer>
+    <p>Day 11 of the 30-Day Python Coding Interview Challenge | Built with ❤️ by Shaiphali Bhadani</p>
+  </footer>
 </body>
 </html>
