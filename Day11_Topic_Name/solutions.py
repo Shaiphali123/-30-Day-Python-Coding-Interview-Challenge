@@ -1,217 +1,172 @@
 """
-Day 11: Two Pointer Approach - Find Pair with Target Sum
+Day 11 - Two Pointer Approach
 30-Day Python Coding Interview Challenge
-
-Problem: Given a sorted array and target sum, find if a pair exists that sums to target.
-Approach: Use two pointers (left and right) to efficiently find the pair in O(n) time.
+Author: Shaiphali Bhadani (Shaivi Connect)
 """
 
-def has_pair_with_sum(arr, target):
-    """
-    Find if there exists a pair in sorted array that sums to target.
-    
-    Args:
-        arr (List[int]): Sorted array of integers
-        target (int): Target sum to find
-    
-    Returns:
-        bool: True if pair exists, False otherwise
-    
-    Time Complexity: O(n)
-    Space Complexity: O(1)
-    """
-    # Handle edge cases
-    if len(arr) < 2:
-        return False
-    
-    # Initialize two pointers
-    left = 0
-    right = len(arr) - 1
-    
-    # Move pointers toward each other
+# 1. Pair with Target Sum
+def two_sum(nums, target):
+    left, right = 0, len(nums)-1
     while left < right:
-        current_sum = arr[left] + arr[right]
-        
-        if current_sum == target:
-            return True  # Found the pair!
-        elif current_sum < target:
-            # Need larger sum, move left pointer right
-            left += 1
-        else:
-            # Need smaller sum, move right pointer left
-            right -= 1
-    
-    return False  # No pair found
-
-
-def has_pair_with_sum_indices(arr, target):
-    """
-    Find indices of pair that sums to target (bonus version).
-    
-    Returns:
-        tuple: (left_index, right_index) if pair exists, None otherwise
-    """
-    if len(arr) < 2:
-        return None
-    
-    left = 0
-    right = len(arr) - 1
-    
-    while left < right:
-        current_sum = arr[left] + arr[right]
-        
-        if current_sum == target:
-            return (left, right)  # Return indices of the pair
-        elif current_sum < target:
+        s = nums[left] + nums[right]
+        if s == target:
+            return [left, right]
+        elif s < target:
             left += 1
         else:
             right -= 1
-    
-    return None  # No pair found
+    return []
 
+# 2. Remove Duplicates from Sorted Array
+def remove_duplicates(nums):
+    if not nums:
+        return 0
+    left = 0
+    for right in range(1, len(nums)):
+        if nums[right] != nums[left]:
+            left += 1
+            nums[left] = nums[right]
+    return left + 1
 
-def has_pair_with_sum_brute_force(arr, target):
-    """
-    Brute force solution for comparison - O(n²) time complexity.
-    
-    Args:
-        arr (List[int]): Array of integers (doesn't need to be sorted)
-        target (int): Target sum to find
-    
-    Returns:
-        bool: True if pair exists, False otherwise
-    
-    Time Complexity: O(n²)
-    Space Complexity: O(1)
-    """
+# 3. Squares of a Sorted Array
+def make_squares(nums):
+    n = len(nums)
+    result = [0] * n
+    left, right = 0, n-1
+    highest = n-1
+    while left <= right:
+        if abs(nums[left]) > abs(nums[right]):
+            result[highest] = nums[left] ** 2
+            left += 1
+        else:
+            result[highest] = nums[right] ** 2
+            right -= 1
+        highest -= 1
+    return result
+
+# 4. Triplet Sum to Zero (3-Sum)
+def three_sum(nums):
+    nums.sort()
+    triplets = []
+    for i in range(len(nums)-2):
+        if i > 0 and nums[i] == nums[i-1]:
+            continue
+        left, right = i+1, len(nums)-1
+        while left < right:
+            s = nums[i] + nums[left] + nums[right]
+            if s == 0:
+                triplets.append([nums[i], nums[left], nums[right]])
+                left += 1
+                right -= 1
+                while left < right and nums[left] == nums[left-1]:
+                    left += 1
+                while left < right and nums[right] == nums[right+1]:
+                    right -= 1
+            elif s < 0:
+                left += 1
+            else:
+                right -= 1
+    return triplets
+
+# 5. Dutch National Flag Problem (Sort Colors)
+def sort_colors(nums):
+    low, high = 0, len(nums)-1
+    i = 0
+    while i <= high:
+        if nums[i] == 0:
+            nums[low], nums[i] = nums[i], nums[low]
+            low += 1
+            i += 1
+        elif nums[i] == 2:
+            nums[high], nums[i] = nums[i], nums[high]
+            high -= 1
+        else:
+            i += 1
+    return nums
+
+# 6. Check Palindrome
+def is_palindrome(s):
+    left, right = 0, len(s)-1
+    while left < right:
+        if s[left] != s[right]:
+            return False
+        left += 1
+        right -= 1
+    return True
+
+# 7. Container With Most Water
+def max_area(height):
+    left, right = 0, len(height)-1
+    max_water = 0
+    while left < right:
+        max_water = max(max_water, min(height[left], height[right]) * (right-left))
+        if height[left] < height[right]:
+            left += 1
+        else:
+            right -= 1
+    return max_water
+
+# 8. Merge Two Sorted Arrays
+def merge_sorted_arrays(nums1, nums2):
+    i, j = 0, 0
+    merged = []
+    while i < len(nums1) and j < len(nums2):
+        if nums1[i] < nums2[j]:
+            merged.append(nums1[i])
+            i += 1
+        else:
+            merged.append(nums2[j])
+            j += 1
+    merged.extend(nums1[i:])
+    merged.extend(nums2[j:])
+    return merged
+
+# 9. Intersection of Two Sorted Arrays
+def intersect_sorted(nums1, nums2):
+    i, j = 0, 0
+    result = []
+    while i < len(nums1) and j < len(nums2):
+        if nums1[i] == nums2[j]:
+            result.append(nums1[i])
+            i += 1
+            j += 1
+        elif nums1[i] < nums2[j]:
+            i += 1
+        else:
+            j += 1
+    return result
+
+# 10. Pair Sum in Rotated Sorted Array
+def pair_in_rotated_array(arr, target):
     n = len(arr)
-    
-    # Check every possible pair
-    for i in range(n):
-        for j in range(i + 1, n):
-            if arr[i] + arr[j] == target:
-                return True
-    
+    # find pivot (smallest element index)
+    pivot = 0
+    for i in range(n-1):
+        if arr[i] > arr[i+1]:
+            pivot = i+1
+            break
+    left = pivot
+    right = (pivot-1+n) % n
+    while left != right:
+        s = arr[left] + arr[right]
+        if s == target:
+            return True
+        if s < target:
+            left = (left+1) % n
+        else:
+            right = (right-1+n) % n
     return False
 
 
-def find_all_pairs_with_sum(arr, target):
-    """
-    Advanced version: Find ALL pairs that sum to target.
-    
-    Returns:
-        List[tuple]: List of all pairs (as tuples) that sum to target
-    """
-    if len(arr) < 2:
-        return []
-    
-    pairs = []
-    left = 0
-    right = len(arr) - 1
-    
-    while left < right:
-        current_sum = arr[left] + arr[right]
-        
-        if current_sum == target:
-            pairs.append((arr[left], arr[right]))
-            
-            # Handle duplicates - move both pointers
-            left += 1
-            right -= 1
-            
-            # Skip duplicate values from left
-            while left < right and arr[left] == arr[left - 1]:
-                left += 1
-            
-            # Skip duplicate values from right
-            while left < right and arr[right] == arr[right + 1]:
-                right -= 1
-                
-        elif current_sum < target:
-            left += 1
-        else:
-            right -= 1
-    
-    return pairs
-
-
-# Test function to demonstrate the solutions
-def test_solutions():
-    """Test all implemented solutions with various test cases."""
-    
-    test_cases = [
-        ([1, 2, 4, 7, 11, 15], 15, True),   # Basic case
-        ([1, 2, 3, 4, 5], 10, False),       # No pair exists
-        ([-1, 0, 1, 2, 3], 2, True),        # Negative numbers
-        ([1], 1, False),                     # Single element
-        ([], 5, False),                      # Empty array
-        ([2, 2, 2, 2], 4, True),            # Duplicates
-        ([1, 2, 3, 4, 5, 6], 11, True),     # Multiple valid pairs
-    ]
-    
-    print("=" * 60)
-    print("TESTING TWO POINTER vs BRUTE FORCE SOLUTIONS")
-    print("=" * 60)
-    
-    for i, (arr, target, expected) in enumerate(test_cases, 1):
-        print(f"\nTest Case {i}:")
-        print(f"Array: {arr}")
-        print(f"Target: {target}")
-        print(f"Expected: {expected}")
-        
-        # Test two pointer approach
-        result_two_pointer = has_pair_with_sum(arr, target)
-        print(f"Two Pointer Result: {result_two_pointer}")
-        
-        # Test brute force approach
-        result_brute_force = has_pair_with_sum_brute_force(arr, target)
-        print(f"Brute Force Result: {result_brute_force}")
-        
-        # Test indices version
-        indices = has_pair_with_sum_indices(arr, target)
-        if indices:
-            print(f"Pair indices: {indices} -> values: ({arr[indices[0]]}, {arr[indices[1]]})")
-        
-        # Verify results match
-        if result_two_pointer == result_brute_force == expected:
-            print("✅ PASS - All methods agree and match expected result")
-        else:
-            print("❌ FAIL - Results don't match!")
-        
-        print("-" * 40)
-
-
-def complexity_demo():
-    """Demonstrate the time complexity difference between approaches."""
-    import time
-    
-    print("\n" + "=" * 60)
-    print("COMPLEXITY DEMONSTRATION")
-    print("=" * 60)
-    
-    # Create larger test array
-    large_arr = list(range(1, 10001))  # [1, 2, 3, ..., 10000]
-    target = 19999  # Sum of last two elements
-    
-    print(f"Testing with array size: {len(large_arr)}")
-    print(f"Target sum: {target}")
-    
-    # Time two pointer approach
-    start_time = time.time()
-    result_two_pointer = has_pair_with_sum(large_arr, target)
-    two_pointer_time = time.time() - start_time
-    
-    print(f"\nTwo Pointer Approach:")
-    print(f"Result: {result_two_pointer}")
-    print(f"Time taken: {two_pointer_time:.6f} seconds")
-    
-    # Time brute force approach (with smaller array to avoid long wait)
-    smaller_arr = list(range(1, 1001))  # [1, 2, 3, ..., 1000]
-    smaller_target = 1999
-    
-    start_time = time.time()
-    result_brute_force = has_pair_with_sum_brute_force(smaller_arr, smaller_target)
-    brute_force_time = time.time() - start_time
-    
-    print(f"\nBrute Force Approach (smaller array - 1000 elements):")
-    print(f"Result: {result_brute_force
+# ------------------ Testing ------------------
+if __name__ == "__main__":
+    print("1. Two Sum ->", two_sum([1,2,3,4,6], 6))
+    print("2. Remove Duplicates ->", remove_duplicates([2,3,3,3,6,9,9]))
+    print("3. Squares ->", make_squares([-2,-1,0,2,3]))
+    print("4. Three Sum ->", three_sum([-3,0,1,2,-1,1,-2]))
+    print("5. Sort Colors ->", sort_colors([2,0,2,1,1,0]))
+    print("6. Palindrome ->", is_palindrome("racecar"))
+    print("7. Max Water ->", max_area([1,8,6,2,5,4,8,3,7]))
+    print("8. Merge Arrays ->", merge_sorted_arrays([1,3,5],[2,4,6]))
+    print("9. Intersection ->", intersect_sorted([1,2,4,5,6],[2,4,6,8]))
+    print("10. Pair in Rotated Array ->", pair_in_rotated_array([11,15,6,8,9,10], 16))
