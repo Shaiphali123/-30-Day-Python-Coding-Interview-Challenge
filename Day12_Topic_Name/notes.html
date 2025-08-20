@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 12 – Sliding Window | 30-Day Python Coding Interview Challenge</title>
+    <meta name="description" content="Master the Sliding Window technique for coding interviews. Learn fixed and variable window patterns with Python and JavaScript examples.">
+    <meta name="keywords" content="sliding window, two pointers, coding interview, python, javascript, algorithms, data structures">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Day 12 – Sliding Window | 30-Day Python Coding Interview Challenge">
+    <meta property="og:description" content="Master the Sliding Window technique for coding interviews with comprehensive examples and templates.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://shaiviconnect.com/day-12-sliding-window">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Day 12 – Sliding Window | Coding Interview Challenge">
+    <meta name="twitter:description" content="Master the Sliding Window technique with Python and JavaScript examples">
+    
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Day 12 – Sliding Window",
+        "author": {
+            "@type": "Person",
+            "name": "Shaivi Connect"
+        },
+        "datePublished": "2025-01-01",
+        "articleSection": "Day 12",
+        "about": "Sliding Window technique for coding interviews",
+        "description": "Comprehensive guide to mastering the Sliding Window pattern in coding interviews"
+    }
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪟</text></svg>">
+    
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --error-color: #dc2626;
+            --bg-color: #ffffff;
+            --surface-color: #f8fafc;
+            --text-color: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --code-bg: #f1f5f9;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --text-color: #f1f5f9;
+            --text-light: #94a3b8;
+            --border-color: #334155;
+            --code-bg: #334155;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--bg-color);
+        }
+        
+        /* Header Styles */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(8px);
+        }
+        
+        .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .day-selector {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            color: var(--text-color);
+            transition: background-color 0.2s;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--border-color);
+        }
+        
+        /* Layout */
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: var(--surface-color);
+            border-right: 1px solid var(--border-color);
+            height: calc(100vh - 73px);
+            overflow-y: auto;
+            position: sticky;
+            top: 73px;
+            padding: 1.5rem;
+        }
+        
+        .sidebar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        .main-content {
+            flex: 1;
+            max-width: 850px;
+            padding: 2rem;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4 {
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        h2 {
+            font-size: 1.875rem;
+            margin-top: 3rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        h4 {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-summary {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Chips */
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 2rem 0;
+        }
+        
+        .chip {
+            background: var(--surface-color);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Code Blocks */
+        .code-container {
+            margin: 1.5rem 0;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .code-header {
+            background: var(--surface-color);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .code-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .code-tab {
+            padding: 0.5rem 1rem;
+            background: none;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            color: var(--text-light);
+            transition: all 0.2s;
+        }
+        
+        .code-tab.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .copy-btn {
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: opacity 0.2s;
+        }
+        
+        .copy-btn:hover {
+            opacity: 0.8;
+        }
+        
+        .code-content {
+            background: var(--code-bg);
+            padding: 1.5rem;
+        }
+        
+        pre {
+            margin: 0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        
+        code {
+            background: var(--code-bg);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.875rem;
+        }
+        
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            background: var(--surface-color);
+            font-weight: 600;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Visual Elements */
+        .visual-container {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--surface-color);
+            border-radius: 1rem;
+        }
+        
+        /* TOC */
+        .toc ul {
+            list-style: none;
+            margin: 0;
+        }
+        
+        .toc a {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 0.25rem;
+            transition: color 0.2s;
+        }
+        
+        .toc a:hover,
+        .toc a.active {
+            color: var(--primary-color);
+        }
+        
+        /* Alert Boxes */
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid;
+        }
+        
+        .alert-info {
+            background: #dbeafe;
+            border-color: var(--primary-color);
+            color: #1e40af;
+        }
+        
+        .alert-warning {
+            background: #fef3c7;
+            border-color: var(--warning-color);
+            color: #92400e;
+        }
+        
+        .alert-error {
+            background: #fee2e2;
+            border-color: var(--error-color);
+            color: #991b1b;
+        }
+        
+        [data-theme="dark"] .alert-info {
+            background: #1e3a8a;
+            color: #93c5fd;
+        }
+        
+        [data-theme="dark"] .alert-warning {
+            background: #92400e;
+            color: #fbbf24;
+        }
+        
+        [data-theme="dark"] .alert-error {
+            background: #991b1b;
+            color: #fca5a5;
+        }
+        
+        /* Practice Section */
+        .practice-item {
+            background: var(--surface-color);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin: 1rem 0;
+            border: 1px solid var(--border-color);
+        }
+        
+        .practice-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .practice-hint {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--surface-color);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .nav-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .sidebar.open {
+                display: block;
+                position: fixed;
+                z-index: 1001;
+                width: 280px;
+                height: 100vh;
+                top: 0;
+            }
+            
+            .sidebar-toggle {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .chips {
+                flex-direction: column;
+            }
+            
+            .header-controls {
+                gap: 0.5rem;
+            }
+            
+            .code-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+        }
+        
+        /* Print Styles */
+        @media print {
+            .header,
+            .sidebar,
+            .footer-nav,
+            .copy-btn,
+            .theme-toggle {
+                display: none !important;
+            }
+            
+            .main-content {
+                max-width: none;
+                padding: 0;
+            }
+            
+            h2 {
+                page-break-before: always;
+            }
+            
+            .code-container {
+                page-break-inside: avoid;
+            }
+        }
+        
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+            
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Focus Styles */
+        button:focus,
+        select:focus,
+        a:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">Shaivi Connect</a>
+        <div class="header-controls">
+            <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+            <select class="day-selector">
+                <option>Day 12</option>
+            </select>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar" id="sidebar">
+            <nav class="toc">
+                <h3>Table of Contents</h3>
+                <ul>
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#objectives">Learning Objectives</a></li>
+                    <li><a href="#visual">Visual Intuition</a></li>
+                    <li><a href="#concepts">Core Concepts</a></li>
+                    <li><a href="#templates">Templates</a></li>
+                    <li><a href="#dry-runs">Dry Runs</a></li>
+                    <li><a href="#examples">Worked Examples</a></li>
+                    <li><a href="#pitfalls">Common Pitfalls</a></li>
+                    <li><a href="#complexity">Complexity Analysis</a></li>
+                    <li><a href="#quick-ref">Quick Reference</a></li>
+                    <li><a href="#practice">Practice Problems</a></li>
+                    <li><a href="#faqs">FAQs</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <section class="hero">
+                <h1>Day 12 – Sliding Window</h1>
+                <div class="hero-summary">
+                    Master the art of efficient array and string processing using the sliding window technique. 
+                    Learn to solve subarray and substring problems in linear time.
+                </div>
+            </section>
+
+            <div class="chips">
+                <span class="chip">🎯 When to use: Contiguous subarrays/substrings</span>
+                <span class="chip">🪟 Fixed vs Variable window sizes</span>
+                <span class="chip">⚡ Time: O(n), Space: O(k) typically</span>
+            </div>
+
+            <section id="objectives">
+                <h2>Learning Objectives</h2>
+                <ul>
+                    <li>Identify when Sliding Window pattern applies to a problem</li>
+                    <li>Implement both fixed-size and variable-size window solutions</li>
+                    <li>Use frequency maps and expand/contract patterns effectively</li>
+                    <li>Analyze time and space complexity correctly</li>
+                    <li>Avoid common implementation pitfalls and edge cases</li>
+                </ul>
+            </section>
+
+            <section id="visual">
+                <h2>Visual Intuition</h2>
+                <div class="visual-container">
+                    <h4>Fixed Window Moving Across Array</h4>
+                    <svg width="600" height="120" viewBox="0 0 600 120" style="max-width: 100%; height: auto;">
+                        <rect x="50" y="40" width="40" height="40" fill="#e2e8f0" stroke="#64748b"/>
+                        <text x="70" y="65" text-anchor="middle" font-size="14">1</text>
+                        <rect x="90" y="40" width="40" height="40" fill="#3b82f6" stroke="#1e40af"/>
+                        <text x="110" y="65" text-anchor="middle" font-size="14" fill="white">2</text>
+                        <rect x="130" y="40" width="40" height="40" fill="#3b82f6" stroke="#1e40af"/>
+                        <text x="150" y="65" text-anchor="middle" font-size="14" fill="white">3</text>
+                        <rect x="170" y="40" width="40" height="40" fill="#3b82f6" stroke="#1e40af"/>
+                        <text x="190" y="65" text-anchor="middle" font-size="14" fill="white">4</text>
+                        <rect x="210" y="40" width="40" height="40" fill="#e2e8f0" stroke="#64748b"/>
+                        <text x="230" y="65" text-anchor="middle" font-size="14">5</text>
+                        <rect x="250" y="40" width="40" height="40" fill="#e2e8f0" stroke="#64748b"/>
+                        <text x="270" y="65" text-anchor="middle" font-size="14">6</text>
+                        <text x="90" y="100" font-size="12">Window size = 3</text>
+                        <text x="200" y="100" font-size="12">Sum = 2+3+4 = 9</text>
+                    </svg>
+
+                    <h4>Variable Window Expanding/Contracting</h4>
+                    <svg width="600" height="150" viewBox="0 0 600 150" style="max-width: 100%; height: auto;">
+                        <rect x="50" y="40" width="40" height="40" fill="#10b981" stroke="#059669"/>
+                        <text x="70" y="65" text-anchor="middle" font-size="14" fill="white">a</text>
+                        <rect x="90" y="40" width="40" height="40" fill="#10b981" stroke="#059669"/>
+                        <text x="110" y="65" text-anchor="middle" font-size="14" fill="white">b</text>
+                        <rect x="130" y="40" width="40" height="40" fill="#f59e0b" stroke="#d97706"/>
+                        <text x="150" y="65" text-anchor="middle" font-size="14" fill="white">a</text>
+                        <rect x="170" y="40" width="40" height="40" fill="#e2e8f0" stroke="#64748b"/>
+                        <text x="190" y="65" text-anchor="middle" font-size="14">c</text>
+                        <text x="90" y="100" font-size="12">Longest substring without repeats</text>
+                        <text x="90" y="115" font-size="12">Contract when duplicate found</text>
+                    </svg>
+                </div>
+            </section>
+
+            <section id="concepts">
+                <h2>Core Concepts</h2>
+                
+                <h3>What is a Sliding Window?</h3>
+                <p>A sliding window is a technique where we maintain a subarray or substring that "slides" through the data structure. Instead of checking every possible subarray (O(n²)), we efficiently expand and contract our window in one pass (O(n)).</p>
+
+                <h3>Fixed-Size Windows</h3>
+                <p>The window size remains constant throughout the algorithm. Common for problems asking for:</p>
+                <ul>
+                    <li>Maximum sum of subarray of size k</li>
+                    <li>Average of subarrays of size k</li>
+                    <li>First negative number in every window of size k</li>
+                </ul>
+
+                <h3>Variable-Size Windows</h3>
+                <p>The window size changes based on conditions. Used for problems like:</p>
+                <ul>
+                    <li>Longest substring without repeating characters</li>
+                    <li>Smallest subarray with sum ≥ target</li>
+                    <li>Longest subarray with at most k distinct elements</li>
+                </ul>
+
+                <h3>Two Pointers vs Sliding Window</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Two Pointers</th>
+                            <th>Sliding Window</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Can start from ends (left=0, right=n-1)</td>
+                            <td>Usually starts from beginning (left=right=0)</td>
+                        </tr>
+                        <tr>
+                            <td>Pointers can move independently</td>
+                            <td>Window maintains contiguous elements</td>
+                        </tr>
+                        <tr>
+                            <td>Used for sorted arrays, palindromes</td>
+                            <td>Used for subarrays, substrings</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Expand/Contract Template</h3>
+                <div class="alert alert-info">
+                    <strong>Pseudocode Pattern:</strong><br>
+                    1. Initialize left = 0, right = 0<br>
+                    2. Expand right pointer, add element to window<br>
+                    3. While window violates condition: contract from left<br>
+                    4. Update answer with current valid window<br>
+                    5. Repeat until right reaches end
+                </div>
+            </section>
+
+            <section id="templates">
+                <h2>Step-by-Step Templates</h2>
+
+                <h3>Fixed-Size Window Template</h3>
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="code-tabs">
+                            <button class="code-tab active" onclick="switchTab(this, 'python')">Python</button>
+                            <button class="code-tab" onclick="switchTab(this, 'javascript')">JavaScript</button>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre class="python-code"><code>def fixed_window_template(arr, k):
+    if len(arr) < k:
+        return []
+    
+    # Calculate sum of first window
+    window_sum = sum(arr[:k])
+    result = [window_sum]
+    
+    # Slide the window
+    for i in range(k, len(arr)):
+        # Remove leftmost element, add rightmost
+        window_sum = window_sum - arr[i-k] + arr[i]
+        result.append(window_sum)
+    
+    return result</code></pre>
+                        <pre class="javascript-code" style="display: none;"><code>function fixedWindowTemplate(arr, k) {
+    if (arr.length < k) return [];
+    
+    // Calculate sum of first window
+    let windowSum = arr.slice(0, k).reduce((a, b) => a + b, 0);
+    const result = [windowSum];
+    
+    // Slide the window
+    for (let i = k; i < arr.length; i++) {
+        // Remove leftmost element, add rightmost
+        windowSum = windowSum - arr[i - k] + arr[i];
+        result.push(windowSum);
+    }
+    
+    return result;
+}</code></pre>
+                    </div>
+                </div>
+
+                <h3>Variable-Size Window Template</h3>
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="code-tabs">
+                            <button class="code-tab active" onclick="switchTab(this, 'python')">Python</button>
+                            <button class="code-tab" onclick="switchTab(this, 'javascript')">JavaScript</button>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre class="python-code"><code>def variable_window_template(arr, condition):
+    left = 0
+    result = 0  # or float('inf') for minimum problems
+    window_state = {}  # frequency map or other state
+    
+    for right in range(len(arr)):
+        # Expand: add arr[right] to window
+        # Update window_state
+        
+        # Contract: while window violates condition
+        while condition_violated(window_state):
+            # Remove arr[left] from window
+            # Update window_state
+            left += 1
+        
+        # Update result with current valid window
+        result = max(result, right - left + 1)
+    
+    return result</code></pre>
+                        <pre class="javascript-code" style="display: none;"><code>function variableWindowTemplate(arr, condition) {
+    let left = 0;
+    let result = 0; // or Infinity for minimum problems
+    const windowState = new Map(); // frequency map or other state
+    
+    for (let right = 0; right < arr.length; right++) {
+        // Expand: add arr[right] to window
+        // Update windowState
+        
+        // Contract: while window violates condition
+        while (conditionViolated(windowState)) {
+            // Remove arr[left] from window
+            // Update windowState
+            left++;
+        }
+        
+        // Update result with current valid window
+        result = Math.max(result, right - left + 1);
+    }
+    
+    return result;
+}</code></pre>
+                    </div>
+                </div>
+
+                <h3>Binary Array with K Flips Pattern</h3>
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="code-tabs">
+                            <button class="code-tab active" onclick="switchTab(this, 'python')">Python</button>
+                            <button class="code-tab" onclick="switchTab(this, 'javascript')">JavaScript</button>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre class="python-code"><code>def longest_ones_after_k_flips(nums, k):
+    left = 0
+    zero_count = 0
+    max_length = 0
+    
+    for right in range(len(nums)):
+        # Expand: add nums[right] to window
+        if nums[right] == 0:
+            zero_count += 1
+        
+        # Contract: while we have more than k zeros
+        while zero_count > k:
+            if nums[left] == 0:
+                zero_count -= 1
+            left += 1
+        
+        # Update result
+        max_length = max(max_length, right - left + 1)
+    
+    return max_length</code></pre>
+                        <pre class="javascript-code" style="display: none;"><code>function longestOnesAfterKFlips(nums, k) {
+    let left = 0;
+    let zeroCount = 0;
+    let maxLength = 0;
+    
+    for (let right = 0; right < nums.length; right++) {
+        // Expand: add nums[right] to window
+        if (nums[right] === 0) {
+            zeroCount++;
+        }
+        
+        // Contract: while we have more than k zeros
+        while (zeroCount > k) {
+            if (nums[left] === 0) {
+                zeroCount--;
+            }
+            left++;
+        }
+        
+        // Update result
+        maxLength = Math.max(maxLength, right - left + 1);
+    }
+    
+    return maxLength;
+}</code></pre>
+                    </div>
+                </div>
+
+                <h3>Product-Based Window Pattern</h3>
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="code-tabs">
+                            <button class="code-tab active" onclick="switchTab(this, 'python')">Python</button>
+                            <button class="code-tab" onclick="switchTab(this, 'javascript')">JavaScript</button>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre class="python-code"><code>def subarray_product_less_than_k(nums, k):
+    if k <= 1:
+        return 0
+    
+    left = 0
+    product = 1
+    count = 0
+    
+    for right in range(len(nums)):
+        # Expand: multiply by nums[right]
+        product *= nums[right]
+        
+        # Contract: while product >= k
+        while product >= k:
+            product //= nums[left]
+            left += 1
+        
+        # Count subarrays ending at 'right'
+        count += right - left + 1
+    
+    return count</code></pre>
+                        <pre class="javascript-code" style="display: none;"><code>function subarrayProductLessThanK(nums, k) {
+    if (k <= 1) return 0;
+    
+    let left = 0;
+    let product = 1;
+    let count = 0;
+    
+    for (let right = 0; right < nums.length; right++) {
+        // Expand: multiply by nums[right]
+        product *= nums[right];
+        
+        // Contract: while product >= k
+        while (product >= k) {
+            product /= nums[left];
+            left++;
+        }
+        
+        // Count subarrays ending at 'right'
+        count += right - left + 1;
+    }
+    
+    return count;
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="dry-runs">
+                <h2>Dry Runs</h2>
+                
+                <h3>Max Sum Subarray of Size K=3</h3>
+                <p><strong>Array:</strong> [2, 1, 5, 1, 3, 2]</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Step</th>
+                            <th>Window</th>
+                            <th>Sum</th>
+                            <th>Max Sum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>[2, 1, 5]</td>
+                            <td>8</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>[1, 5, 1]</td>
+                            <td>7</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>[5, 1, 3]</td>
+                            <td>9</td>
+                            <td>9</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>[1, 3, 2]</td>
+                            <td>6</td>
+                            <td>9</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Longest Substring Without Repeats</h3>
+                <p><strong>String:</strong> "abcabcbb"</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Right</th>
+                            <th>Char</th>
+                            <th>Window</th>
+                            <th>Action</th>
+                            <th>Max Length</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0</td>
+                            <td>a</td>
+                            <td>"a"</td>
+                            <td>Expand</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>b</td>
+                            <td>"ab"</td>
+                            <td>Expand</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>c</td>
+                            <td>"abc"</td>
+                            <td>Expand</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>a</td>
+                            <td>"bca"</td>
+                            <td>Contract left to 1, then expand</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>b</td>
+                            <td>"cab"</td>
+                            <td>Contract left to 2, then expand</td>
+                            <td>3</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="examples">
+                <h2>Worked Examples</h2>
+
+                <h3>1. Max Sum Subarray of Size K</h3>
+                <p><strong>Problem:</strong> Find the maximum sum of any contiguous subarray of size k.</p>
+                <p><strong>Approach:</strong> Use fixed window sliding technique. Calculate sum of first k elements, then slide window by removing leftmost and adding rightmost element.</p>
+                <p><strong>Complexity:</strong> Time O(n), Space O(1)</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="code-tabs">
+                            <button class="code-tab active" onclick="switchTab(this, 'python')">Python</button>
+                            <button class="code-tab" onclick="switchTab(this, 'javascript')">JavaScript</button>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre class="python-code"><code>def max_sum_subarray(arr, k):
+    if len(arr) < k:
+        return 0
+    
+    # Sum of first window
+    window_sum = sum(arr[:k])
+    max_sum = window_sum
+    
+    # Slide the window
+    for i in range(k, len(arr)):
+        window_sum = window_sum - arr[i-k] + arr[i]
+        max_sum = max(max_sum, window_sum)
+    
+    return max_sum
+
+# Example usage
+print(max_sum_subarray([2, 1, 5, 1, 3, 2], 3))  # Output: 9</code></pre>
+                        <pre class="javascript-code" style="display: none;"><code>function maxSumSubarray(arr, k) {
+    if (arr.length < k) return 0;
+    
+    // Sum of first window
+    let windowSum = arr.slice(0, k).reduce((a, b) => a + b, 0);
+    let maxSum = windowSum;
+    
+    // Slide the window
+    for (let i = k; i < arr.length; i++) {
+        windowSum = windowSum - arr[i - k] + arr[i];
+        maxSum = Math.max(maxSum, windowSum);
+    }
+    
+    return maxSum;
+}
+
+// Example usage
+console.log(maxSumSubarray([2, 1, 5, 1, 3, 2], 3)); // Output: 9</code></pre>
+                    </div>
+                </div>
+
+                <h3>2. Longest Substring Without Repeating Characters</h3>
+                <p><strong>Problem:</strong> Find the length of the longest substring without repeating characters.</p>
+                <p><strong>Approach:</strong> Use variable window with set/map to track characters. Expand window and contract when duplicate found.</p>
+                <p><strong>Complexity:</strong> Time O(n), Space O(min(m,n)) where m is charset size</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="code-tabs">
+                            <button class="code-tab active" onclick="switchTab(this, 'python')">Python</button>
+                            <button class="code-tab" onclick="switchTab(this, 'javascript')">JavaScript</button>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre class="python-code"><code>def length_of_longest_substring(s):
+    char_set = set()
+    left = 0
+    max_length = 0
+    
+    for right in range(len(s)):
+        # Contract window until no duplicates
+        while s[right] in char_set:
+            char_set.remove(s[left])
+            left += 1
+        
+        # Add current character and update max length
+        char_set.add(s[right])
+        max_length = max(max_length, right - left + 1)
+    
+    return max_length
+
+# Example usage
+print(length_of_longest_substring("abcabcbb"))  # Output: 3</code></pre>
+                        <pre class="javascript-code" style="display: none;"><code>function lengthOfLongestSubstring(s) {
+    const charSet = new Set();
+    let left = 0;
+    let maxLength = 0;
+    
+    for (let right = 0; right < s.length; right++) {
+        // Contract window until no duplicates
+        while (charSet.has(s[right])) {
+            charSet.delete(s[left]);
+            left++;
+        }
+        
+        // Add current character and update max length
+        charSet.add(s[right]);
+        maxLength = Math.max(maxLength, right - left + 1);
+    }
+    
+    return maxLength;
+}
+
+// Example usage
+console.log(lengthOfLongestSubstring("abcabcbb")); // Output: 3</code></pre>
+                    </div>
+                </div>
+
+                <h3>3. Minimum Window Substring</h3>
+                <p><strong>Problem:</strong> Find the minimum window in string s that contains all characters of string t.</p>
+                <p><strong>Approach:</strong> Use frequency maps to track needed characters. Expand to find valid window, then contract to minimize.</p>
+                <p><strong>Complexity:</strong> Time O(|s| + |t|), Space O(|s| + |t|)</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="code-tabs">
+                            <button class="code-tab active" onclick="switchTab(this, 'python')">Python</button>
+                            <button class="code-tab" onclick="switchTab(this, 'javascript')">JavaScript</button>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre class="python-code"><code>def min_window_substring(s, t):
+    if not s or not t:
+        return ""
+    
+    # Frequency map for characters in t
+    need = {}
+    for char in t:
+        need[char] = need.get(char, 0) + 1
+    
+    left = 0
+    need_met = 0  # Number of unique chars in t satisfied
+    have = {}     # Frequency map for current window
+    
+    min_len = float('inf')
+    min_start = 0
+    
+    for right in range(len(s)):
+        char = s[right]
+        have[char] = have.get(char, 0) + 1
+        
+        # Check if frequency requirement is met for this char
+        if char in need and have[char] == need[char]:
+            need_met += 1
+        
+        # Contract window when all requirements met
+        while need_met == len(need):
+            # Update minimum window if current is smaller
+            if right - left + 1 < min_len:
+                min_len = right - left + 1
+                min_start = left
+            
+            # Remove leftmost character
+            left_char = s[left]
+            have[left_char] -= 1
+            if left_char in need and have[left_char] < need[left_char]:
+                need_met -= 1
+            left += 1
+    
+    return s[min_start:min_start + min_len] if min_len != float('inf') else ""
+
+# Example usage
+print(min_window_substring("ADOBECODEBANC", "ABC"))  # Output: "BANC"</code></pre>
+                        <pre class="javascript-code" style="display: none;"><code>function minWindowSubstring(s, t) {
+    if (!s || !t) return "";
+    
+    // Frequency map for characters in t
+    const need = new Map();
+    for (const char of t) {
+        need.set(char, (need.get(char) || 0) + 1);
+    }
+    
+    let left = 0;
+    let needMet = 0; // Number of unique chars in t satisfied
+    const have = new Map(); // Frequency map for current window
+    
+    let minLen = Infinity;
+    let minStart = 0;
+    
+    for (let right = 0; right < s.length; right++) {
+        const char = s[right];
+        have.set(char, (have.get(char) || 0) + 1);
+        
+        // Check if frequency requirement is met for this char
+        if (need.has(char) && have.get(char) === need.get(char)) {
+            needMet++;
+        }
+        
+        // Contract window when all requirements met
+        while (needMet === need.size) {
+            // Update minimum window if current is smaller
+            if (right - left + 1 < minLen) {
+                minLen = right - left + 1;
+                minStart = left;
+            }
+            
+            // Remove leftmost character
+            const leftChar = s[left];
+            have.set(leftChar, have.get(leftChar) - 1);
+            if (need.has(leftChar) && have.get(leftChar) < need.get(leftChar)) {
+                needMet--;
+            }
+            left++;
+        }
+    }
+    
+    return minLen === Infinity ? "" : s.substring(minStart, minStart + minLen);
+}
+
+// Example usage
+console.log(minWindowSubstring("ADOBECODEBANC", "ABC")); // Output: "BANC"</code></pre>
+                    </div>
+                </div>
+
+                <h3>4. Fruit Into Baskets (Longest Subarray with At Most 2 Distinct)</h3>
+                <p><strong>Problem:</strong> Find the longest subarray with at most 2 distinct elements.</p>
+                <p><strong>Approach:</strong> Use variable window with frequency map. Contract when more than 2 distinct elements.</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="code-tabs">
+                            <button class="code-tab active" onclick="switchTab(this, 'python')">Python</button>
+                            <button class="code-tab" onclick="switchTab(this, 'javascript')">JavaScript</button>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre class="python-code"><code>def fruit_into_baskets(fruits):
+    left = 0
+    fruit_count = {}
+    max_length = 0
+    
+    for right in range(len(fruits)):
+        # Add fruit to basket
+        fruit = fruits[right]
+        fruit_count[fruit] = fruit_count.get(fruit, 0) + 1
+        
+        # Contract window if more than 2 fruit types
+        while len(fruit_count) > 2:
+            left_fruit = fruits[left]
+            fruit_count[left_fruit] -= 1
+            if fruit_count[left_fruit] == 0:
+                del fruit_count[left_fruit]
+            left += 1
+        
+        # Update max length
+        max_length = max(max_length, right - left + 1)
+    
+    return max_length
+
+# Example usage
+print(fruit_into_baskets([1, 2, 1]))  # Output: 3</code></pre>
+                        <pre class="javascript-code" style="display: none;"><code>function fruitIntoBaskets(fruits) {
+    let left = 0;
+    const fruitCount = new Map();
+    let maxLength = 0;
+    
+    for (let right = 0; right < fruits.length; right++) {
+        // Add fruit to basket
+        const fruit = fruits[right];
+        fruitCount.set(fruit, (fruitCount.get(fruit) || 0) + 1);
+        
+        // Contract window if more than 2 fruit types
+        while (fruitCount.size > 2) {
+            const leftFruit = fruits[left];
+            fruitCount.set(leftFruit, fruitCount.get(leftFruit) - 1);
+            if (fruitCount.get(leftFruit) === 0) {
+                fruitCount.delete(leftFruit);
+            }
+            left++;
+        }
+        
+        // Update max length
+        maxLength = Math.max(maxLength, right - left + 1);
+    }
+    
+    return maxLength;
+}
+
+// Example usage
+console.log(fruitIntoBaskets([1, 2, 1])); // Output: 3</code></pre>
+                    </div>
+                </div>
+
+                <h3>5. Longest Ones After K Flips</h3>
+                <p><strong>Problem:</strong> Find the longest subarray of 1s after flipping at most k zeros.</p>
+                <p><strong>Approach:</strong> Track number of zeros in window. Contract when zeros exceed k.</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="code-tabs">
+                            <button class="code-tab active" onclick="switchTab(this, 'python')">Python</button>
+                            <button class="code-tab" onclick="switchTab(this, 'javascript')">JavaScript</button>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre class="python-code"><code>def longest_ones_after_k_flips(nums, k):
+    left = 0
+    zero_count = 0
+    max_length = 0
+    
+    for right in range(len(nums)):
+        # Count zeros in current window
+        if nums[right] == 0:
+            zero_count += 1
+        
+        # Contract window if too many zeros
+        while zero_count > k:
+            if nums[left] == 0:
+                zero_count -= 1
+            left += 1
+        
+        # Update max length
+        max_length = max(max_length, right - left + 1)
+    
+    return max_length
+
+# Example usage
+print(longest_ones_after_k_flips([1,1,1,0,0,0,1,1,1,1,0], 2))  # Output: 6</code></pre>
+                        <pre class="javascript-code" style="display: none;"><code>function longestOnesAfterKFlips(nums, k) {
+    let left = 0;
+    let zeroCount = 0;
+    let maxLength = 0;
+    
+    for (let right = 0; right < nums.length; right++) {
+        // Count zeros in current window
+        if (nums[right] === 0) {
+            zeroCount++;
+        }
+        
+        // Contract window if too many zeros
+        while (zeroCount > k) {
+            if (nums[left] === 0) {
+                zeroCount--;
+            }
+            left++;
+        }
+        
+        // Update max length
+        maxLength = Math.max(maxLength, right - left + 1);
+    }
+    
+    return maxLength;
+}
+
+// Example usage
+console.log(longestOnesAfterKFlips([1,1,1,0,0,0,1,1,1,1,0], 2)); // Output: 6</code></pre>
+                    </div>
+                </div>
+
+                <h3>6. Subarray Product Less Than K</h3>
+                <p><strong>Problem:</strong> Count number of contiguous subarrays where product is less than k.</p>
+                <p><strong>Approach:</strong> Use variable window with product tracking. Key insight: subarrays ending at position right = right - left + 1.</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="code-tabs">
+                            <button class="code-tab active" onclick="switchTab(this, 'python')">Python</button>
+                            <button class="code-tab" onclick="switchTab(this, 'javascript')">JavaScript</button>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre class="python-code"><code>def subarray_product_less_than_k(nums, k):
+    if k <= 1:
+        return 0
+    
+    left = 0
+    product = 1
+    count = 0
+    
+    for right in range(len(nums)):
+        # Expand window
+        product *= nums[right]
+        
+        # Contract window while product >= k
+        while product >= k:
+            product //= nums[left]
+            left += 1
+        
+        # Add count of subarrays ending at 'right'
+        count += right - left + 1
+    
+    return count
+
+# Example usage
+print(subarray_product_less_than_k([10, 5, 2, 6], 100))  # Output: 8</code></pre>
+                        <pre class="javascript-code" style="display: none;"><code>function subarrayProductLessThanK(nums, k) {
+    if (k <= 1) return 0;
+    
+    let left = 0;
+    let product = 1;
+    let count = 0;
+    
+    for (let right = 0; right < nums.length; right++) {
+        // Expand window
+        product *= nums[right];
+        
+        // Contract window while product >= k
+        while (product >= k) {
+            product /= nums[left];
+            left++;
+        }
+        
+        // Add count of subarrays ending at 'right'
+        count += right - left + 1;
+    }
+    
+    return count;
+}
+
+// Example usage
+console.log(subarrayProductLessThanK([10, 5, 2, 6], 100)); // Output: 8</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pitfalls">
+                <h2>Common Pitfalls</h2>
+                
+                <div class="alert alert-warning">
+                    <strong>Avoid These Mistakes:</strong>
+                    <ul>
+                        <li><strong>Off-by-one errors when contracting:</strong> Make sure to remove the correct element when moving the left pointer</li>
+                        <li><strong>Forgetting to update answer after contraction:</strong> Always check if current window is better after shrinking</li>
+                        <li><strong>Not removing zero-count keys from frequency maps:</strong> Can lead to incorrect distinct count tracking</li>
+                        <li><strong>Using sliding window with negative numbers in sum problems:</strong> Breaks the monotonic property needed for window contraction</li>
+                        <li><strong>Not handling edge cases:</strong> Empty arrays, k > array length, k = 0</li>
+                        <li><strong>Incorrect window expansion/contraction order:</strong> Always expand first, then contract while invalid</li>
+                    </ul>
+                </div>
+
+                <h3>Example: Incorrect Frequency Map Management</h3>
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="code-tabs">
+                            <button class="code-tab active" onclick="switchTab(this, 'python')">Python</button>
+                            <button class="code-tab" onclick="switchTab(this, 'javascript')">JavaScript</button>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre class="python-code"><code># ❌ WRONG: Leaves zero counts in map
+def wrong_approach(s):
+    char_count = {}
+    for char in s:
+        char_count[char] = char_count.get(char, 0) + 1
+        # Contraction logic here
+        char_count[removed_char] -= 1  # This leaves 0 counts!
+    return len(char_count)  # Wrong distinct count
+
+# ✅ CORRECT: Remove zero-count entries
+def correct_approach(s):
+    char_count = {}
+    for char in s:
+        char_count[char] = char_count.get(char, 0) + 1
+        # Contraction logic here
+        char_count[removed_char] -= 1
+        if char_count[removed_char] == 0:
+            del char_count[removed_char]  # Remove zero counts
+    return len(char_count)  # Correct distinct count</code></pre>
+                        <pre class="javascript-code" style="display: none;"><code>// ❌ WRONG: Leaves zero counts in map
+function wrongApproach(s) {
+    const charCount = new Map();
+    for (const char of s) {
+        charCount.set(char, (charCount.get(char) || 0) + 1);
+        // Contraction logic here
+        charCount.set(removedChar, charCount.get(removedChar) - 1); // Leaves 0 counts!
+    }
+    return charCount.size; // Wrong distinct count
+}
+
+// ✅ CORRECT: Remove zero-count entries
+function correctApproach(s) {
+    const charCount = new Map();
+    for (const char of s) {
+        charCount.set(char, (charCount.get(char) || 0) + 1);
+        // Contraction logic here
+        charCount.set(removedChar, charCount.get(removedChar) - 1);
+        if (charCount.get(removedChar) === 0) {
+            charCount.delete(removedChar); // Remove zero counts
+        }
+    }
+    return charCount.size; // Correct distinct count
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="complexity">
+                <h2>Complexity Analysis & When Not to Use</h2>
+                
+                <h3>Time Complexity</h3>
+                <p>Most sliding window problems achieve <strong>O(n)</strong> time complexity because:</p>
+                <ul>
+                    <li>Each element is visited at most twice (once by right pointer, once by left pointer)</li>
+                    <li>Inner while loop doesn't create nested loops since left pointer only moves forward</li>
+                    <li>Total operations across all iterations remain linear</li>
+                </ul>
+
+                <h3>Space Complexity</h3>
+                <ul>
+                    <li><strong>Fixed window:</strong> Usually O(1) if only tracking window sum/properties</li>
+                    <li><strong>Variable window with frequency maps:</strong> O(k) where k is the number of distinct elements</li>
+                    <li><strong>Character problems:</strong> O(min(n, charset_size))</li>
+                </ul>
+
+                <h3>When NOT to Use Sliding Window</h3>
+                <div class="alert alert-error">
+                    <strong>Sliding Window doesn't work when:</strong>
+                    <ul>
+                        <li><strong>Array contains negative numbers</strong> and you need sum-based windows (breaks monotonicity)</li>
+                        <li><strong>Non-contiguous subarrays/substr
