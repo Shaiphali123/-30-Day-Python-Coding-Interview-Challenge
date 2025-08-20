@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 12 – Sliding Window Problems | 30-Day Python Coding Interview Challenge</title>
+    <meta name="description" content="Master sliding window techniques with 12 comprehensive interview problems. Fixed and variable window patterns with Python and JavaScript solutions.">
+    <meta name="keywords" content="sliding window, coding interview, python, javascript, algorithms, two pointers, array problems">
+    <meta name="author" content="Shaivi Connect">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Day 12 – Sliding Window Problems | 30-Day Challenge">
+    <meta property="og:description" content="Master sliding window techniques with real interview problems">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="#">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Day 12 – Sliding Window Problems">
+    <meta name="twitter:description" content="Master sliding window techniques with real interview problems">
+    
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Day 12 – Sliding Window Problems",
+        "author": {
+            "@type": "Organization",
+            "name": "Shaivi Connect"
+        },
+        "articleSection": "Day 12",
+        "about": "Sliding Window Problem Set",
+        "description": "Comprehensive sliding window problem set for coding interviews"
+    }
+    </script>
+    
+    <!-- Inline SVG Favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23007acc'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='30' font-weight='bold'%3E12%3C/text%3E%3C/svg%3E">
+
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --primary-color: #007acc;
+            --secondary-color: #f8f9fa;
+            --border-color: #e9ecef;
+            --code-bg: #f8f9fa;
+            --shadow: 0 2px 4px rgba(0,0,0,0.1);
+            --header-height: 70px;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --primary-color: #4da6d9;
+            --secondary-color: #2d2d2d;
+            --border-color: #404040;
+            --code-bg: #2d2d2d;
+            --shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .day-label {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--primary-color);
+        }
+
+        .layout {
+            display: flex;
+            margin-top: var(--header-height);
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: var(--secondary-color);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            height: calc(100vh - var(--header-height));
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        .toc {
+            padding: 1.5rem;
+        }
+
+        .toc h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem;
+            display: block;
+            border-radius: 0.25rem;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .toc-list a:hover,
+        .toc-list a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+            max-width: calc(850px + 2rem);
+            transition: margin-left 0.3s ease;
+        }
+
+        .sidebar.collapsed + .main-content {
+            margin-left: 0;
+        }
+
+        .sidebar-toggle {
+            position: fixed;
+            top: 80px;
+            left: 10px;
+            z-index: 1001;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .hero {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .chip {
+            background: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .instructions {
+            background: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .instructions h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .instructions ul {
+            padding-left: 1.5rem;
+        }
+
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-card {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .problem-header {
+            background: var(--secondary-color);
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .problem-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .problem-title h3 {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+
+        .difficulty {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .difficulty.easy { background: #d4edda; color: #155724; }
+        .difficulty.medium { background: #fff3cd; color: #856404; }
+        .difficulty.hard { background: #f8d7da; color: #721c24; }
+
+        .tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+        }
+
+        .problem-content {
+            padding: 2rem;
+            display: none;
+        }
+
+        .problem-content.active {
+            display: block;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .code-tabs {
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .tab-buttons {
+            display: flex;
+            background: var(--secondary-color);
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            color: var(--text-color);
+            border-right: 1px solid var(--border-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            position: relative;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            opacity: 1;
+        }
+
+        pre {
+            background: var(--code-bg);
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        code {
+            background: var(--code-bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .examples {
+            background: var(--secondary-color);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .example {
+            margin-bottom: 1rem;
+        }
+
+        .example:last-child {
+            margin-bottom: 0;
+        }
+
+        .accordion {
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .accordion-header {
+            background: var(--secondary-color);
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 1rem;
+        }
+
+        .accordion-content.active {
+            display: block;
+        }
+
+        .test-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .test-table th,
+        .test-table td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .test-table th {
+            background: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .quick-reference {
+            background: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+
+        .quick-reference h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer {
+            background: var(--secondary-color);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .footer-nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .footer-nav a:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .expand-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .chips {
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .problem-header {
+                padding: 1rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        @media print {
+            .header, .sidebar, .sidebar-toggle, .theme-toggle, .footer-nav {
+                display: none !important;
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+                max-width: none !important;
+                padding: 0 !important;
+            }
+
+            .problem-card {
+                page-break-inside: avoid;
+                page-break-after: always;
+            }
+
+            .problem-content {
+                display: block !important;
+            }
+
+            .accordion-content {
+                display: block !important;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        button:focus,
+        a:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Shaivi Connect</div>
+        <div class="day-label">Day 12</div>
+        <button class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+    </header>
+
+    <button class="sidebar-toggle" aria-label="Toggle sidebar">☰</button>
+
+    <div class="layout">
+        <nav class="sidebar">
+            <div class="toc">
+                <h3>Table of Contents</h3>
+                <ul class="toc-list" id="tocList">
+                    <!-- Generated by JavaScript -->
+                </ul>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <section class="hero">
+                <h1>Day 12 – Sliding Window</h1>
+                <p>Master fixed and variable window techniques with real interview problems.<br>
+                Learn to efficiently solve array and string problems with optimal time complexity.</p>
+                
+                <div class="chips">
+                    <span class="chip">Fixed Window</span>
+                    <span class="chip">Variable Window</span>
+                    <span class="chip">At Most K Distinct</span>
+                    <span class="chip">Frequency Map</span>
+                    <span class="chip">Expand/Contract</span>
+                </div>
+            </section>
+
+            <section class="instructions">
+                <h2>Instructions for Candidates</h2>
+                <ul>
+                    <li><strong>Read Specifications Carefully:</strong> Pay attention to Input/Output formats and Constraints</li>
+                    <li><strong>Submit Function Only:</strong> Implement the required function, not a full program</li>
+                    <li><strong>Complexity Expectations:</strong> Most problems expect O(n) time complexity</li>
+                    <li><strong>Common Pitfalls:</strong> Watch for off-by-one errors when shrinking windows, remember to clear zero-count keys from frequency maps</li>
+                    <li><strong>Testing:</strong> Examples are illustrative; hidden test cases exist with edge cases</li>
+                    <li><strong>Window Patterns:</strong> Fixed window (maintain size), Variable window (expand/contract based on condition)</li>
+                </ul>
+            </section>
+
+            <!-- Problem 1 -->
+            <article class="problem-card" id="problem-1">
+                <div class="problem-header" onclick="toggleProblem(1)">
+                    <div class="problem-title">
+                        <h3>1. Max Sum Subarray of Size K</h3>
+                        <span class="difficulty easy">Easy</span>
+                        <div class="tags">
+                            <span class="tag">Fixed</span>
+                            <span class="tag">Array</span>
+                            <span class="tag">Sum</span>
+                        </div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="problem-content">
+                    <div class="section">
+                        <h4>Problem Statement</h4>
+                        <p>Given an array of integers and an integer <code>k</code>, return the maximum sum of any contiguous subarray of size <code>k</code>.</p>
+                    </div>
+
+                    <div class="section">
+                        <h4>Function Signature</h4>
+                        <div class="code-tabs">
+                            <div class="tab-buttons">
+                                <button class="tab-button active" onclick="switchTab(this, 'python-1')">Python</button>
+                                <button class="tab-button" onclick="switchTab(this, 'js-1')">JavaScript</button>
+                            </div>
+                            <div class="tab-content active" id="python-1">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code># Day 12 – Sliding Window
+# Complete the function as per the problem statement.
+def max_sum_subarray(nums, k):
+    pass</code></pre>
+                            </div>
+                            <div class="tab-content" id="js-1">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code>// Day 12 – Sliding Window
+// Complete the function as per the problem statement.
+function maxSumSubarray(nums, k) {
+    // TODO
+}
+export { maxSumSubarray };</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h4>Input/Output Format</h4>
+                        <p><strong>Input:</strong> Array <code>nums</code> of integers, integer <code>k</code></p>
+                        <p><strong>Output:</strong> Integer representing the maximum sum</p>
+                    </div>
+
+                    <div class="section">
+                        <h4>Constraints</h4>
+                        <ul>
+                            <li><code>1 ≤ k ≤ n ≤ 200,000</code></li>
+                            <li><code>-10,000 ≤ nums[i] ≤ 10,000</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="section">
+                        <h4>Examples</h4>
+                        <div class="examples">
+                            <div class="example">
+                                <strong>Example 1:</strong><br>
+                                Input: <code>nums = [2, 1, 5, 1, 3, 2], k = 3</code><br>
+                                Output: <code>9</code><br>
+                                Explanation: Window [5, 1, 3] has maximum sum of 9
+                            </div>
+                            <div class="example">
+                                <strong>Example 2:</strong><br>
+                                Input: <code>nums = [2, 3, 4, 1, 5], k = 2</code><br>
+                                Output: <code>7</code><br>
+                                Explanation: Window [3, 4] has maximum sum of 7
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h4>Edge Cases</h4>
+                        <ul>
+                            <li>All negative numbers</li>
+                            <li>k equals array length</li>
+                            <li>Single element array</li>
+                        </ul>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>💡 Hints</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>Hint 1:</strong> Use sliding window technique - calculate sum of first k elements, then slide the window.</p>
+                            <p><strong>Hint 2:</strong> When sliding, subtract the element going out and add the element coming in.</p>
+                            <p><strong>Hint 3:</strong> Keep track of maximum sum seen so far.</p>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h4>Sample Tests</h4>
+                        <table class="test-table">
+                            <thead>
+                                <tr><th>Case</th><th>Input</th><th>Expected</th><th>Notes</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1</td><td>[1,2,3,4], k=2</td><td>7</td><td>Basic case</td></tr>
+                                <tr><td>2</td><td>[-1,-2,-3], k=2</td><td>-3</td><td>All negative</td></tr>
+                                <tr><td>3</td><td>[5], k=1</td><td>5</td><td>Single element</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="section">
+                        <h4>Acceptance Criteria</h4>
+                        <ul>
+                            <li>Time complexity: O(n)</li>
+                            <li>Space complexity: O(1)</li>
+                            <li>Handles all edge cases correctly</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Problem 2 -->
+            <article class="problem-card" id="problem-2">
+                <div class="problem-header" onclick="toggleProblem(2)">
+                    <div class="problem-title">
+                        <h3>2. First Negative Number in Every Window of Size K</h3>
+                        <span class="difficulty easy">Easy</span>
+                        <div class="tags">
+                            <span class="tag">Fixed</span>
+                            <span class="tag">Queue</span>
+                            <span class="tag">Array</span>
+                        </div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="problem-content">
+                    <div class="section">
+                        <h4>Problem Statement</h4>
+                        <p>Given an array of integers, for each window of size <code>k</code>, output the first negative number in that window. If there are no negative numbers, output 0.</p>
+                    </div>
+
+                    <div class="section">
+                        <h4>Function Signature</h4>
+                        <div class="code-tabs">
+                            <div class="tab-buttons">
+                                <button class="tab-button active" onclick="switchTab(this, 'python-2')">Python</button>
+                                <button class="tab-button" onclick="switchTab(this, 'js-2')">JavaScript</button>
+                            </div>
+                            <div class="tab-content active" id="python-2">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code># Day 12 – Sliding Window
+# Complete the function as per the problem statement.
+def first_negative_in_window(nums, k):
+    pass</code></pre>
+                            </div>
+                            <div class="tab-content" id="js-2">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code>// Day 12 – Sliding Window
+// Complete the function as per the problem statement.
+function firstNegativeInWindow(nums, k) {
+    // TODO
+}
+export { firstNegativeInWindow };</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h4>Input/Output Format</h4>
+                        <p><strong>Input:</strong> Array <code>nums</code> of integers, integer <code>k</code></p>
+                        <p><strong>Output:</strong> Array of first negative numbers in each window</p>
+                    </div>
+
+                    <div class="section">
+                        <h4>Constraints</h4>
+                        <ul>
+                            <li><code>1 ≤ k ≤ n ≤ 100,000</code></li>
+                            <li><code>-1000 ≤ nums[i] ≤ 1000</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="section">
+                        <h4>Examples</h4>
+                        <div class="examples">
+                            <div class="example">
+                                <strong>Example 1:</strong><br>
+                                Input: <code>nums = [12, -1, -7, 8, -15, 30, 16, 28], k = 3</code><br>
+                                Output: <code>[-1, -1, -7, -15, -15, 0]</code>
+                            </div>
+                            <div class="example">
+                                <strong>Example 2:</strong><br>
+                                Input: <code>nums = [1, 2, 3, 4], k = 2</code><br>
+                                Output: <code>[0, 0, 0]</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>💡 Hints</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>Hint 1:</strong> Use a deque to store indices of negative numbers in current window.</p>
+                            <p><strong>Hint 2:</strong> Remove indices that are out of current window from front of deque.</p>
+                            <p><strong>Hint 3:</strong> The front of deque gives the first negative number in current window.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Problem 3 -->
+            <article class="problem-card" id="problem-3">
+                <div class="problem-header" onclick="toggleProblem(3)">
+                    <div class="problem-title">
+                        <h3>3. Longest Substring Without Repeating Characters</h3>
+                        <span class="difficulty medium">Medium</span>
+                        <div class="tags">
+                            <span class="tag">Variable</span>
+                            <span class="tag">String</span>
+                            <span class="tag">Set</span>
+                        </div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="problem-content">
+                    <div class="section">
+                        <h4>Problem Statement</h4>
+                        <p>Given a string, find the length of the longest substring without repeating characters.</p>
+                    </div>
+
+                    <div class="section">
+                        <h4>Function Signature</h4>
+                        <div class="code-tabs">
+                            <div class="tab-buttons">
+                                <button class="tab-button active" onclick="switchTab(this, 'python-3')">Python</button>
+                                <button class="tab-button" onclick="switchTab(this, 'js-3')">JavaScript</button>
+                            </div>
+                            <div class="tab-content active" id="python-3">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code># Day 12 – Sliding Window
+# Complete the function as per the problem statement.
+def length_of_longest_substring(s):
+    pass</code></pre>
+                            </div>
+                            <div class="tab-content" id="js-3">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code>// Day 12 – Sliding Window
+// Complete the function as per the problem statement.
+function lengthOfLongestSubstring(s) {
+    // TODO
+}
+export { lengthOfLongestSubstring };</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h4>Input/Output Format</h4>
+                        <p><strong>Input:</strong> String <code>s</code></p>
+                        <p><strong>Output:</strong> Integer representing the length</p>
+                    </div>
+
+                    <div class="section">
+                        <h4>Constraints</h4>
+                        <ul>
+                            <li><code>0 ≤ s.length ≤ 50,000</code></li>
+                            <li><code>s</code> consists of English letters, digits, symbols and spaces</li>
+                        </ul>
+                    </div>
+
+                    <div class="section">
+                        <h4>Examples</h4>
+                        <div class="examples">
+                            <div class="example">
+                                <strong>Example 1:</strong><br>
+                                Input: <code>s = "abcabcbb"</code><br>
+                                Output: <code>3</code><br>
+                                Explanation: "abc" is the longest substring without repeating characters
+                            </div>
+                            <div class="example">
+                                <strong>Example 2:</strong><br>
+                                Input: <code>s = "bbbbb"</code><br>
+                                Output: <code>1</code><br>
+                                Explanation: "b" is the longest substring
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>💡 Hints</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>Hint 1:</strong> Use two pointers and a set to track characters in current window.</p>
+                            <p><strong>Hint 2:</strong> When duplicate found, shrink window from left until duplicate is removed.</p>
+                            <p><strong>Hint 3:</strong> Keep track of maximum window size seen so far.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Problem 4 -->
+            <article class="problem-card" id="problem-4">
+                <div class="problem-header" onclick="toggleProblem(4)">
+                    <div class="problem-title">
+                        <h3>4. Minimum Window Substring</h3>
+                        <span class="difficulty hard">Hard</span>
+                        <div class="tags">
+                            <span class="tag">Variable</span>
+                            <span class="tag">Frequency Map</span>
+                            <span class="tag">String</span>
+                        </div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="problem-content">
+                    <div class="section">
+                        <h4>Problem Statement</h4>
+                        <p>Given strings <code>s</code> and <code>t</code>, return the minimum window substring in <code>s</code> that contains all characters of <code>t</code> (including duplicates). Return empty string if no such window exists.</p>
+                    </div>
+
+                    <div class="section">
+                        <h4>Function Signature</h4>
+                        <div class="code-tabs">
+                            <div class="tab-buttons">
+                                <button class="tab-button active" onclick="switchTab(this, 'python-4')">Python</button>
+                                <button class="tab-button" onclick="switchTab(this, 'js-4')">JavaScript</button>
+                            </div>
+                            <div class="tab-content active" id="python-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code># Day 12 – Sliding Window
+# Complete the function as per the problem statement.
+def min_window(s, t):
+    pass</code></pre>
+                            </div>
+                            <div class="tab-content" id="js-4">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code>// Day 12 – Sliding Window
+// Complete the function as per the problem statement.
+function minWindow(s, t) {
+    // TODO
+}
+export { minWindow };</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h4>Examples</h4>
+                        <div class="examples">
+                            <div class="example">
+                                <strong>Example 1:</strong><br>
+                                Input: <code>s = "ADOBECODEBANC", t = "ABC"</code><br>
+                                Output: <code>"BANC"</code>
+                            </div>
+                            <div class="example">
+                                <strong>Example 2:</strong><br>
+                                Input: <code>s = "a", t = "aa"</code><br>
+                                Output: <code>""</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>💡 Hints</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>Hint 1:</strong> Use frequency maps for both target string and current window.</p>
+                            <p><strong>Hint 2:</strong> Keep track of how many characters from target are satisfied in current window.</p>
+                            <p><strong>Hint 3:</strong> When all characters are satisfied, try to shrink window from left.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Problem 5 -->
+            <article class="problem-card" id="problem-5">
+                <div class="problem-header" onclick="toggleProblem(5)">
+                    <div class="problem-title">
+                        <h3>5. Fruit Into Baskets (≤ 2 Distinct)</h3>
+                        <span class="difficulty medium">Medium</span>
+                        <div class="tags">
+                            <span class="tag">Variable</span>
+                            <span class="tag">At Most K</span>
+                            <span class="tag">Array</span>
+                        </div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="problem-content">
+                    <div class="section">
+                        <h4>Problem Statement</h4>
+                        <p>You have two baskets, each capable of holding any quantity of fruit. Given an array of fruit types, find the maximum number of fruits you can collect in a contiguous subarray with at most 2 distinct types.</p>
+                    </div>
+
+                    <div class="section">
+                        <h4>Function Signature</h4>
+                        <div class="code-tabs">
+                            <div class="tab-buttons">
+                                <button class="tab-button active" onclick="switchTab(this, 'python-5')">Python</button>
+                                <button class="tab-button" onclick="switchTab(this, 'js-5')">JavaScript</button>
+                            </div>
+                            <div class="tab-content active" id="python-5">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code># Day 12 – Sliding Window
+# Complete the function as per the problem statement.
+def total_fruit(fruits):
+    pass</code></pre>
+                            </div>
+                            <div class="tab-content" id="js-5">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code>// Day 12 – Sliding Window
+// Complete the function as per the problem statement.
+function totalFruit(fruits) {
+    // TODO
+}
+export { totalFruit };</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h4>Examples</h4>
+                        <div class="examples">
+                            <div class="example">
+                                <strong>Example 1:</strong><br>
+                                Input: <code>fruits = [1,2,1]</code><br>
+                                Output: <code>3</code><br>
+                                Explanation: We can collect all 3 fruits
+                            </div>
+                            <div class="example">
+                                <strong>Example 2:</strong><br>
+                                Input: <code>fruits = [0,1,2,2]</code><br>
+                                Output: <code>3</code><br>
+                                Explanation: Subarray [1,2,2] has 2 types and length 3
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>💡 Hints</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>Hint 1:</strong> This is "longest subarray with at most 2 distinct elements".</p>
+                            <p><strong>Hint 2:</strong> Use frequency map to track types in current window.</p>
+                            <p><strong>Hint 3:</strong> When more than 2 types, shrink from left until exactly 2 types remain.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Problem 6 -->
+            <article class="problem-card" id="problem-6">
+                <div class="problem-header" onclick="toggleProblem(6)">
+                    <div class="problem-title">
+                        <h3>6. Longest Ones After K Flips</h3>
+                        <span class="difficulty medium">Medium</span>
+                        <div class="tags">
+                            <span class="tag">Variable</span>
+                            <span class="tag">Budget</span>
+                            <span class="tag">Binary Array</span>
+                        </div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="problem-content">
+                    <div class="section">
+                        <h4>Problem Statement</h4>
+                        <p>Given a binary array <code>nums</code> and an integer <code>k</code>, return the maximum number of consecutive 1s in the array after flipping at most <code>k</code> zeros.</p>
+                    </div>
+
+                    <div class="section">
+                        <h4>Function Signature</h4>
+                        <div class="code-tabs">
+                            <div class="tab-buttons">
+                                <button class="tab-button active" onclick="switchTab(this, 'python-6')">Python</button>
+                                <button class="tab-button" onclick="switchTab(this, 'js-6')">JavaScript</button>
+                            </div>
+                            <div class="tab-content active" id="python-6">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code># Day 12 – Sliding Window
+# Complete the function as per the problem statement.
+def longest_ones(nums, k):
+    pass</code></pre>
+                            </div>
+                            <div class="tab-content" id="js-6">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code>// Day 12 – Sliding Window
+// Complete the function as per the problem statement.
+function longestOnes(nums, k) {
+    // TODO
+}
+export { longestOnes };</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h4>Examples</h4>
+                        <div class="examples">
+                            <div class="example">
+                                <strong>Example 1:</strong><br>
+                                Input: <code>nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2</code><br>
+                                Output: <code>6</code><br>
+                                Explanation: Flip the two zeros to get [1,1,1,0,0,1,1,1,1,1,1], then subarray [1,1,1,1,1,1] has length 6
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>💡 Hints</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>Hint 1:</strong> Keep track of zeros in current window - this is your "budget".</p>
+                            <p><strong>Hint 2:</strong> When zero count exceeds k, shrink window from left.</p>
+                            <p><strong>Hint 3:</strong> Window size gives the length of consecutive 1s possible.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Problem 7 -->
+            <article class="problem-card" id="problem-7">
+                <div class="problem-header" onclick="toggleProblem(7)">
+                    <div class="problem-title">
+                        <h3>7. Subarray Product Less Than K</h3>
+                        <span class="difficulty medium">Medium</span>
+                        <div class="tags">
+                            <span class="tag">Variable</span>
+                            <span class="tag">Product</span>
+                            <span class="tag">Count</span>
+                        </div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="problem-content">
+                    <div class="section">
+                        <h4>Problem Statement</h4>
+                        <p>Given an array of positive integers and a positive integer <code>k</code>, return the number of contiguous subarrays where the product of all elements is strictly less than <code>k</code>.</p>
+                    </div>
+
+                    <div class="section">
+                        <h4>Function Signature</h4>
+                        <div class="code-tabs">
+                            <div class="tab-buttons">
+                                <button class="tab-button active" onclick="switchTab(this, 'python-7')">Python</button>
+                                <button class="tab-button" onclick="switchTab(this, 'js-7')">JavaScript</button>
+                            </div>
+                            <div class="tab-content active" id="python-7">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code># Day 12 – Sliding Window
+# Complete the function as per the problem statement.
+def num_subarray_product_less_than_k(nums, k):
+    pass</code></pre>
+                            </div>
+                            <div class="tab-content" id="js-7">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code>// Day 12 – Sliding Window
+// Complete the function as per the problem statement.
+function numSubarrayProductLessThanK(nums, k) {
+    // TODO
+}
+export { numSubarrayProductLessThanK };</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h4>Constraints</h4>
+                        <ul>
+                            <li><code>1 ≤ nums.length ≤ 30,000</code></li>
+                            <li><code>1 ≤ nums[i] ≤ 1000</code></li>
+                            <li><code>0 ≤ k ≤ 10^6</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="section">
+                        <h4>Examples</h4>
+                        <div class="examples">
+                            <div class="example">
+                                <strong>Example 1:</strong><br>
+                                Input: <code>nums = [10,5,2,6], k = 100</code><br>
+                                Output: <code>8</code><br>
+                                Explanation: Subarrays are [10], [5], [2], [6], [10,5], [5,2], [2,6], [5,2,6]
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>💡 Hints</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>Hint 1:</strong> Use sliding window with product tracking.</p>
+                            <p><strong>Hint 2:</strong> When product ≥ k, shrink from left by dividing out elements.</p>
+                            <p><strong>Hint 3:</strong> For each valid window ending at right, add (right - left + 1) subarrays.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Problem 8 -->
+            <article class="problem-card" id="problem-8">
+                <div class="problem-header" onclick="toggleProblem(8)">
+                    <div class="problem-title">
+                        <h3>8. Smallest Subarray With Sum ≥ S</h3>
+                        <span class="difficulty medium">Medium</span>
+                        <div class="tags">
+                            <span class="tag">Variable</span>
+                            <span class="tag">Sum</span>
+                            <span class="tag">Minimum Length</span>
+                        </div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="problem-content">
+                    <div class="section">
+                        <h4>Problem Statement</h4>
+                        <p>Given an array of positive integers and a positive integer <code>target</code>, return the minimal length of a contiguous subarray whose sum is greater than or equal to <code>target</code>. Return 0 if no such subarray exists.</p>
+                    </div>
+
+                    <div class="section">
+                        <h4>Function Signature</h4>
+                        <div class="code-tabs">
+                            <div class="tab-buttons">
+                                <button class="tab-button active" onclick="switchTab(this, 'python-8')">Python</button>
+                                <button class="tab-button" onclick="switchTab(this, 'js-8')">JavaScript</button>
+                            </div>
+                            <div class="tab-content active" id="python-8">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code># Day 12 – Sliding Window
+# Complete the function as per the problem statement.
+def min_subarray_len(target, nums):
+    pass</code></pre>
+                            </div>
+                            <div class="tab-content" id="js-8">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code>// Day 12 – Sliding Window
+// Complete the function as per the problem statement.
+function minSubArrayLen(target, nums) {
+    // TODO
+}
+export { minSubArrayLen };</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h4>Examples</h4>
+                        <div class="examples">
+                            <div class="example">
+                                <strong>Example 1:</strong><br>
+                                Input: <code>target = 7, nums = [2,3,1,2,4,3]</code><br>
+                                Output: <code>2</code><br>
+                                Explanation: Subarray [4,3] has minimal length
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>💡 Hints</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>Hint 1:</strong> Expand window until sum ≥ target, then try to shrink.</p>
+                            <p><strong>Hint 2:</strong> Keep track of minimum window size seen.</p>
+                            <p><strong>Hint 3:</strong> Shrink from left while sum remains ≥ target.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Problem 9 -->
+            <article class="problem-card" id="problem-9">
+                <div class="problem-header" onclick="toggleProblem(9)">
+                    <div class="problem-title">
+                        <h3>9. Longest Subarray With Sum = Target</h3>
+                        <span class="difficulty medium">Medium</span>
+                        <div class="tags">
+                            <span class="tag">Variable</span>
+                            <span class="tag">Sum</span>
+                            <span class="tag">Exact Match</span>
+                        </div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="problem-content">
+                    <div class="section">
+                        <h4>Problem Statement</h4>
+                        <p>Given an array of positive integers and a target sum, return the length of the longest contiguous subarray with sum equal to target. Return 0 if no such subarray exists.</p>
+                    </div>
+
+                    <div class="section">
+                        <h4>Function Signature</h4>
+                        <div class="code-tabs">
+                            <div class="tab-buttons">
+                                <button class="tab-button active" onclick="switchTab(this, 'python-9')">Python</button>
+                                <button class="tab-button" onclick="switchTab(this, 'js-9')">JavaScript</button>
+                            </div>
+                            <div class="tab-content active" id="python-9">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code># Day 12 – Sliding Window
+# Complete the function as per the problem statement.
+def longest_subarray_sum(nums, target):
+    pass</code></pre>
+                            </div>
+                            <div class="tab-content" id="js-9">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code>// Day 12 – Sliding Window
+// Complete the function as per the problem statement.
+function longestSubarraySum(nums, target) {
+    // TODO
+}
+export { longestSubarraySum };</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h4>Examples</h4>
+                        <div class="examples">
+                            <div class="example">
+                                <strong>Example 1:</strong><br>
+                                Input: <code>nums = [1,2,1,0,1], target = 4</code><br>
+                                Output: <code>4</code><br>
+                                Explanation: Subarray [1,2,1,0] has sum 4 and length 4
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>💡 Hints</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>Hint 1:</strong> Only works with positive integers (sliding window property).</p>
+                            <p><strong>Hint 2:</strong> Expand until sum ≥ target, shrink until sum < target.</p>
+                            <p><strong>Hint 3:</strong> Record length when sum exactly equals target.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Problem 10 -->
+            <article class="problem-card" id="problem-10">
+                <div class="problem-header" onclick="toggleProblem(10)">
+                    <div class="problem-title">
+                        <h3>10. Count Substrings With At Most K Distinct Characters</h3>
+                        <span class="difficulty medium">Medium</span>
+                        <div class="tags">
+                            <span class="tag">Variable</span>
+                            <span class="tag">At Most K</span>
+                            <span class="tag">String</span>
+                        </div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="problem-content">
+                    <div class="section">
+                        <h4>Problem Statement</h4>
+                        <p>Given a string <code>s</code> and an integer <code>k</code>, return the number of substrings that contain at most <code>k</code> distinct characters.</p>
+                    </div>
+
+                    <div class="section">
+                        <h4>Function Signature</h4>
+                        <div class="code-tabs">
+                            <div class="tab-buttons">
+                                <button class="tab-button active" onclick="switchTab(this, 'python-10')">Python</button>
+                                <button class="tab-button" onclick="switchTab(this, 'js-10')">JavaScript</button>
+                            </div>
+                            <div class="tab-content active" id="python-10">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code># Day 12 – Sliding Window
+# Complete the function as per the problem statement.
+def at_most_k_distinct(s, k):
+    pass</code></pre>
+                            </div>
+                            <div class="tab-content" id="js-10">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <pre><code>// Day 12 – Sliding Window
+// Complete the function as per the problem statement.
+function atMostKDistinct(s, k) {
+    // TODO
+}
+export { atMostKDistinct };</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h4>Examples</h4>
+                        <div class="examples">
+                            <div class="example">
+                                <strong>Example 1:</strong><br>
+                                Input: <code>s = "pqpqs", k = 2</code><br>
+                                Output: <code>12</code><br>
+                                Explanation: Substrings with at most 2 distinct chars
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h4>Important Note</h4>
+                        <p>To find <strong>exactly K distinct</strong> characters: <code>exactlyK(s, k) = atMostK(s, k) - atMostK(s, k-1)</code></p>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>💡 Hints</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>Hint 1:</strong> For each valid window, add (right - left + 1) substrings ending at right.</p>
+                            <p><strong>Hint 2:</strong> Use frequency map to track distinct characters.</p>
+                            <p><strong>Hint 3:</strong> Shrink when distinct count > k.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Problem 11 -->
+            <article class="problem-card" id="problem-11">
+                <div class="problem-header" onclick="toggleProblem(11)">
+                    <div class="problem-title">
+                        <h3>11. Number of Nice Subarrays (Exactly K Odds)</h3>
+                        <span class="difficulty medium">Medium</span>
+                        <div class="tags">
+                            <span class="tag">Variable</span>
