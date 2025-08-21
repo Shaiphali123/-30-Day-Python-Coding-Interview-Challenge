@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hashing - Complete Study Notes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #4a5568;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: #2d3748;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin: 30px 0 20px 0;
+            font-size: 1.8em;
+        }
+        
+        h3 {
+            color: #4a5568;
+            margin: 25px 0 15px 0;
+            font-size: 1.4em;
+            position: relative;
+        }
+        
+        h3:before {
+            content: "▶";
+            color: #667eea;
+            margin-right: 10px;
+        }
+        
+        h4 {
+            color: #5a6c7d;
+            margin: 20px 0 10px 0;
+            font-size: 1.2em;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+        
+        .code-block {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .example {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 2px solid #e2e8f0;
+            position: relative;
+        }
+        
+        .example:before {
+            content: "💡 Example";
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .complexity-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .complexity-table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .complexity-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .complexity-table tr:hover {
+            background: #f7fafc;
+        }
+        
+        .visual-demo {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px dashed #667eea;
+            text-align: center;
+            font-family: monospace;
+        }
+        
+        .hash-visualization {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .hash-box {
+            background: #667eea;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 5px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .arrow {
+            font-size: 1.5em;
+            color: #667eea;
+            margin: 0 10px;
+        }
+        
+        .interview-tip {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #f6ad55;
+            position: relative;
+        }
+        
+        .interview-tip:before {
+            content: "🎯 Interview Tip";
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #c53030;
+        }
+        
+        .toc {
+            background: #e6fffa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #38b2ac;
+        }
+        
+        .toc h3 {
+            color: #2c7a7b;
+            margin-bottom: 15px;
+        }
+        
+        .toc ul {
+            list-style-type: none;
+            margin-left: 0;
+        }
+        
+        .toc li {
+            padding: 5px 0;
+        }
+        
+        .toc a {
+            color: #2c7a7b;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .toc a:hover {
+            color: #285e61;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .hash-visualization {
+                flex-direction: column;
+            }
+            
+            .complexity-table {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 Complete Guide to Hashing</h1>
+        
+        <div class="toc">
+            <h3>📋 Table of Contents</h3>
+            <ul>
+                <li><a href="#what-is-hashing">1. What is Hashing?</a></li>
+                <li><a href="#how-hashing-works">2. How Hashing Works</a></li>
+                <li><a href="#types-of-hashing">3. Types of Hashing Techniques</a></li>
+                <li><a href="#collision-handling">4. Collision Handling Strategies</a></li>
+                <li><a href="#hashing-in-python">5. Hashing in Python</a></li>
+                <li><a href="#complexity-analysis">6. Time & Space Complexity</a></li>
+                <li><a href="#interview-problems">7. Common Interview Problems</a></li>
+                <li><a href="#interview-tips">8. Interview Tips and Tricks</a></li>
+            </ul>
+        </div>
+
+        <h2 id="what-is-hashing">1. What is Hashing? 🤔</h2>
+        
+        <div class="highlight">
+            <strong>Definition:</strong> Hashing is a technique that uses a hash function to map keys to specific locations in a hash table, enabling fast data retrieval with average O(1) time complexity.
+        </div>
+        
+        <h3>Key Components:</h3>
+        <ul>
+            <li><strong>Hash Function:</strong> A mathematical function that converts keys into array indices</li>
+            <li><strong>Hash Table:</strong> An array-based data structure that stores key-value pairs</li>
+            <li><strong>Buckets:</strong> Individual slots in the hash table where data is stored</li>
+        </ul>
+        
+        <h3>Real-World Examples:</h3>
+        
+        <div class="example">
+            <h4>📖 Dictionary/Phone Book:</h4>
+            <p>Instead of searching through every name sequentially, you jump to a specific section (A-D, E-H, etc.) based on the first letter. The first letter acts as a "hash function" that maps names to sections.</p>
+        </div>
+        
+        <div class="example">
+            <h4>🔐 Password Storage:</h4>
+            <p>Websites don't store your actual password. They store a hashed version. When you login, your entered password is hashed and compared with the stored hash.</p>
+            <div class="code-block">
+# Password: "mypassword123"
+# Stored Hash: "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+            </div>
+        </div>
+        
+        <div class="example">
+            <h4>💾 Caching Systems:</h4>
+            <p>Web browsers use hashing to quickly check if a webpage is already cached. The URL is hashed to create a unique identifier for quick lookup.</p>
+        </div>
+        
+        <div class="example">
+            <h4>🗄️ Database Indexing:</h4>
+            <p>Databases use hash indices to quickly locate records based on primary keys without scanning the entire table.</p>
+        </div>
+
+        <h2 id="how-hashing-works">2. How Hashing Works ⚙️</h2>
+        
+        <div class="visual-demo">
+            <div class="hash-visualization">
+                <div class="hash-box">Key: "apple"</div>
+                <span class="arrow">→</span>
+                <div class="hash-box">Hash Function</div>
+                <span class="arrow">→</span>
+                <div class="hash-box">Index: 3</div>
+                <span class="arrow">→</span>
+                <div class="hash-box">Table[3] = "apple"</div>
+            </div>
+        </div>
+        
+        <h3>Step-by-Step Process:</h3>
+        <ol>
+            <li><strong>Input Key:</strong> Provide a key (string, number, object)</li>
+            <li><strong>Hash Function:</strong> Apply mathematical transformation</li>
+            <li><strong>Generate Index:</strong> Get array index within table bounds</li>
+            <li><strong>Store/Retrieve:</strong> Access data at calculated index</li>
+        </ol>
+        
+        <h3>Hash Function Properties:</h3>
+        <ul>
+            <li><strong>Deterministic:</strong> Same input always produces same output</li>
+            <li><strong>Uniform Distribution:</strong> Keys should be evenly distributed</li>
+            <li><strong>Fast Computation:</strong> Should execute quickly</li>
+            <li><strong>Minimize Collisions:</strong> Different keys should produce different indices</li>
+        </ul>
+        
+        <div class="code-block">
+# Simple Hash Function Example
+def simple_hash(key, table_size):
+    """Convert string key to table index"""
+    hash_value = 0
+    for char in str(key):
+        hash_value += ord(char)  # Sum ASCII values
+    return hash_value % table_size  # Ensure within bounds
+
+# Example
+key = "hello"
+table_size = 10
+index = simple_hash(key, table_size)
+print(f"Key '{key}' maps to index {index}")  # Output: Key 'hello' maps to index 2
+        </div>
+
+        <h2 id="types-of-hashing">3. Types of Hashing Techniques 🎯</h2>
+        
+        <h3>3.1 Direct Addressing</h3>
+        <div class="highlight">
+            <strong>Concept:</strong> Use the key itself as the array index. Works when keys are small integers within a known range.
+        </div>
+        
+        <div class="code-block">
+# Direct Addressing Example
+class DirectAddressTable:
+    def __init__(self, max_size):
+        self.table = [None] * max_size
+        self.max_size = max_size
+    
+    def insert(self, key, value):
+        if 0 <= key < self.max_size:
+            self.table[key] = value
+    
+    def search(self, key):
+        if 0 <= key < self.max_size:
+            return self.table[key]
+        return None
+    
+    def delete(self, key):
+        if 0 <= key < self.max_size:
+            self.table[key] = None
+
+# Usage
+table = DirectAddressTable(1000)
+table.insert(42, "Answer to everything")
+table.insert(100, "Century")
+print(table.search(42))  # Output: "Answer to everything"
+        </div>
+        
+        <div class="interview-tip">
+            Direct addressing is perfect when you have a small, known range of integer keys (like ages 0-120, or student IDs 1000-9999).
+        </div>
+        
+        <h3>3.2 Division Method (Mod Operator)</h3>
+        <div class="highlight">
+            <strong>Formula:</strong> h(k) = k mod m<br>
+            <strong>Where:</strong> k = key, m = table size
+        </div>
+        
+        <div class="code-block">
+def division_hash(key, table_size):
+    """Division method hashing"""
+    return hash(key) % table_size
+
+# Example with different keys
+table_size = 7  # Prime number (recommended)
+keys = ["apple", "banana", "cherry", "date", 123, 456]
+
+print("Division Method Results:")
+for key in keys:
+    index = division_hash(key, table_size)
+    print(f"Key: {key} → Index: {index}")
+
+# Output:
+# Key: apple → Index: 2
+# Key: banana → Index: 4
+# Key: cherry → Index: 1
+# Key: date → Index: 6
+# Key: 123 → Index: 4  # Collision with banana!
+# Key: 456 → Index: 1  # Collision with cherry!
+        </div>
+        
+        <div class="interview-tip">
+            Choose table size as a prime number to reduce clustering and improve distribution. Avoid powers of 2.
+        </div>
+        
+        <h3>3.3 Multiplication Method</h3>
+        <div class="highlight">
+            <strong>Formula:</strong> h(k) = floor(m * (k * A mod 1))<br>
+            <strong>Where:</strong> A = constant (0 < A < 1), typically A = (√5 - 1)/2 ≈ 0.618
+        </div>
+        
+        <div class="code-block">
+import math
+
+def multiplication_hash(key, table_size):
+    """Multiplication method hashing"""
+    A = (math.sqrt(5) - 1) / 2  # Golden ratio - 1
+    key_hash = hash(key) if isinstance(key, str) else key
+    return int(table_size * ((key_hash * A) % 1))
+
+# Example
+table_size = 10
+keys = [10, 22, 31, 4, 15, 28, 17, 88, 59]
+
+print("Multiplication Method Results:")
+for key in keys:
+    index = multiplication_hash(key, table_size)
+    print(f"Key: {key} → Index: {index}")
+        </div>
+        
+        <h3>3.4 Universal Hashing</h3>
+        <div class="highlight">
+            <strong>Concept:</strong> Randomly select hash function from a family of functions to minimize worst-case collisions.
+        </div>
+        
+        <div class="code-block">
+import random
+
+class UniversalHashing:
+    def __init__(self, table_size):
+        self.table_size = table_size
+        self.p = 1000000007  # Large prime
+        self.a = random.randint(1, self.p - 1)
+        self.b = random.randint(0, self.p - 1)
+    
+    def hash_function(self, key):
+        """Universal hash function: ((a*k + b) mod p) mod m"""
+        key_val = hash(key) if isinstance(key, str) else key
+        return ((self.a * key_val + self.b) % self.p) % self.table_size
+
+# Example
+universal_hash = UniversalHashing(10)
+keys = ["hello", "world", "python", "hashing"]
+
+print("Universal Hashing Results:")
+for key in keys:
+    index = universal_hash.hash_function(key)
+    print(f"Key: {key} → Index: {index}")
+        </div>
+
+        <h2 id="collision-handling">4. Collision Handling Strategies 🚧</h2>
+        
+        <div class="highlight">
+            <strong>Collision:</strong> When two different keys produce the same hash value/index.
+        </div>
+        
+        <h3>4.1 Chaining (Separate Chaining)</h3>
+        <p>Store multiple elements at the same index using linked lists or dynamic arrays.</p>
+        
+        <div class="code-block">
+class HashTableChaining:
+    def __init__(self, size=10):
+        self.size = size
+        self.table = [[] for _ in range(size)]  # List of lists
+    
+    def _hash(self, key):
+        return hash(key) % self.size
+    
+    def insert(self, key, value):
+        index = self._hash(key)
+        bucket = self.table[index]
+        
+        # Check if key already exists
+        for i, (k, v) in enumerate(bucket):
+            if k == key:
+                bucket[i] = (key, value)  # Update existing
+                return
+        
+        # Add new key-value pair
+        bucket.append((key, value))
+    
+    def search(self, key):
+        index = self._hash(key)
+        bucket = self.table[index]
+        
+        for k, v in bucket:
+            if k == key:
+                return v
+        return None
+    
+    def delete(self, key):
+        index = self._hash(key)
+        bucket = self.table[index]
+        
+        for i, (k, v) in enumerate(bucket):
+            if k == key:
+                del bucket[i]
+                return True
+        return False
+    
+    def display(self):
+        for i, bucket in enumerate(self.table):
+            print(f"Index {i}: {bucket}")
+
+# Example usage
+ht = HashTableChaining(7)
+ht.insert("apple", 100)
+ht.insert("banana", 200)
+ht.insert("orange", 300)
+ht.insert("grape", 400)  # May cause collision
+
+ht.display()
+print(f"Search 'apple': {ht.search('apple')}")  # Output: 100
+        </div>
+        
+        <div class="visual-demo">
+            <h4>Chaining Visualization:</h4>
+            <pre>
+Index 0: []
+Index 1: [('apple', 100)]
+Index 2: [('banana', 200), ('grape', 400)]  ← Collision handled
+Index 3: [('orange', 300)]
+Index 4: []
+Index 5: []
+Index 6: []
+            </pre>
+        </div>
+        
+        <h3>4.2 Open Addressing</h3>
+        <p>Find alternative locations within the same table when collision occurs.</p>
+        
+        <h4>4.2.1 Linear Probing</h4>
+        <div class="highlight">
+            <strong>Formula:</strong> h'(k, i) = (h(k) + i) mod m<br>
+            <strong>Where:</strong> i = 0, 1, 2, ... (probe sequence)
+        </div>
+        
+        <div class="code-block">
+class HashTableLinearProbing:
+    def __init__(self, size=10):
+        self.size = size
+        self.keys = [None] * size
+        self.values = [None] * size
+        self.deleted = [False] * size  # Track deleted slots
+    
+    def _hash(self, key):
+        return hash(key) % self.size
+    
+    def _probe(self, key):
+        index = self._hash(key)
+        
+        while (self.keys[index] is not None and 
+               self.keys[index] != key and 
+               not self.deleted[index]):
+            index = (index + 1) % self.size  # Linear probing
+        
+        return index
+    
+    def insert(self, key, value):
+        index = self._probe(key)
+        self.keys[index] = key
+        self.values[index] = value
+        self.deleted[index] = False
+    
+    def search(self, key):
+        index = self._hash(key)
+        
+        while self.keys[index] is not None:
+            if self.keys[index] == key and not self.deleted[index]:
+                return self.values[index]
+            index = (index + 1) % self.size
+        
+        return None
+    
+    def delete(self, key):
+        index = self._hash(key)
+        
+        while self.keys[index] is not None:
+            if self.keys[index] == key and not self.deleted[index]:
+                self.deleted[index] = True
+                return True
+            index = (index + 1) % self.size
+        
+        return False
+    
+    def display(self):
+        for i in range(self.size):
+            status = " (DEL)" if self.deleted[i] else ""
+            print(f"Index {i}: {self.keys[i]} -> {self.values[i]}{status}")
+        </div>
+        
+        <h4>4.2.2 Quadratic Probing</h4>
+        <div class="highlight">
+            <strong>Formula:</strong> h'(k, i) = (h(k) + c₁i + c₂i²) mod m<br>
+            <strong>Where:</strong> c₁, c₂ are constants (commonly c₁=c₂=1)
+        </div>
+        
+        <div class="code-block">
+class HashTableQuadraticProbing:
+    def __init__(self, size=10):
+        self.size = size
+        self.keys = [None] * size
+        self.values = [None] * size
+    
+    def _hash(self, key):
+        return hash(key) % self.size
+    
+    def _quadratic_probe(self, key):
+        index = self._hash(key)
+        i = 0
+        
+        while (self.keys[index] is not None and 
+               self.keys[index] != key):
+            i += 1
+            index = (self._hash(key) + i * i) % self.size
+        
+        return index
+    
+    def insert(self, key, value):
+        index = self._quadratic_probe(key)
+        self.keys[index] = key
+        self.values[index] = value
+    
+    def search(self, key):
+        index = self._hash(key)
+        i = 0
+        
+        while self.keys[index] is not None:
+            if self.keys[index] == key:
+                return self.values[index]
+            i += 1
+            index = (self._hash(key) + i * i) % self.size
+        
+        return None
+        </div>
+        
+        <h4>4.2.3 Double Hashing</h4>
+        <div class="highlight">
+            <strong>Formula:</strong> h'(k, i) = (h₁(k) + i * h₂(k)) mod m<br>
+            <strong>Where:</strong> h₁, h₂ are different hash functions
+        </div>
+        
+        <div class="code-block">
+class HashTableDoubleHashing:
+    def __init__(self, size=10):
+        self.size = size
+        self.keys = [None] * size
+        self.values = [None] * size
+    
+    def _hash1(self, key):
+        return hash(key) % self.size
+    
+    def _hash2(self, key):
+        # Second hash function (should be coprime to table size)
+        return 7 - (hash(key) % 7)
+    
+    def _double_hash_probe(self, key):
+        index = self._hash1(key)
+        step_size = self._hash2(key)
+        i = 0
+        
+        while (self.keys[index] is not None and 
+               self.keys[index] != key):
+            i += 1
+            index = (self._hash1(key) + i * step_size) % self.size
+        
+        return index
+    
+    def insert(self, key, value):
+        index = self._double_hash_probe(key)
+        self.keys[index] = key
+        self.values[index] = value
+        </div>
+        
+        <div class="interview-tip">
+            <strong>Collision Resolution Comparison:</strong><br>
+            • <strong>Chaining:</strong> Simple, handles high load factors well<br>
+            • <strong>Linear Probing:</strong> Good cache performance, but clustering issues<br>
+            • <strong>Quadratic Probing:</strong> Reduces clustering, moderate complexity<br>
+            • <strong>Double Hashing:</strong> Best distribution, more complex computation
+        </div>
+
+        <h2 id="hashing-in-python">5. Hashing in Python 🐍</h2>
+        
+        <h3>5.1 Built-in `dict` Data Structure</h3>
+        
+        <div class="code-block">
+# Dictionary (Hash Table) Operations
+student_grades = {}
+
+# Insertion - O(1) average
+student_grades["Alice"] = 95
+student_grades["Bob"] = 87
+student_grades["Charlie"] = 92
+
+# Access - O(1) average  
+print(student_grades["Alice"])  # Output: 95
+
+# Update - O(1) average
+student_grades["Alice"] = 98
+
+# Deletion - O(1) average
+del student_grades["Bob"]
+
+# Check existence - O(1) average
+if "Charlie" in student_grades:
+    print(f"Charlie's grade: {student_grades['Charlie']}")
+
+# Dictionary methods
+print(student_grades.keys())    # dict_keys(['Alice', 'Charlie'])
+print(student_grades.values())  # dict_values([98, 92])
+print(student_grades.items())   # dict_items([('Alice', 98), ('Charlie', 92)])
+
+# Dictionary comprehension
+squares = {x: x**2 for x in range(1, 6)}
+print(squares)  # {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}
+        </div>
+        
+        <h3>5.2 Built-in `set` Data Structure</h3>
+        
+        <div class="code-block">
+# Set (Hash Set) Operations
+fruits = set()
+
+# Addition - O(1) average
+fruits.add("apple")
+fruits.add("banana") 
+fruits.add("cherry")
+fruits.add("apple")  # Duplicate ignored
+
+print(fruits)  # {'cherry', 'banana', 'apple'}
+
+# Check membership - O(1) average
+print("apple" in fruits)  # True
+
+# Removal - O(1) average
+fruits.remove("banana")
+# fruits.discard("banana")  # No error if not found
+
+# Set operations
+set1 = {1, 2, 3, 4, 5}
+set2 = {4, 5, 6, 7, 8}
+
+print(set1 | set2)  # Union: {1, 2, 3, 4, 5, 6, 7, 8}
+print(set1 & set2)  # Intersection: {4, 5}
+print(set1 - set2)  # Difference: {1, 2, 3}
+print(set1 ^ set2)  # Symmetric difference: {1, 2, 3, 6, 7, 8}
+
+# Set comprehension
+even_squares = {x**2 for x in range(10) if x % 2 == 0}
+print(even_squares)  # {0, 4, 16, 36, 64}
+        </div>
+        
+        <h3>5.3 Built-in `hash()` Function</h3>
+        
+        <div class="code-block">
+# Using hash() function
+print(hash("hello"))        # e.g., -5434435027328283325
+print(hash(42))             # 42
+print(hash(3.14))          # 322818021289917443
+print(hash((1, 2, 3)))     # Tuples are hashable
+
+# Hash of same object is consistent within session
+text = "python"
+print(hash(text) == hash(text))  # True
+
+# Different objects may have same hash (collision)
+print(hash("a") == hash("b"))  # Probably False, but not guaranteed
+
+# Custom hashable class
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    def __hash__(self):
+        return hash((self.x, self.y))
+    
+    def __eq__(self, other):
+        return isinstance(other, Point) and self.x == other.x and self.y == other.y
+    
+    def __repr__(self):
+        return f"Point({self.x}, {self.y})"
+
+# Using custom hashable objects
+points = {}
+p1 = Point(1, 2)
+p2 = Point(3, 4)
+
+points[p1] = "Origin area"
+points[p2] = "Upper right"
+
+print(points[Point(1, 2)])  # "Origin area"
+        </div>
+        
+        <div class="interview-tip">
+            Remember: To use an object as a dictionary key, it must be hashable (implement __hash__ and __eq__ methods) and immutable.
+        </div>
+
+        <h2 id="complexity-analysis">6. Time & Space Complexity 📊</h2>
+        
+        <table class="complexity-table">
+            <thead>
+                <tr>
+                    <th>Operation</th>
+                    <th>Average Case</th>
+                    <th>Worst Case</th>
+                    <th>Best Case</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Search</strong></td>
+                    <td>O(1)</td>
+                    <td>O(n)</td>
+                    <td>O(1)</td>
+                    <td>Worst case when all keys hash to same index</td>
+                </tr>
+                <tr>
+                    <td><strong>Insert</strong></td>
+                    <td>O(1)</td>
+                    <td>O(n)</td>
+                    <td>O(1)</td>
+                    <td>May require table resizing</td>
+                </tr>
+                <tr>
+                    <td><strong>Delete</strong></td>
+                    <td>O(1)</td>
+                    <td>O(n)</td>
+                    <td>O(1)</td>
+                    <td>Same as search complexity</td>
+                </tr>
+                <tr>
+                    <td><strong>Space</strong></td>
+                    <td>O(n)</td>
+                    <td>O(n)</td>
+                    <td>O(n)</td>
+                    <td>n = number of key-value pairs</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>Load Factor Impact:</h3>
+        <div class="highlight">
+            <strong>Load Factor (α) = Number of elements / Table size</strong><br>
+            • α < 0.7: Good performance<br>
+            • α > 0.8: Performance degrades<br>
+            • α = 1.0: Table full (open addressing impossible)
+        </div>
+        
+        <div class="code-block">
+# Load factor calculation and resizing
+class DynamicHashTable:
+    def __init__(self, initial_size=8):
+        self.size = initial_size
+        self.count = 0
+        self.keys = [None] * self.size
+        self.values = [None] * self.size
+        self.deleted = [False] * self.size
+    
+    def load_factor(self):
+        return self.count / self.size
+    
+    def _needs_resize(self):
+        return self.load_factor() > 0.7
+    
+    def _resize(self):
+        # Save current data
+        old_keys = self.keys[:]
+        old_values = self.values[:]
+        old_deleted = self.deleted[:]
+        
+        # Double the size
+        self.size *= 2
+        self.count = 0
+        self.keys = [None] * self.size
+        self.values = [None] * self.size
+        self.deleted = [False] * self.size
+        
+        # Rehash all elements
+        for i in range(len(old_keys)):
+            if old_keys[i] is not None and not old_deleted[i]:
+                self.insert(old_keys[i], old_values[i])
+    
+    def insert(self, key, value):
+        if self._needs_resize():
+            self._resize()
+        
+        index = self._probe(key)
+        if self.keys[index] is None or self.deleted[index]:
+            self.count += 1
+        
+        self.keys[index] = key
+        self.values[index] = value
+        self.deleted[index] = False
+        </div>
+
+        <h2 id="interview-problems">7. Common Interview Problems 💼</h2>
+        
+        <h3>7.1 Two Sum Problem</h3>
+        <div class="example">
+            <strong>Problem:</strong> Given an array of integers and a target sum, return indices of two numbers that add up to target.
+        </div>
+        
+        <div class="code-block">
+def two_sum(nums, target):
+    """
+    Time: O(n), Space: O(n)
+    """
+    num_map = {}  # value -> index
+    
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in num_map:
+            return [num_map[complement], i]
+        num_map[num] = i
+    
+    return []
+
+# Example
+nums = [2, 7, 11, 15]
+target = 9
+result = two_sum(nums, target)
+print(f"Indices: {result}")  # [0, 1] because nums[0] + nums[1] = 2 + 7 = 9
+        </div>
+        
+        <h3>7.2 Group Anagrams</h3>
+        <div class="example">
+            <strong>Problem:</strong> Group strings that are anagrams of each other.
+        </div>
+        
+        <div class="code-block">
+from collections import defaultdict
+
+def group_anagrams(strs):
+    """
+    Time: O(n * k log k), Space: O(n * k)
+    where n = number of strings, k = max length of string
+    """
+    anagram_map = defaultdict(list)
+    
+    for s in strs:
+        # Sort characters to create key
+        sorted_str = ''.join(sorted(s))
+        anagram_map[sorted_str].append(s)
+    
+    return list(anagram_map.values())
+
+# Example
+strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
+result = group_anagrams(strs)
+print(result)  # [['eat', 'tea', 'ate'], ['tan', 'nat'], ['bat']]
+        </div>
+        
+        <h3>7.3 First Non-Repeating Character</h3>
+        
+        <div class="code-block">
+def first_non_repeating_char(s):
+    """
+    Time: O(n), Space: O(1) - at most 26 lowercase letters
+    """
+    char_count = {}
+    
+    # Count frequencies
+    for char in s:
+        char_count[char] = char_count.get(char, 0) + 1
+    
+    # Find first non-repeating
+    for char in s:
+        if char_count[char] == 1:
+            return char
+    
+    return None
+
+# Example
+s = "leetcode"
+result = first_non_repeating_char(s)
+print(f"First non-repeating: '{result}'")  # 'l'
+        </div>
+        
+        <h3>7.4 Subarray Sum Equals K</h3>
+        
+        <div class="code-block">
+def subarray_sum(nums, k):
+    """
+    Count number of continuous subarrays whose sum equals k
+    Time: O(n), Space: O(n)
+    """
+    count = 0
+    prefix_sum = 0
+    sum_map = {0: 1}  # prefix_sum -> frequency
+    
+    for num in nums:
+        prefix_sum += num
+        
+        # Check if (prefix_sum - k) exists
+        if (prefix_sum - k) in sum_map:
+            count += sum_map[prefix_sum - k]
+        
+        # Update map
+        sum_map[prefix_sum] = sum_map.get(prefix_sum, 0) + 1
+    
+    return count
+
+# Example
+nums = [1, 1, 1]
+k = 2
+result = subarray_sum(nums, k)
+print(f"Number of subarrays: {result}")  # 2
+        </div>
+        
+        <h3>7.5 Longest Consecutive Sequence</h3>
+        
+        <div class="code-block">
+def longest_consecutive(nums):
+    """
+    Time: O(n), Space: O(n)
+    """
+    if not nums:
+        return 0
+    
+    num_set = set(nums)
+    longest = 0
+    
+    for num in num_set:
+        # Check if this is start of sequence
+        if num - 1 not in num_set:
+            current_num = num
+            current_length = 1
+            
+            # Count consecutive numbers
+            while current_num + 1 in num_set:
+                current_num += 1
+                current_length += 1
+            
+            longest = max(longest, current_length)
+    
+    return longest
+
+# Example
+nums = [100, 4, 200, 1, 3, 2]
+result = longest_consecutive(nums)
+print(f"Longest consecutive length: {result}")  # 4 (sequence: 1,2,3,4)
+        </div>
+        
+        <h3>7.6 Design HashMap</h3>
+        
+        <div class="code-block">
+class MyHashMap:
+    """
+    Design a HashMap without using built-in hash table libraries
+    """
+    def __init__(self):
+        self.size = 1000
+        self.table = [[] for _ in range(self.size)]
+    
+    def _hash(self, key):
+        return key % self.size
+    
+    def put(self, key, value):
+        index = self._hash(key)
+        bucket = self.table[index]
+        
+        for i, (k, v) in enumerate(bucket):
+            if k == key:
+                bucket[i] = (key, value)
+                return
+        
+        bucket.append((key, value))
+    
+    def get(self, key):
+        index = self._hash(key)
+        bucket = self.table[index]
+        
+        for k, v in bucket:
+            if k == key:
+                return v
+        return -1
+    
+    def remove(self, key):
+        index = self._hash(key)
+        bucket = self.table[index]
+        
+        for i, (k, v) in enumerate(bucket):
+            if k == key:
+                del bucket[i]
+                return
+
+# Usage
+hashmap = MyHashMap()
+hashmap.put(1, 1)
+hashmap.put(2, 2)
+print(hashmap.get(1))    # 1
+print(hashmap.get(3))    # -1
+hashmap.put(2, 1)        # Update existing key
+print(hashmap.get(2))    # 1
+hashmap.remove(2)
+print(hashmap.get(2))    # -1
+        </div>
+
+        <h2 id="interview-tips">8. Interview Tips and Tricks 🎯</h2>
+        
+        <div class="interview-tip">
+            <strong>🔍 Pattern Recognition:</strong> Use hashing when you need to:
+            <br>• Track what you've seen before
+            <br>• Count frequencies  
+            <br>• Find complements or pairs
+            <br>• Group related items
+            <br>• Check membership quickly
+        </div>
+        
+        <h3>8.1 Common Hash Table Applications</h3>
+        <ul>
+            <li><strong>Frequency Counting:</strong> Count occurrences of elements</li>
+            <li><strong>Caching/Memoization:</strong> Store computed results</li>
+            <li><strong>Finding Duplicates:</strong> Track seen elements</li>
+            <li><strong>Complement Search:</strong> Two Sum, Three Sum problems</li>
+            <li><strong>Grouping:</strong> Group anagrams, similar items</li>
+            <li><strong>Mapping:</strong> Character mappings, transformations</li>
+        </ul>
+        
+        <h3>8.2 Key Interview Phrases</h3>
+        
+        <div class="code-block">
+# When explaining hash tables in interviews, mention:
+
+"I'll use a hash table to achieve O(1) average lookup time..."
+
+"To handle collisions, I would recommend chaining with linked lists..."
+
+"The space-time tradeoff here is O(n) extra space for O(1) operations..."
+
+"We need to consider the load factor to maintain good performance..."
+
+"Hash tables provide amortized O(1) operations..."
+        </div>
+        
+        <h3>8.3 Common Pitfalls & How to Avoid Them</h3>
+        
+        <div class="interview-tip">
+            <strong>🚨 Collision Handling:</strong> Always mention how you'll handle collisions. Don't assume perfect hashing.
+        </div>
+        
+        <div class="interview-tip">
+            <strong>🚨 Key Mutability:</strong> Explain that keys must be immutable. You can't use lists as dictionary keys in Python.
+        </div>
+        
+        <div class="interview-tip">
+            <strong>🚨 Memory Usage:</strong> Hash tables trade space for time. Mention the O(n) space complexity.
+        </div>
+        
+        <div class="interview-tip">
+            <strong>🚨 Hash Function Quality:</strong> Poor hash functions can lead to clustering and worst-case O(n) performance.
+        </div>
+        
+        <h3>8.4 Advanced Optimization Techniques</h3>
+        
+        <div class="code-block">
+# 1. Counter for frequency problems
+from collections import Counter
+
+def find_anagrams(s, p):
+    """Find all anagrams of p in s"""
+    if len(p) > len(s):
+        return []
+    
+    p_count = Counter(p)
+    window_count = Counter()
+    result = []
+    
+    for i in range(len(s)):
+        # Add current character
+        window_count[s[i]] += 1
+        
+        # Remove character outside window
+        if i >= len(p):
+            left_char = s[i - len(p)]
+            window_count[left_char] -= 1
+            if window_count[left_char] == 0:
+                del window_count[left_char]
+        
+        # Check if current window is anagram
+        if window_count == p_count:
+            result.append(i - len(p) + 1)
+    
+    return result
+
+# 2. defaultdict for cleaner code
+from collections import defaultdict
+
+def group_by_first_letter(words):
+    """Group words by their first letter"""
+    groups = defaultdict(list)
+    for word in words:
+        groups[word[0]].append(word)
+    return dict(groups)
+
+# 3. Using frozenset for hashable sets
+def find_unique_combinations(lists):
+    """Find unique combinations from list of lists"""
+    unique_combos = set()
+    for lst in lists:
+        unique_combos.add(frozenset(lst))
+    return [list(combo) for combo in unique_combos]
+        </div>
+        
+        <h3>8.5 Step-by-Step Problem Solving Approach</h3>
+        
+        <div class="highlight">
+            <ol>
+                <li><strong>Identify the Pattern:</strong> Look for keywords like "count", "frequency", "seen before", "pairs", "duplicates"</li>
+                <li><strong>Choose Data Structure:</strong> Dict for key-value mapping, Set for membership testing</li>
+                <li><strong>Design Hash Strategy:</strong> What will be your key? What will be your value?</li>
+                <li><strong>Handle Edge Cases:</strong> Empty input, single element, no solution</li>
+                <li><strong>Optimize:</strong> Consider Counter, defaultdict, or other specialized tools</li>
+            </ol>
+        </div>
+        
+        <h3>8.6 Practice Problems by Difficulty</h3>
+        
+        <h4>📗 Easy Level:</h4>
+        <ul>
+            <li>Two Sum</li>
+            <li>Valid Anagram</li>
+            <li>First Unique Character</li>
+            <li>Contains Duplicate</li>
+            <li>Missing Number</li>
+        </ul>
+        
+        <h4>📙 Medium Level:</h4>
+        <ul>
+            <li>Group Anagrams</li>
+            <li>Subarray Sum Equals K</li>
+            <li>Longest Consecutive Sequence</li>
+            <li>Design HashMap</li>
+            <li>Top K Frequent Elements</li>
+        </ul>
+        
+        <h4>📕 Hard Level:</h4>
+        <ul>
+            <li>Substring with Concatenation of All Words</li>
+            <li>Design Twitter</li>
+            <li>Alien Dictionary</li>
+            <li>Insert Delete GetRandom O(1)</li>
+        </ul>
+        
+        <h3>8.7 Code Templates for Common Patterns</h3>
+        
+        <div class="code-block">
+# Template 1: Frequency Counter
+def frequency_pattern(arr):
+    freq = {}
+    for item in arr:
+        freq[item] = freq.get(item, 0) + 1
+    return freq
+
+# Template 2: Seen Before Pattern  
+def seen_before_pattern(arr):
+    seen = set()
+    for item in arr:
+        if item in seen:
+            return True  # Found duplicate
+        seen.add(item)
+    return False
+
+# Template 3: Complement Search Pattern
+def complement_pattern(arr, target):
+    complements = set()
+    for item in arr:
+        if target - item in complements:
+            return True  # Found pair
+        complements.add(item)
+    return False
+
+# Template 4: Grouping Pattern
+def grouping_pattern(items, key_func):
+    groups = {}
+    for item in items:
+        key = key_func(item)
+        if key not in groups:
+            groups[key] = []
+        groups[key].append(item)
+    return groups
+        </div>
+        
+        <div class="interview-tip">
+            <strong>🎤 What to Say in Interviews:</strong><br>
+            1. "Let me think about using a hash table for O(1) lookups..."<br>
+            2. "I'll use a dictionary to map X to Y..."<br>
+            3. "This looks like a frequency counting problem..."<br>
+            4. "I can optimize this from O(n²) to O(n) using hashing..."<br>
+            5. "The trade-off is O(n) extra space for faster time complexity..."
+        </div>
+        
+        <h3>8.8 Final Interview Checklist</h3>
+        
+        <div class="highlight">
+            <strong>✅ Before submitting your solution:</strong>
+            <ul>
+                <li>Explain time and space complexity</li>
+                <li>Handle edge cases (empty input, single element)</li>
+                <li>Consider collision scenarios</li>
+                <li>Mention load factor if relevant</li>
+                <li>Test with example inputs</li>
+                <li>Discuss alternative approaches</li>
+            </ul>
+        </div>
+        
+        <div class="example">
+            <h4>🌟 Sample Interview Response:</h4>
+            <p><em>"For this problem, I notice we need to find pairs that sum to a target. This suggests using a hash table to store complements. As I iterate through the array, I'll check if the current element's complement exists in my hash table. If yes, I've found a pair. If no, I'll add the current element to the table. This gives us O(n) time complexity and O(n) space complexity, which is much better than the O(n²) brute force approach."</em></p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; padding: 20px; background: linear-gradient(45deg, #667eea, #764ba2); color: white; border-radius: 10px;">
+            <h3>🎓 Master Hashing = Master Interviews! 🎓</h3>
+            <p>Practice these concepts daily and you'll be ready for any hashing-related interview question!</p>
+        </div>
+    </div>
+</body>
+</html>
