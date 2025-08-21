@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Day 13 — Hashing Techniques: First Non-Repeating Character</title>
+  <style>
+    body {font-family: Inter, system-ui, -apple-system, Roboto, 'Segoe UI', Arial; max-width: 900px; margin: 36px auto; line-height: 1.6; color: #0f172a;}
+    header {margin-bottom: 18px}
+    h1 {font-size: 24px; margin: 0 0 6px}
+    h2 {font-size: 18px; margin-top: 18px}
+    .card {background: #ffffff; border: 1px solid #e6eef8; padding: 18px; border-radius: 10px; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.03)}
+    pre {background: #0b1220; color: #e6eef8; padding: 12px; border-radius: 8px; overflow:auto}
+    code {font-family: 'Source Code Pro', monospace}
+    .meta {font-size: 13px; color: #334155}
+    .hint {background:#f0f9ff; border-left:4px solid #60a5fa; padding:10px; border-radius:6px}
+    .examples td {padding:8px; vertical-align:top}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Day 13 — Hashing Techniques</h1>
+    <p class="meta">Problem: <strong>First Non-Repeating Character in a String</strong></p>
+  </header>
+
+  <section class="card">
+    <h2>Problem Statement</h2>
+    <p>
+      Given a string <code>s</code>, find and return the <strong>first non-repeating character</strong> in it. If every character repeats, return <code>None</code> (or <code>-1</code> in languages that prefer numeric values).
+    </p>
+
+    <h2>Input / Output Format</h2>
+    <p><strong>Input:</strong> A single string <code>s</code> (lowercase and/or uppercase letters; may include digits and symbols).</p>
+    <p><strong>Output:</strong> The first non-repeating character (as a single character) or <code>None</code> / <code>-1</code> if no such character exists.</p>
+
+    <h2>Constraints</h2>
+    <ul>
+      <li><code>1 &le; len(s) &le; 10^6</code> (be mindful of time &amp; space).</li>
+      <li>Characters can be any printable ASCII characters; solution should be case-sensitive (i.e., 'A' != 'a').</li>
+      <li>Expected optimal time: <code>O(n)</code>, extra space: <code>O(k)</code> where <code>k</code> is number of unique characters.</li>
+    </ul>
+
+    <h2>Examples</h2>
+    <table class="examples" style="width:100%; border-collapse:collapse;">
+      <tr>
+        <td style="width:30%"><strong>Input</strong></td>
+        <td><strong>Output</strong> — <strong>Explanation</strong></td>
+      </tr>
+      <tr>
+        <td><code>s = "swiss"</code></td>
+        <td><code>'w'</code> — characters: s(3 times), w(1), i(1); first non-repeating scanning left to right → 'w'.</td>
+      </tr>
+      <tr>
+        <td><code>s = "aabbcc"</code></td>
+        <td><code>None</code> — every character repeats.</td>
+      </tr>
+      <tr>
+        <td><code>s = "leetcode"</code></td>
+        <td><code>'l'</code> — 'l' occurs once and is the first unique character.</td>
+      </tr>
+      <tr>
+        <td><code>s = "aAb"</code></td>
+        <td><code>'a'</code> — case-sensitive: 'a' and 'A' are different.</td>
+      </tr>
+    </table>
+
+    <h2>Sample Test Cases (copy &amp; run)</h2>
+    <pre><code># Test case 1
+Input: "swiss"
+Output: 'w'
+
+# Test case 2
+Input: "aabbcc"
+Output: None
+
+# Test case 3
+Input: "leetcode"
+Output: 'l'
+
+# Test case 4
+Input: "aAb"
+Output: 'a'
+</code></pre>
+
+    <h2>Hints (don't peek!)</h2>
+    <div class="hint">
+      <ol>
+        <li>Use a hash-map / dictionary to count frequencies of characters in one pass.</li>
+        <li>Scan the string a second time and return the first character with frequency 1.</li>
+        <li>Alternatively, record the index of first occurrence alongside counts so you can determine the first unique in a single pass over the map.</li>
+      </ol>
+    </div>
+
+    <h2>What to Compare</h2>
+    <p>
+      Include both a brute-force approach (<code>O(n^2)</code>) for clarity and the hashing-based optimized approach (<code>O(n)</code>). Discuss time &amp; space trade-offs.
+    </p>
+
+    <h2>Follow-ups / Variations (Great for interviews)</h2>
+    <ul>
+      <li>Return the index of the first non-repeating character instead of the character itself.</li>
+      <li>Find the first non-repeating character in a stream (characters arriving one by one).</li>
+      <li>Find all characters that occur exactly once, preserving their original order.</li>
+    </ul>
+
+    <h2>Top 10 Common Interview Questions on Hashing</h2>
+    <ol>
+      <li>Explain how a hash table works and its average/worst-case complexities.</li>
+      <li>How do you handle collisions in a hash table? Compare chaining vs. open addressing.</li>
+      <li>What is a good hash function? What properties should it have?</li>
+      <li>Difference between Python’s <code>dict</code> and <code>set</code> — how are they implemented internally?</li>
+      <li>Implement Two Sum problem using hashing. Complexity analysis?</li>
+      <li>Find the longest substring without repeating characters using hashing.</li>
+      <li>How to detect if an array contains duplicates using hashing?</li>
+      <li>Explain load factor in hashing and why resizing is needed.</li>
+      <li>How does hashing differ from encryption?</li>
+      <li>Real-world use cases of hashing (caches, compilers, databases, password storage).</li>
+    </ol>
+
+    <h2>Footer</h2>
+    <p class="meta">Difficulty: <strong>Easy → Medium</strong>. Topic: <strong>Hashing / Frequency Counting</strong>.</p>
+  </section>
+</body>
+</html>
