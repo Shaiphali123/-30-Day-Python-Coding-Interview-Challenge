@@ -1,0 +1,2053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 15: Sorting & Searching — QA/Testing Notes (Python)</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --header-bg: #2563eb;
+            --header-text: #ffffff;
+            --card-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --code-bg: #f1f5f9;
+            --callout-bg: #dbeafe;
+            --callout-border: #3b82f6;
+            --accent-color: #3b82f6;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --text-color: #e2e8f0;
+            --header-bg: #1e293b;
+            --header-text: #f1f5f9;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --code-bg: #334155;
+            --callout-bg: #1e3a8a;
+            --callout-border: #60a5fa;
+            --accent-color: #60a5fa;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--header-bg), #1d4ed8);
+            color: var(--header-text);
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle, .search-input {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: var(--header-text);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .search-input {
+            width: 200px;
+            cursor: text;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        .toc {
+            position: sticky;
+            top: 200px;
+            height: fit-content;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .toc h3 {
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.25rem 0;
+            display: block;
+            border-left: 2px solid transparent;
+            padding-left: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .toc-list a:hover, .toc-list a.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+        }
+
+        .content {
+            min-width: 0;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .section h2 {
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+        }
+
+        .section h3 {
+            color: var(--accent-color);
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.25rem;
+        }
+
+        .callout {
+            background: var(--callout-bg);
+            border-left: 4px solid var(--callout-border);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+
+        .callout-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--callout-border);
+        }
+
+        details {
+            margin: 1rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        summary {
+            background: var(--code-bg);
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            user-select: none;
+        }
+
+        summary:hover {
+            background: var(--border-color);
+        }
+
+        .details-content {
+            padding: 1rem;
+        }
+
+        .code-block {
+            position: relative;
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: var(--border-color);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        pre {
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'SF Mono', Monaco, monospace;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        .complexity-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .complexity-table th,
+        .complexity-table td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .complexity-table th {
+            background: var(--code-bg);
+            font-weight: 600;
+        }
+
+        .qa-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .qa-item {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+
+        .qa-question {
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .qa-answer {
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+
+        .footer {
+            background: var(--header-bg);
+            color: var(--header-text);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .nav-links a {
+            color: var(--header-text);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            
+            .toc {
+                position: static;
+            }
+            
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .search-input {
+                width: 150px;
+            }
+        }
+
+        @media print {
+            .header, .toc, .copy-btn, .theme-toggle {
+                display: none;
+            }
+            
+            .container {
+                grid-template-columns: 1fr;
+                max-width: none;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .section {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+
+        .highlight {
+            background-color: #fef3c7;
+            color: #92400e;
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+        }
+
+        [data-theme="dark"] .highlight {
+            background-color: #451a03;
+            color: #fbbf24;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="header-top">
+                <div>
+                    <h1 class="title">Day 15: Sorting & Searching</h1>
+                    <p class="subtitle">QA/Testing Notes (Python) — How Test Engineers Apply Sorting & Searching</p>
+                </div>
+                <div class="controls">
+                    <input type="text" class="search-input" placeholder="Search Q&A..." id="searchInput">
+                    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+                </div>
+            </div>
+            <div class="badges">
+                <span class="badge">Difficulty: Intermediate</span>
+                <span class="badge">QA Relevance: High</span>
+                <span class="badge">Last Updated: Dec 2024</span>
+                <span class="badge">Interview Focus</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="toc">
+            <h3>Table of Contents</h3>
+            <ul class="toc-list">
+                <li><a href="#primer">Quick Primer</a></li>
+                <li><a href="#sorting">Sorting Algorithms</a></li>
+                <li><a href="#searching">Searching Algorithms</a></li>
+                <li><a href="#interview-qa">Interview Q&A</a></li>
+                <li><a href="#code-templates">Code Templates</a></li>
+                <li><a href="#complexity">Complexity Tables</a></li>
+                <li><a href="#pitfalls">QA Pitfalls</a></li>
+                <li><a href="#cheatsheet">Cheatsheet</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <section id="primer" class="section">
+                <h2>🎯 Quick Primer (QA-Oriented)</h2>
+                
+                <div class="callout">
+                    <div class="callout-title">🔍 Why QA Engineers Need This</div>
+                    <p>Interviewers ask QA engineers about sorting & searching to evaluate:</p>
+                    <ul>
+                        <li><strong>Logic & Problem-solving:</strong> Can you think algorithmically?</li>
+                        <li><strong>Data handling at scale:</strong> How do you manage large test datasets?</li>
+                        <li><strong>Efficiency mindset:</strong> Understanding of performance implications</li>
+                        <li><strong>Automation skills:</strong> Practical coding for test frameworks</li>
+                    </ul>
+                </div>
+
+                <h3>Real QA Applications</h3>
+                
+                <details>
+                    <summary>🗂️ Test Data Management</summary>
+                    <div class="details-content">
+                        <ul>
+                            <li><strong>Sorting test data</strong> before comparing expected vs actual results</li>
+                            <li><strong>Organizing test cases</strong> by priority, execution time, or dependencies</li>
+                            <li><strong>Merging sorted test logs</strong> from parallel test executions</li>
+                            <li><strong>Validating data integrity</strong> in sorted database exports</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>🔍 Log Analysis & Debugging</summary>
+                    <div class="details-content">
+                        <ul>
+                            <li><strong>Binary search through logs</strong> to find first occurrence of errors</li>
+                            <li><strong>Searching for specific error codes</strong> in massive log files</li>
+                            <li><strong>Finding performance bottlenecks</strong> by sorting response times</li>
+                            <li><strong>Defect isolation</strong> using binary search in build histories</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>🌐 API Testing & Validation</summary>
+                    <div class="details-content">
+                        <ul>
+                            <li><strong>Verifying API response sorting</strong> (e.g., products by price)</li>
+                            <li><strong>Pagination testing</strong> with binary search validation</li>
+                            <li><strong>Search functionality testing</strong> with various algorithms</li>
+                            <li><strong>Data consistency checks</strong> across sorted endpoints</li>
+                        </ul>
+                    </div>
+                </details>
+            </section>
+
+            <section id="sorting" class="section">
+                <h2>📊 Sorting Algorithms (with QA Relevance)</h2>
+
+                <details>
+                    <summary>🔄 Bubble Sort - O(n²)</summary>
+                    <div class="details-content">
+                        <p><strong>QA Use:</strong> Teaching concept, small test datasets</p>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Python Implementation</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code>def search_rotated_array(nums, target):
+    """
+    QA Use: Search in rotated test data (e.g., circular log files)
+    Time: O(log n), Space: O(1)
+    """
+    left, right = 0, len(nums) - 1
+    
+    while left <= right:
+        mid = (left + right) // 2
+        
+        if nums[mid] == target:
+            return mid
+        
+        # Check which half is sorted
+        if nums[left] <= nums[mid]:  # Left half is sorted
+            if nums[left] <= target < nums[mid]:
+                right = mid - 1
+            else:
+                left = mid + 1
+        else:  # Right half is sorted
+            if nums[mid] < target <= nums[right]:
+                left = mid + 1
+            else:
+                right = mid - 1
+    
+    return -1
+
+# QA Example: Search in rotated test execution order
+test_execution_order = [4, 5, 6, 7, 0, 1, 2]  # Rotated at index 4
+target_test = 0
+index = search_rotated_array(test_execution_order, target_test)
+print(f"Test case {target_test} found at index: {index}")
+</code></pre>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <section id="interview-qa" class="section">
+                <h2>💼 Interview Q&A (QA Context)</h2>
+                
+                <div class="qa-grid" id="qaGrid">
+                    <div class="qa-item">
+                        <div class="qa-question">Q1: Why do interviewers ask Sorting/Searching to QA engineers?</div>
+                        <div class="qa-answer">To evaluate logical thinking, data handling at scale, efficiency mindset, and practical coding skills for test automation frameworks.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q2: Give a real QA use-case of Binary Search.</div>
+                        <div class="qa-answer">Finding the first failing build in CI/CD pipeline history. Instead of checking 100 builds linearly, binary search finds it in ~7 comparisons.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q3: How do you verify if API response is sorted?</div>
+                        <div class="qa-answer">Extract the list from response, compare with sorted(list). For efficiency: check if list[i] <= list[i+1] for all i.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q4: Stable vs Unstable Sort – Why does QA care?</div>
+                        <div class="qa-answer">Stability ensures secondary keys remain consistent. If sorting test cases by priority, stable sort preserves original order for same-priority tests.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q5: QuickSort vs MergeSort for test automation?</div>
+                        <div class="qa-answer">MergeSort for stable sorting needs (test data with multiple columns). QuickSort for in-memory performance analysis. Python's sorted() uses Timsort (best of both).</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q6: How to test search functionality in an application?</div>
+                        <div class="qa-answer">Test boundary conditions, empty results, partial matches, special characters, performance with large datasets, and pagination.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q7: What's the complexity of searching rotated sorted array?</div>
+                        <div class="qa-answer">O(log n). Split array into two halves, identify which is sorted, then decide which half contains target. Useful for circular log analysis.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q8: How do you test Top-K results from search API?</div>
+                        <div class="qa-answer">Sort complete dataset, compare API's top-k with actual top-k. Use heap for memory efficiency with large datasets.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q9: How to detect flaky tests related to ordering?</div>
+                        <div class="qa-answer">Look for tests that assume specific order in unordered data. Use stable sorting or explicit ordering in test setup to eliminate randomness.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q10: When would you use Linear Search in QA?</div>
+                        <div class="qa-answer">Searching unsorted logs, finding error patterns, small datasets where sorting overhead isn't worth it, or when you need all occurrences.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q11: How to validate pagination in sorted API results?</div>
+                        <div class="qa-answer">Use binary search to verify page boundaries are correct, check last item of page N < first item of page N+1, validate total count.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q12: What sorting algorithm does Python use internally?</div>
+                        <div class="qa-answer">Timsort - hybrid of merge sort and insertion sort. Adaptive (O(n) for nearly sorted), stable, O(n log n) worst case. Ideal for QA work.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q13: How to handle duplicate values in binary search?</div>
+                        <div class="qa-answer">For first occurrence: when found, continue searching left. For last occurrence: continue searching right. Critical for finding first/last error in logs.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q14: How do you test sorting performance under load?</div>
+                        <div class="qa-answer">Generate large datasets, measure time complexity practically, test with different data distributions (sorted, reverse sorted, random).</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q15: What's the best way to sort custom test objects?</div>
+                        <div class="qa-answer">Use key parameter with lambda or operator.attrgetter. For multiple criteria: key=lambda x: (x.priority, x.duration). Always specify comparison logic clearly.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q16: How to search for a range of values in sorted data?</div>
+                        <div class="qa-answer">Use binary search to find lower bound (first occurrence) and upper bound (last occurrence), then return slice. Useful for time-range log analysis.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q17: When would sorting be O(n) instead of O(n log n)?</div>
+                        <div class="qa-answer">Counting sort (limited range integers), Radix sort (fixed-width data), Bucket sort (uniformly distributed). Rare in general QA work.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q18: How to validate search result relevance?</div>
+                        <div class="qa-answer">Check if results match search criteria, verify sorting by relevance score, test edge cases like empty queries, special characters, and long queries.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q19: What's the space complexity concern in sorting large test data?</div>
+                        <div class="qa-answer">In-place sorts (QuickSort, HeapSort) use O(1) extra space. Out-of-place sorts (MergeSort) use O(n). Choose based on memory constraints in test environment.</div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">Q20: How do you test search functionality with concurrent users?</div>
+                        <div class="qa-answer">Test race conditions in search indexing, validate search results consistency, check performance degradation, ensure proper caching mechanisms.</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="code-templates" class="section">
+                <h2>🛠️ Code Templates for QA</h2>
+
+                <details>
+                    <summary>✅ API Response Sorting Validation</summary>
+                    <div class="details-content">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Validate API Response Sorting</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code>def validate_api_sorting(response_data, sort_field, reverse=False):
+    """
+    QA Template: Validate if API response is properly sorted
+    """
+    values = [item[sort_field] for item in response_data]
+    expected = sorted(values, reverse=reverse)
+    
+    if values == expected:
+        print("✅ API response is correctly sorted")
+        return True
+    else:
+        print("❌ API response sorting failed")
+        print(f"Expected: {expected}")
+        print(f"Actual: {values}")
+        return False
+
+# Usage example
+api_response = [
+    {"id": 1, "price": 10.99, "name": "Widget A"},
+    {"id": 2, "price": 15.99, "name": "Widget B"},
+    {"id": 3, "price": 8.99, "name": "Widget C"}
+]
+
+# Test if sorted by price ascending
+is_valid = validate_api_sorting(api_response, "price")
+
+# Test custom sorting with key function
+def validate_custom_sorting(data, key_func, reverse=False):
+    actual = [key_func(item) for item in data]
+    expected = sorted(actual, reverse=reverse)
+    return actual == expected
+</code></pre>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>🔍 Binary Search for Test Automation</summary>
+                    <div class="details-content">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Reusable Binary Search</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code>class QASearchUtils:
+    """
+    Reusable search utilities for QA automation
+    """
+    
+    @staticmethod
+    def binary_search_range(arr, target):
+        """Find first and last occurrence of target"""
+        def find_first():
+            left, right = 0, len(arr) - 1
+            result = -1
+            while left <= right:
+                mid = (left + right) // 2
+                if arr[mid] == target:
+                    result = mid
+                    right = mid - 1
+                elif arr[mid] < target:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return result
+        
+        def find_last():
+            left, right = 0, len(arr) - 1
+            result = -1
+            while left <= right:
+                mid = (left + right) // 2
+                if arr[mid] == target:
+                    result = mid
+                    left = mid + 1
+                elif arr[mid] < target:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return result
+        
+        first = find_first()
+        if first == -1:
+            return -1, -1
+        last = find_last()
+        return first, last
+    
+    @staticmethod
+    def find_first_failing_test(test_results):
+        """
+        Find first failing test in sorted results
+        test_results: list of 1 (pass) and 0 (fail)
+        """
+        return QASearchUtils.binary_search_range(test_results, 0)[0]
+
+# Usage
+search_utils = QASearchUtils()
+test_timeline = [1, 1, 1, 0, 0, 0, 1, 1, 0, 0]
+first_fail, last_fail = search_utils.binary_search_range(test_timeline, 0)
+print(f"Failures span from index {first_fail} to {last_fail}")
+</code></pre>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>📊 Top-K Elements for Test Analysis</summary>
+                    <div class="details-content">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Top-K Analysis</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code>import heapq
+
+def get_top_k_slowest_tests(test_data, k):
+    """
+    QA Use: Find k slowest tests for performance analysis
+    test_data: [(test_name, duration), ...]
+    """
+    return heapq.nlargest(k, test_data, key=lambda x: x[1])
+
+def get_top_k_frequent_errors(error_logs, k):
+    """
+    QA Use: Find most frequent error types
+    """
+    from collections import Counter
+    error_counts = Counter(error_logs)
+    return error_counts.most_common(k)
+
+def validate_top_k_api_results(api_response, k, sort_key):
+    """
+    Validate if API returns correct top-k results
+    """
+    # Get what API returned
+    api_top_k = api_response[:k]
+    
+    # Calculate what should be top-k
+    all_data = sorted(api_response, key=lambda x: x[sort_key], reverse=True)
+    expected_top_k = all_data[:k]
+    
+    # Extract values for comparison
+    api_values = [item[sort_key] for item in api_top_k]
+    expected_values = [item[sort_key] for item in expected_top_k]
+    
+    return api_values == expected_values
+
+# Usage examples
+test_durations = [
+    ("test_login", 2.3),
+    ("test_checkout", 5.8),
+    ("test_search", 1.2),
+    ("test_payment", 8.9),
+    ("test_logout", 0.5)
+]
+
+slowest_3 = get_top_k_slowest_tests(test_durations, 3)
+print(f"Top 3 slowest tests: {slowest_3}")
+
+errors = ["404", "500", "404", "403", "500", "500", "404"]
+top_errors = get_top_k_frequent_errors(errors, 2)
+print(f"Most frequent errors: {top_errors}")
+</code></pre>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>🔄 Test Data Sorting Utilities</summary>
+                    <div class="details-content">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Test Data Sorting</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code>from operator import attrgetter
+from dataclasses import dataclass
+from typing import List
+
+@dataclass
+class TestCase:
+    id: str
+    priority: int  # 1=Critical, 2=High, 3=Medium, 4=Low
+    duration: float
+    status: str  # PASS, FAIL, SKIP
+
+class TestDataSorter:
+    """
+    Utility class for sorting test data in various ways
+    """
+    
+    @staticmethod
+    def sort_by_execution_priority(test_cases: List[TestCase]) -> List[TestCase]:
+        """Sort tests by priority, then by duration (shortest first)"""
+        return sorted(test_cases, key=lambda tc: (tc.priority, tc.duration))
+    
+    @staticmethod
+    def sort_by_failure_first(test_cases: List[TestCase]) -> List[TestCase]:
+        """Sort failed tests first, then by priority"""
+        def sort_key(tc):
+            # FAIL=0, SKIP=1, PASS=2 (for ascending order)
+            status_order = {"FAIL": 0, "SKIP": 1, "PASS": 2}
+            return (status_order.get(tc.status, 3), tc.priority)
+        
+        return sorted(test_cases, key=sort_key)
+    
+    @staticmethod
+    def sort_test_results_for_report(results):
+        """
+        Sort test results for reporting: Failed tests first, 
+        then by priority, then by duration
+        """
+        return sorted(results, key=lambda x: (
+            x.status != "FAIL",  # False comes before True
+            x.priority,
+            x.duration
+        ))
+
+# Usage example
+test_data = [
+    TestCase("TC001", 1, 30.5, "PASS"),
+    TestCase("TC002", 2, 15.2, "FAIL"),
+    TestCase("TC003", 1, 45.8, "FAIL"),
+    TestCase("TC004", 3, 12.1, "PASS"),
+    TestCase("TC005", 2, 8.9, "SKIP")
+]
+
+sorter = TestDataSorter()
+
+# Sort for execution (priority-based)
+execution_order = sorter.sort_by_execution_priority(test_data)
+print("Execution order:")
+for tc in execution_order:
+    print(f"  {tc.id}: P{tc.priority}, {tc.duration}s")
+
+# Sort for failure analysis
+failure_first = sorter.sort_by_failure_first(test_data)
+print("\nFailure analysis order:")
+for tc in failure_first:
+    print(f"  {tc.id}: {tc.status}, P{tc.priority}")
+</code></pre>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <section id="complexity" class="section">
+                <h2>📈 Complexity & Decision Tables</h2>
+
+                <h3>Sorting Algorithms Comparison</h3>
+                <table class="complexity-table">
+                    <thead>
+                        <tr>
+                            <th>Algorithm</th>
+                            <th>Best Case</th>
+                            <th>Average</th>
+                            <th>Worst Case</th>
+                            <th>Space</th>
+                            <th>Stable</th>
+                            <th>QA Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Bubble Sort</td>
+                            <td>O(n)</td>
+                            <td>O(n²)</td>
+                            <td>O(n²)</td>
+                            <td>O(1)</td>
+                            <td>Yes</td>
+                            <td>Small test datasets, teaching</td>
+                        </tr>
+                        <tr>
+                            <td>Quick Sort</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n²)</td>
+                            <td>O(log n)</td>
+                            <td>No</td>
+                            <td>Performance data analysis</td>
+                        </tr>
+                        <tr>
+                            <td>Merge Sort</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n)</td>
+                            <td>Yes</td>
+                            <td>Merging parallel test results</td>
+                        </tr>
+                        <tr>
+                            <td>Heap Sort</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(1)</td>
+                            <td>No</td>
+                            <td>Memory-constrained sorting</td>
+                        </tr>
+                        <tr>
+                            <td>Timsort (Python)</td>
+                            <td>O(n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n)</td>
+                            <td>Yes</td>
+                            <td>General QA automation</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Searching Algorithms Comparison</h3>
+                <table class="complexity-table">
+                    <thead>
+                        <tr>
+                            <th>Algorithm</th>
+                            <th>Time Complexity</th>
+                            <th>Space</th>
+                            <th>Prerequisite</th>
+                            <th>QA Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Linear Search</td>
+                            <td>O(n)</td>
+                            <td>O(1)</td>
+                            <td>None</td>
+                            <td>Unsorted logs, error messages</td>
+                        </tr>
+                        <tr>
+                            <td>Binary Search</td>
+                            <td>O(log n)</td>
+                            <td>O(1)</td>
+                            <td>Sorted array</td>
+                            <td>Build history, sorted test data</td>
+                        </tr>
+                        <tr>
+                            <td>Rotated Array Search</td>
+                            <td>O(log n)</td>
+                            <td>O(1)</td>
+                            <td>Rotated sorted array</td>
+                            <td>Circular logs, rotated datasets</td>
+                        </tr>
+                        <tr>
+                            <td>Hash Table Search</td>
+                            <td>O(1) avg</td>
+                            <td>O(n)</td>
+                            <td>Hash function</td>
+                            <td>Fast test case lookup</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="pitfalls" class="section">
+                <h2>⚠️ Common QA Pitfalls</h2>
+
+                <details>
+                    <summary>🔄 Unstable Sorting Issues</summary>
+                    <div class="details-content">
+                        <div class="callout">
+                            <div class="callout-title">Problem</div>
+                            <p>Using unstable sorts on data with secondary sort requirements leads to inconsistent test results.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Bad vs Good Example</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code># ❌ BAD: Using unstable sort with secondary requirements
+test_cases = [
+    ("TC001", 1, "2023-01-01"),  # (id, priority, created_date)
+    ("TC002", 1, "2023-01-02"),
+    ("TC003", 2, "2023-01-01")
+]
+
+# QuickSort might change order of TC001 and TC002 unpredictably
+import random
+random.shuffle(test_cases)  # This makes it worse
+
+# ✅ GOOD: Use stable sort to preserve secondary order
+test_cases.sort(key=lambda x: x[1])  # Python's sort is stable
+# Now TC001 comes before TC002 consistently
+
+# ✅ EVEN BETTER: Explicit multi-level sorting
+test_cases.sort(key=lambda x: (x[1], x[2]))  # Sort by priority, then date
+</code></pre>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>🔢 Off-by-One Errors in Binary Search</summary>
+                    <div class="details-content">
+                        <div class="callout">
+                            <div class="callout-title">Problem</div>
+                            <p>Incorrect boundary conditions in binary search leading to missed elements or infinite loops.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Common Mistakes</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code># ❌ BAD: Common mistakes in binary search
+def buggy_binary_search(arr, target):
+    left, right = 0, len(arr)  # Should be len(arr) - 1
+    
+    while left < right:  # Should be left <= right
+        mid = (left + right) / 2  # Should use // for integer division
+        
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid  # Should be mid + 1
+        else:
+            right = mid  # Should be mid - 1
+    
+    return -1
+
+# ✅ GOOD: Correct binary search template
+def correct_binary_search(arr, target):
+    left, right = 0, len(arr) - 1  # Inclusive bounds
+    
+    while left <= right:
+        mid = (left + right) // 2  # Integer division
+        
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1  # Exclude mid from next search
+        else:
+            right = mid - 1  # Exclude mid from next search
+    
+    return -1
+
+# Test your binary search with edge cases
+def test_binary_search():
+    # Edge cases that often reveal bugs
+    test_cases = [
+        ([], 5, -1),                    # Empty array
+        ([1], 1, 0),                    # Single element - found
+        ([1], 2, -1),                   # Single element - not found
+        ([1, 3], 1, 0),                 # Two elements - first
+        ([1, 3], 3, 1),                 # Two elements - second
+        ([1, 3], 2, -1),                # Two elements - between
+        ([1, 3, 5, 7, 9], 1, 0),        # Odd length - first
+        ([1, 3, 5, 7, 9], 9, 4),        # Odd length - last
+        ([1, 3, 5, 7, 9], 5, 2),        # Odd length - middle
+    ]
+    
+    for arr, target, expected in test_cases:
+        result = correct_binary_search(arr, target)
+        assert result == expected, f"Failed for {arr}, {target}: got {result}, expected {expected}"
+    
+    print("✅ All binary search tests passed!")
+
+test_binary_search()
+</code></pre>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>🔄 Ignoring Duplicate Values</summary>
+                    <div class="details-content">
+                        <div class="callout">
+                            <div class="callout-title">Problem</div>
+                            <p>Not handling duplicate values properly in search and sort operations during testing.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Handling Duplicates</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code># ❌ COMMON PITFALL: Assuming no duplicates
+def validate_api_search_basic(results, query):
+    # This doesn't handle duplicates in search results
+    for result in results:
+        if query.lower() not in result['title'].lower():
+            return False
+    return True
+
+# ✅ BETTER: Handle duplicate values properly
+def validate_api_search_with_duplicates(results, query):
+    """Validate search results, accounting for duplicates"""
+    seen = set()
+    unique_results = []
+    
+    for result in results:
+        # Create a unique identifier for each result
+        result_id = (result.get('id'), result.get('title'))
+        
+        if result_id not in seen:
+            seen.add(result_id)
+            unique_results.append(result)
+            
+            # Validate search criteria
+            if query.lower() not in result['title'].lower():
+                print(f"Invalid result: {result['title']} doesn't match '{query}'")
+                return False
+    
+    print(f"Found {len(unique_results)} unique results out of {len(results)} total")
+    return True
+
+# Handle duplicates in test data comparison
+def compare_lists_with_duplicates(expected, actual):
+    """Compare two lists that may contain duplicates"""
+    from collections import Counter
+    
+    expected_counts = Counter(expected)
+    actual_counts = Counter(actual)
+    
+    if expected_counts == actual_counts:
+        return True
+    else:
+        missing = expected_counts - actual_counts
+        extra = actual_counts - expected_counts
+        
+        if missing:
+            print(f"Missing elements: {dict(missing)}")
+        if extra:
+            print(f"Extra elements: {dict(extra)}")
+        
+        return False
+
+# Example usage
+expected_test_results = [1, 2, 2, 3, 3, 3, 4]
+actual_test_results = [1, 2, 3, 3, 3, 4, 4]
+
+is_match = compare_lists_with_duplicates(expected_test_results, actual_test_results)
+print(f"Results match: {is_match}")
+</code></pre>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>📊 Performance Issues with Large Datasets</summary>
+                    <div class="details-content">
+                        <div class="callout">
+                            <div class="callout-title">Problem</div>
+                            <p>Using inappropriate algorithms for large test datasets leading to timeout and memory issues.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Performance Optimization</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code># ❌ BAD: Inefficient for large datasets
+def find_slow_tests_inefficient(test_results, threshold):
+    """O(n²) approach - bad for large datasets"""
+    slow_tests = []
+    for test in test_results:
+        count_slower = 0
+        for other_test in test_results:
+            if other_test['duration'] > test['duration']:
+                count_slower += 1
+        if count_slower < len(test_results) * 0.1:  # Top 10%
+            slow_tests.append(test)
+    return slow_tests
+
+# ✅ GOOD: O(n log n) approach
+def find_slow_tests_efficient(test_results, percentile=90):
+    """Efficient approach using sorting"""
+    sorted_tests = sorted(test_results, key=lambda x: x['duration'], reverse=True)
+    cutoff_index = int(len(sorted_tests) * (100 - percentile) / 100)
+    return sorted_tests[:cutoff_index]
+
+# ✅ EVEN BETTER: Use heapq for top-k problems
+import heapq
+
+def find_top_k_slow_tests(test_results, k):
+    """Most efficient for finding just top-k elements"""
+    return heapq.nlargest(k, test_results, key=lambda x: x['duration'])
+
+# Memory-efficient processing of large log files
+def process_large_log_file_efficiently(filename):
+    """Process large files without loading everything into memory"""
+    error_count = 0
+    warning_count = 0
+    
+    with open(filename, 'r') as file:
+        for line_num, line in enumerate(file, 1):
+            if 'ERROR' in line:
+                error_count += 1
+            elif 'WARNING' in line:
+                warning_count += 1
+            
+            # Process in chunks to avoid memory issues
+            if line_num % 10000 == 0:
+                print(f"Processed {line_num} lines...")
+    
+    return {'errors': error_count, 'warnings': warning_count}
+
+# Example: Test with realistic data sizes
+import time
+import random
+
+def performance_comparison():
+    # Generate large test dataset
+    large_dataset = [
+        {'id': f'test_{i}', 'duration': random.uniform(0.1, 10.0)}
+        for i in range(10000)
+    ]
+    
+    # Time the inefficient approach (don't run with very large data!)
+    # start_time = time.time()
+    # slow_tests_inefficient = find_slow_tests_inefficient(large_dataset[:100], 8.0)
+    # inefficient_time = time.time() - start_time
+    
+    # Time the efficient approach
+    start_time = time.time()
+    slow_tests_efficient = find_slow_tests_efficient(large_dataset, 90)
+    efficient_time = time.time() - start_time
+    
+    # Time the heap approach
+    start_time = time.time()
+    top_k_slow = find_top_k_slow_tests(large_dataset, 100)
+    heap_time = time.time() - start_time
+    
+    print(f"Efficient sorting approach: {efficient_time:.4f}s")
+    print(f"Heap-based top-k: {heap_time:.4f}s")
+    print(f"Found {len(slow_tests_efficient)} slow tests (90th percentile)")
+    print(f"Found {len(top_k_slow)} slow tests (top 100)")
+
+# performance_comparison()
+</code></pre>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>🔍 Comparing Unsorted vs Sorted Responses</summary>
+                    <div class="details-content">
+                        <div class="callout">
+                            <div class="callout-title">Problem</div>
+                            <p>Failing to account for order differences when comparing API responses or test results.</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Proper Response Comparison</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code># ❌ BAD: Direct comparison without considering order
+def compare_api_responses_wrong(expected, actual):
+    return expected == actual  # Fails if order differs
+
+# ✅ GOOD: Order-agnostic comparison
+def compare_api_responses_correct(expected, actual):
+    """Compare API responses regardless of order"""
+    if len(expected) != len(actual):
+        return False
+    
+    # For lists without duplicates
+    return set(expected) == set(actual)
+
+def compare_api_responses_with_duplicates(expected, actual):
+    """Compare API responses with potential duplicates"""
+    from collections import Counter
+    return Counter(expected) == Counter(actual)
+
+def compare_complex_objects(expected, actual, key_func=None):
+    """Compare lists of complex objects"""
+    if key_func is None:
+        key_func = lambda x: x
+    
+    expected_sorted = sorted(expected, key=key_func)
+    actual_sorted = sorted(actual, key=key_func)
+    
+    return expected_sorted == actual_sorted
+
+# Example usage for API testing
+def test_search_api():
+    # Expected results (order doesn't matter for relevance testing)
+    expected_products = [
+        {"id": 1, "name": "iPhone", "price": 999},
+        {"id": 2, "name": "iPad", "price": 599},
+        {"id": 3, "name": "iMac", "price": 1299}
+    ]
+    
+    # Actual API response (different order)
+    actual_products = [
+        {"id": 3, "name": "iMac", "price": 1299},
+        {"id": 1, "name": "iPhone", "price": 999},
+        {"id": 2, "name": "iPad", "price": 599}
+    ]
+    
+    # Compare using product ID as key
+    is_valid = compare_complex_objects(
+        expected_products, 
+        actual_products, 
+        key_func=lambda p: p["id"]
+    )
+    
+    assert is_valid, "API response doesn't match expected products"
+    print("✅ API response validation passed")
+
+def test_sorted_api_response():
+    """Test when order IS important (sorted results)"""
+    expected_sorted = [
+        {"name": "iPad", "price": 599},
+        {"name": "iPhone", "price": 999},
+        {"name": "iMac", "price": 1299}
+    ]
+    
+    actual_response = [
+        {"name": "iPhone", "price": 999},
+        {"name": "iPad", "price": 599},
+        {"name": "iMac", "price": 1299}
+    ]
+    
+    # First, check if sorting is correct
+    actual_sorted_by_price = sorted(actual_response, key=lambda p: p["price"])
+    
+    if actual_sorted_by_price == expected_sorted:
+        print("✅ API response is correctly sorted by price")
+    else:
+        print("❌ API response sorting is incorrect")
+        print(f"Expected: {expected_sorted}")
+        print(f"Actual: {actual_sorted_by_price}")
+
+# test_search_api()
+# test_sorted_api_response()
+</code></pre>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <section id="cheatsheet" class="section">
+                <h2>📋 QA Interview Cheatsheet</h2>
+
+                <div class="callout">
+                    <div class="callout-title">🎯 Must-Know for QA Interviews</div>
+                    <p>These are the absolute essentials every QA engineer should know about sorting & searching:</p>
+                </div>
+
+                <h3>Key Formulas & Complexities</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Quick Reference</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre><code># TIME COMPLEXITIES (Most Important)
+Binary Search:     O(log n) - Array MUST be sorted
+Linear Search:     O(n) - Works on any array
+Python's sort():   O(n log n) - Timsort, stable
+Quick Sort:        O(n log n) avg, O(n²) worst - Unstable
+Merge Sort:        O(n log n) always - Stable, O(n) space
+
+# SPACE COMPLEXITIES
+In-place sorts:    O(1) - Quick, Heap, Bubble, Selection
+Out-of-place:      O(n) - Merge, Timsort
+Binary Search:     O(1) - Iterative, O(log n) - Recursive
+
+# QA-SPECIFIC PATTERNS
+# 1. Validate API sorting
+is_sorted = all(arr[i] <= arr[i+1] for i in range(len(arr)-1))
+
+# 2. Find first/last occurrence (for defect isolation)
+def find_first(arr, target):
+    # Binary search variant - continue searching left when found
+
+# 3. Compare unordered lists
+from collections import Counter
+lists_equal = Counter(list1) == Counter(list2)
+
+# 4. Top-K elements (performance analysis)
+import heapq
+top_k = heapq.nlargest(k, data, key=lambda x: x.duration)
+
+# 5. Multi-level sorting (test case prioritization)
+tests.sort(key=lambda t: (t.priority, t.duration, t.id))
+</code></pre>
+                </div>
+
+                <h3>Real QA Applications Quick Reference</h3>
+                
+                <details>
+                    <summary>🔍 Binary Search Use Cases</summary>
+                    <div class="details-content">
+                        <ul>
+                            <li><strong>Defect Isolation:</strong> Find first failing build in CI/CD pipeline</li>
+                            <li><strong>Log Analysis:</strong> Find first/last occurrence of error in time-sorted logs</li>
+                            <li><strong>Performance Testing:</strong> Find threshold where response time degrades</li>
+                            <li><strong>API Validation:</strong> Verify pagination boundaries in sorted results</li>
+                            <li><strong>Data Validation:</strong> Check if value exists in sorted dataset</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>📊 Sorting Use Cases</summary>
+                    <div class="details-content">
+                        <ul>
+                            <li><strong>Test Execution:</strong> Sort test cases by priority and duration</li>
+                            <li><strong>Result Analysis:</strong> Sort performance data for percentile analysis</li>
+                            <li><strong>Report Generation:</strong> Sort failures by severity and occurrence count</li>
+                            <li><strong>Data Comparison:</strong> Sort both expected and actual before comparison</li>
+                            <li><strong>Log Merging:</strong> Merge sorted logs from parallel test executions</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <h3>5 Must-Know Interview Patterns</h3>
+
+                <div class="qa-grid">
+                    <div class="qa-item">
+                        <div class="qa-question">1. API Response Validation</div>
+                        <div class="qa-answer">
+                            <pre><code># Verify if API returns sorted results
+def is_api_sorted(response, key):
+    values = [item[key] for item in response]
+    return values == sorted(values)</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="qa-item">
+                        <div class="qa-question">2. Find First Failing Test</div>
+                        <div class="qa-answer">
+                            <pre><code># Binary search for first failure
+def find_first_fail(results):
+    # results = [1,1,1,0,0,0] (1=pass, 0=fail)
+    left, right = 0, len(results) - 1
+    first_fail = -1
+    while left <= right:
+        mid = (left + right) // 2
+        if results[mid] == 0:
+            first_fail = mid
+            right = mid - 1
+        else:
+            left = mid + 1
+    return first_fail</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="qa-item">
+                        <div class="qa-question">3. Top-K Analysis</div>
+                        <div class="qa-answer">
+                            <pre><code># Find k slowest tests efficiently
+import heapq
+def top_k_slow(tests, k):
+    return heapq.nlargest(k, tests, 
+                         key=lambda t: t.duration)</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="qa-item">
+                        <div class="qa-question">4. Multi-level Test Sorting</div>
+                        <div class="qa-answer">
+                            <pre><code># Sort tests: failures first, then by priority
+def sort_for_execution(tests):
+    return sorted(tests, key=lambda t: (
+        t.status != "FAIL",  # False < True
+        t.priority,
+        t.duration
+    ))</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="qa-item">
+                        <div class="qa-question">5. Order-Agnostic Comparison</div>
+                        <div class="qa-answer">
+                            <pre><code># Compare lists regardless of order
+from collections import Counter
+def lists_equal_unordered(a, b):
+    return Counter(a) == Counter(b)</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Practice Checklist</h3>
+                <div class="callout">
+                    <div class="callout-title">✅ Before Your QA Interview</div>
+                    <ul>
+                        <li>✅ Can implement binary search without bugs</li>
+                        <li>✅ Know when to use stable vs unstable sorting</li>
+                        <li>✅ Can explain O(log n) vs O(n) in practical terms</li>
+                        <li>✅ Understand how to validate API response sorting</li>
+                        <li>✅ Can find first/last occurrence using binary search</li>
+                        <li>✅ Know how to sort custom objects with multiple criteria</li>
+                        <li>✅ Understand when to use heapq for top-k problems</li>
+                        <li>✅ Can compare unordered lists correctly</li>
+                        <li>✅ Know common pitfalls (off-by-one, stability, duplicates)</li>
+                        <li>✅ Can explain real QA use cases for each algorithm</li>
+                    </ul>
+                </div>
+
+                <h3>Common Interview Questions</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Practice These</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre><code># 1. "How would you test if an API returns sorted results?"
+def test_api_sorting(api_response, sort_field):
+    values = [item[sort_field] for item in api_response]
+    return values == sorted(values)
+
+# 2. "Find the first failing build in CI history"
+def find_first_failure(builds):  # builds = [1,1,1,0,0,0]
+    # Use binary search to find first 0
+    pass  # Implement binary search for first occurrence
+
+# 3. "How do you handle duplicate test results?"
+from collections import Counter
+def compare_test_results(expected, actual):
+    return Counter(expected) == Counter(actual)
+
+# 4. "Sort test cases by multiple criteria"
+def sort_test_cases(cases):
+    return sorted(cases, key=lambda c: (c.priority, c.duration))
+
+# 5. "Find top 10 slowest tests efficiently"
+import heapq
+def top_slow_tests(tests, k=10):
+    return heapq.nlargest(k, tests, key=lambda t: t.duration)
+</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Shaivi Connect | Day 15 — Sorting & Searching for QA Engineers</p>
+        <div class="nav-links">
+            <a href="#">← Day 14: Trees & Graphs</a>
+            <a href="#">Day 16: Dynamic Programming →</a>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+        });
+
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('.code-block');
+            const code = codeBlock.querySelector('pre code');
+            const text = code.textContent;
+
+            navigator.clipboard.writeText(text).then(function() {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = '#10b981';
+                
+                setTimeout(function() {
+                    button.textContent = originalText;
+                    button.style.background = 'var(--accent-color)';
+                }, 2000);
+            });
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const qaItems = document.querySelectorAll('.qa-item');
+            
+            qaItems.forEach(item => {
+                const question = item.querySelector('.qa-question').textContent.toLowerCase();
+                const answer = item.querySelector('.qa-answer').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = searchTerm ? 'none' : 'block';
+                }
+            });
+        });
+
+        // Table of contents active link
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.id;
+                const tocLink = document.querySelector(`a[href="#${id}"]`);
+                
+                if (entry.isIntersecting) {
+                    document.querySelectorAll('.toc-list a').forEach(link => 
+                        link.classList.remove('active'));
+                    if (tocLink) {
+                        tocLink.classList.add('active');
+                    }
+                }
+            });
+        }, {
+            rootMargin: '-20% 0px -70% 0px'
+        });
+
+        document.querySelectorAll('section[id]').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('.toc-list a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Print functionality
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'p') {
+                window.print();
+            }
+        });
+    </script>
+</body>
+</html><code>def bubble_sort(arr):
+    """
+    QA Use: Simple sorting for small test datasets
+    Time: O(n²), Space: O(1), Stable: Yes
+    """
+    n = len(arr)
+    for i in range(n):
+        swapped = False
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
+        if not swapped:  # Optimization for QA: early termination
+            break
+    return arr
+
+# QA Example: Sort test execution times
+test_times = [45.2, 12.1, 67.8, 23.4, 8.9]
+sorted_times = bubble_sort(test_times.copy())
+print(f"Execution times (sorted): {sorted_times}")
+</code></pre>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>⚡ Quick Sort - O(n log n) avg</summary>
+                    <div class="details-content">
+                        <p><strong>QA Use:</strong> Fast in-memory sorting for large test datasets</p>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Python Implementation</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code>def quick_sort(arr, low=0, high=None):
+    """
+    QA Use: Fast sorting for performance test data analysis
+    Time: O(n log n) avg, O(n²) worst, Space: O(log n), Stable: No
+    """
+    if high is None:
+        high = len(arr) - 1
+    
+    if low < high:
+        pi = partition(arr, low, high)
+        quick_sort(arr, low, pi - 1)
+        quick_sort(arr, pi + 1, high)
+    
+    return arr
+
+def partition(arr, low, high):
+    pivot = arr[high]  # Choose last element as pivot
+    i = low - 1
+    
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    return i + 1
+
+# QA Example: Sort response times for performance analysis
+response_times = [120, 45, 200, 67, 89, 156, 78, 234]
+quick_sort(response_times)
+print(f"Performance data (sorted): {response_times}")
+</code></pre>
+                        </div>
+
+                        <div class="callout">
+                            <div class="callout-title">⚠️ QA Consideration</div>
+                            <p>QuickSort is <strong>unstable</strong> - if your test data has secondary sort keys (e.g., userID after timestamp), the order might change unexpectedly.</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>🔗 Merge Sort - O(n log n) guaranteed</summary>
+                    <div class="details-content">
+                        <p><strong>QA Use:</strong> Stable sorting, merging sorted test logs from parallel executions</p>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Python Implementation</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code>def merge_sort(arr):
+    """
+    QA Use: Stable sorting for test data with secondary keys
+    Time: O(n log n), Space: O(n), Stable: Yes
+    Perfect for merging sorted test logs from parallel runs
+    """
+    if len(arr) <= 1:
+        return arr
+    
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    
+    return merge(left, right)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+    
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:  # <= ensures stability
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+
+# QA Example: Merge sorted test results from parallel executions
+test_results_1 = [("TC001", 12.3), ("TC005", 45.6)]
+test_results_2 = [("TC002", 23.1), ("TC007", 67.8)]
+merged_results = merge(test_results_1, test_results_2)
+print(f"Merged test results: {merged_results}")
+</code></pre>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>🐍 Python's Built-in Sorting (Timsort)</summary>
+                    <div class="details-content">
+                        <p><strong>QA Use:</strong> Most practical choice for real automation</p>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Python Sorting Best Practices</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code># QA-focused Python sorting examples
+
+# 1. Basic sorting for test data validation
+test_scores = [85, 92, 78, 96, 88]
+sorted_scores = sorted(test_scores)  # Returns new list
+test_scores.sort()  # In-place sorting
+
+# 2. Sorting custom objects (common in QA)
+class TestCase:
+    def __init__(self, id, priority, duration):
+        self.id = id
+        self.priority = priority  # 1=high, 3=low
+        self.duration = duration
+
+test_cases = [
+    TestCase("TC001", 1, 30),
+    TestCase("TC002", 2, 15),
+    TestCase("TC003", 1, 45)
+]
+
+# Sort by priority, then by duration
+test_cases.sort(key=lambda tc: (tc.priority, tc.duration))
+
+# 3. Reverse sorting for performance analysis
+response_times = [120, 45, 200, 67]
+slowest_first = sorted(response_times, reverse=True)
+
+# 4. Multi-level sorting for test reports
+test_results = [
+    ("Login", "PASS", 2.3),
+    ("Checkout", "FAIL", 5.1),
+    ("Login", "FAIL", 1.8),
+    ("Search", "PASS", 0.9)
+]
+
+# Sort by status (FAIL first), then by duration
+sorted_results = sorted(test_results, 
+                       key=lambda x: (x[1] == "PASS", x[2]))
+
+print("Critical failures first:", sorted_results)
+</code></pre>
+                        </div>
+
+                        <div class="callout">
+                            <div class="callout-title">💡 QA Pro Tip</div>
+                            <p><strong>Timsort</strong> (Python's default) is adaptive and stable - perfect for QA work where you often need to maintain relative order of equal elements (like test cases with same priority).</p>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <section id="searching" class="section">
+                <h2>🔍 Searching Algorithms (QA Relevance)</h2>
+
+                <details>
+                    <summary>📝 Linear Search - O(n)</summary>
+                    <div class="details-content">
+                        <p><strong>QA Use:</strong> Searching unsorted test data, finding specific error messages</p>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Linear Search Implementation</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code>def linear_search(arr, target):
+    """
+    QA Use: Search through unsorted test logs, error messages
+    Time: O(n), Space: O(1)
+    """
+    for i, item in enumerate(arr):
+        if item == target:
+            return i
+    return -1
+
+def linear_search_all(arr, target):
+    """
+    QA Use: Find all occurrences (e.g., all failed tests)
+    """
+    indices = []
+    for i, item in enumerate(arr):
+        if item == target:
+            indices.append(i)
+    return indices
+
+# QA Examples
+test_statuses = ["PASS", "FAIL", "SKIP", "FAIL", "PASS"]
+first_failure = linear_search(test_statuses, "FAIL")
+all_failures = linear_search_all(test_statuses, "FAIL")
+
+print(f"First failure at index: {first_failure}")
+print(f"All failures at indices: {all_failures}")
+
+# Search for error patterns in logs
+error_logs = [
+    "INFO: Test started",
+    "ERROR: Connection timeout",
+    "INFO: Test completed",
+    "ERROR: Assertion failed",
+    "WARN: Slow response"
+]
+
+error_indices = [i for i, log in enumerate(error_logs) 
+                if "ERROR" in log]
+print(f"Error logs found at: {error_indices}")
+</code></pre>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>⚡ Binary Search - O(log n)</summary>
+                    <div class="details-content">
+                        <p><strong>QA Use:</strong> Search sorted data, defect isolation in build histories</p>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Binary Search Implementation</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code>def binary_search(arr, target):
+    """
+    QA Use: Search sorted test data, build numbers, timestamps
+    Time: O(log n), Space: O(1)
+    Prerequisite: Array must be sorted!
+    """
+    left, right = 0, len(arr) - 1
+    
+    while left <= right:
+        mid = (left + right) // 2
+        
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return -1
+
+def binary_search_first_occurrence(arr, target):
+    """
+    QA Use: Find first occurrence of a bug in build history
+    """
+    left, right = 0, len(arr) - 1
+    result = -1
+    
+    while left <= right:
+        mid = (left + right) // 2
+        
+        if arr[mid] == target:
+            result = mid
+            right = mid - 1  # Continue searching left
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return result
+
+def binary_search_insertion_point(arr, target):
+    """
+    QA Use: Find where to insert new test data in sorted list
+    """
+    left, right = 0, len(arr)
+    
+    while left < right:
+        mid = (left + right) // 2
+        if arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid
+    
+    return left
+
+# QA Examples
+build_numbers = [101, 105, 108, 112, 115, 118, 122, 125]
+failing_build = binary_search(build_numbers, 115)
+print(f"Build 115 found at index: {failing_build}")
+
+# Find first failing build in sorted history
+test_results = [1, 1, 1, 0, 0, 0, 0]  # 1=pass, 0=fail
+first_fail = binary_search_first_occurrence(test_results, 0)
+print(f"First failure at index: {first_fail}")
+
+# Defect isolation example
+response_times = [45, 67, 89, 120, 156, 234, 445, 678]
+threshold = 200
+insertion_point = binary_search_insertion_point(response_times, threshold)
+print(f"Performance degradation starts around index: {insertion_point}")
+</code></pre>
+                        </div>
+
+                        <div class="callout">
+                            <div class="callout-title">🎯 QA Application: Defect Isolation</div>
+                            <p>Use binary search to find the <strong>first failing build</strong> in CI/CD history. If builds 1-100 pass and 101-200 fail, binary search can find the exact failing build in ~7 comparisons instead of 100.</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>🔄 Search in Rotated Sorted Array</summary>
+                    <div class="details-content">
+                        <p><strong>QA Use:</strong> Searching in rotated test datasets, circular logs</p>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Rotated Array Search</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre>
