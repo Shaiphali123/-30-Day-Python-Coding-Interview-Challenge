@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 16: Recursion & Backtracking - Python Interview Series</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header .day {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin: 30px 0 15px 0;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #34495e;
+            font-size: 1.3rem;
+            margin: 20px 0 10px 0;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #444;
+            text-align: justify;
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 5px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .key-concepts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .concept-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .concept-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .code-container {
+            background: #282c34;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .code-header {
+            background: #21252b;
+            color: #abb2bf;
+            padding: 15px 20px;
+            font-weight: 600;
+            border-bottom: 1px solid #3e4451;
+        }
+
+        pre {
+            margin: 0;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        code {
+            color: #abb2bf;
+            font-family: 'Courier New', Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .python-keyword { color: #c678dd; }
+        .python-function { color: #61afef; }
+        .python-string { color: #98c379; }
+        .python-number { color: #d19a66; }
+        .python-comment { color: #5c6370; font-style: italic; }
+
+        .algorithm-steps {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .algorithm-steps h4 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .algorithm-steps ol {
+            margin-left: 20px;
+        }
+
+        .algorithm-steps li {
+            margin-bottom: 8px;
+            color: #6c5701;
+        }
+
+        .interview-questions {
+            background: linear-gradient(135deg, #e8f5e8, #f0f8f0);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .interview-questions h3 {
+            color: #2d5016;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .question-list {
+            counter-reset: question-counter;
+        }
+
+        .question-item {
+            counter-increment: question-counter;
+            background: white;
+            margin: 15px 0;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border-left: 4px solid #27ae60;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .question-item:hover {
+            transform: translateX(5px);
+        }
+
+        .question-item::before {
+            content: counter(question-counter);
+            background: #27ae60;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            left: -12px;
+            top: 15px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .question-item .difficulty {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .easy { background: #d4edda; color: #155724; }
+        .medium { background: #fff3cd; color: #856404; }
+        .hard { background: #f8d7da; color: #721c24; }
+
+        .footer {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            text-align: center;
+            padding: 25px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .tip {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Recursion & Backtracking</h1>
+            <div class="day">Day 16 - Python Interview Series</div>
+        </div>
+
+        <div class="content">
+            <h2>📚 Introduction to Recursion</h2>
+            
+            <div class="definition-box">
+                <strong>Recursion</strong> is a programming technique where a function calls itself to solve a problem by breaking it down into smaller, similar subproblems. It's like looking into two mirrors facing each other - you see an infinite reflection, but each reflection is smaller than the previous one.
+            </div>
+
+            <div class="key-concepts">
+                <div class="concept-card">
+                    <h4>🎯 Base Case</h4>
+                    <p>The condition that stops the recursion. Without it, the function would call itself infinitely, causing a stack overflow.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔄 Recursive Case</h4>
+                    <p>The part where the function calls itself with modified parameters, moving closer to the base case.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📚 Call Stack</h4>
+                    <p>Memory structure that keeps track of function calls. Each recursive call adds a new frame to the stack.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🧠 Stack Memory</h4>
+                    <p>Limited memory space for function calls. Deep recursion can cause stack overflow if memory is exhausted.</p>
+                </div>
+            </div>
+
+            <h2>💡 Recursion Examples</h2>
+            
+            <h3>Example 1: Factorial Function</h3>
+            <div class="code-container">
+                <div class="code-header">Python - Factorial Calculation</div>
+                <pre><code><span class="python-keyword">def</span> <span class="python-function">factorial</span>(n):
+    <span class="python-comment"># Base case: factorial of 0 or 1 is 1</span>
+    <span class="python-keyword">if</span> n <= <span class="python-number">1</span>:
+        <span class="python-keyword">return</span> <span class="python-number">1</span>
+    
+    <span class="python-comment"># Recursive case: n! = n * (n-1)!</span>
+    <span class="python-keyword">return</span> n * factorial(n - <span class="python-number">1</span>)
+
+<span class="python-comment"># Example usage</span>
+<span class="python-keyword">print</span>(factorial(<span class="python-number">5</span>))  <span class="python-comment"># Output: 120</span>
+<span class="python-keyword">print</span>(factorial(<span class="python-number">0</span>))  <span class="python-comment"># Output: 1</span>
+
+<span class="python-comment"># Call stack visualization for factorial(3):</span>
+<span class="python-comment"># factorial(3) → 3 * factorial(2)</span>
+<span class="python-comment"># factorial(2) → 2 * factorial(1)</span>
+<span class="python-comment"># factorial(1) → 1 (base case)</span>
+<span class="python-comment"># Result: 3 * 2 * 1 = 6</span></code></pre>
+            </div>
+
+            <h3>Example 2: Fibonacci Sequence</h3>
+            <div class="code-container">
+                <div class="code-header">Python - Fibonacci Numbers</div>
+                <pre><code><span class="python-keyword">def</span> <span class="python-function">fibonacci</span>(n):
+    <span class="python-comment"># Base cases</span>
+    <span class="python-keyword">if</span> n <= <span class="python-number">0</span>:
+        <span class="python-keyword">return</span> <span class="python-number">0</span>
+    <span class="python-keyword">elif</span> n == <span class="python-number">1</span>:
+        <span class="python-keyword">return</span> <span class="python-number">1</span>
+    
+    <span class="python-comment"># Recursive case: F(n) = F(n-1) + F(n-2)</span>
+    <span class="python-keyword">return</span> fibonacci(n - <span class="python-number">1</span>) + fibonacci(n - <span class="python-number">2</span>)
+
+<span class="python-comment"># Optimized version with memoization</span>
+<span class="python-keyword">def</span> <span class="python-function">fibonacci_memo</span>(n, memo={}):
+    <span class="python-keyword">if</span> n <span class="python-keyword">in</span> memo:
+        <span class="python-keyword">return</span> memo[n]
+    
+    <span class="python-keyword">if</span> n <= <span class="python-number">0</span>:
+        <span class="python-keyword">return</span> <span class="python-number">0</span>
+    <span class="python-keyword">elif</span> n == <span class="python-number">1</span>:
+        <span class="python-keyword">return</span> <span class="python-number">1</span>
+    
+    memo[n] = fibonacci_memo(n - <span class="python-number">1</span>, memo) + fibonacci_memo(n - <span class="python-number">2</span>, memo)
+    <span class="python-keyword">return</span> memo[n]
+
+<span class="python-comment"># Example usage</span>
+<span class="python-keyword">print</span>(fibonacci(<span class="python-number">6</span>))     <span class="python-comment"># Output: 8</span>
+<span class="python-keyword">print</span>(fibonacci_memo(<span class="python-number">10</span>))  <span class="python-comment"># Output: 55</span></code></pre>
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ Performance Note:</strong> The naive fibonacci function has exponential time complexity O(2^n). Always consider using memoization or iterative approaches for better performance in interviews.
+            </div>
+
+            <h2>🔙 Introduction to Backtracking</h2>
+            
+            <div class="definition-box">
+                <strong>Backtracking</strong> is an algorithmic approach that considers searching every possible combination in order to solve computational problems. It builds solutions incrementally and abandons candidates ("backtracks") when they cannot possibly lead to a valid solution.
+            </div>
+
+            <div class="algorithm-steps">
+                <h4>🔄 Backtracking Algorithm Steps:</h4>
+                <ol>
+                    <li><strong>Choose:</strong> Make a choice from available options</li>
+                    <li><strong>Explore:</strong> Recursively explore the consequences of that choice</li>
+                    <li><strong>Unchoose:</strong> If the choice doesn't lead to a solution, backtrack (undo the choice)</li>
+                    <li><strong>Repeat:</strong> Try the next available choice</li>
+                </ol>
+            </div>
+
+            <div class="tip">
+                <strong>💡 When to Use Backtracking:</strong> Perfect for constraint satisfaction problems, finding all solutions, optimization problems where you need to explore all possibilities (Sudoku, N-Queens, permutations, combinations).
+            </div>
+
+            <h2>👑 Backtracking Example: N-Queens Problem</h2>
+            
+            <p>The N-Queens problem asks: "How can you place N chess queens on an N×N chessboard so that no two queens threaten each other?"</p>
+
+            <div class="code-container">
+                <div class="code-header">Python - N-Queens Solution</div>
+                <pre><code><span class="python-keyword">def</span> <span class="python-function">solve_n_queens</span>(n):
+    <span class="python-comment"># Initialize the board</span>
+    board = [[<span class="python-string">'.'</span> <span class="python-keyword">for</span> _ <span class="python-keyword">in</span> <span class="python-function">range</span>(n)] <span class="python-keyword">for</span> _ <span class="python-keyword">in</span> <span class="python-function">range</span>(n)]
+    solutions = []
+    
+    <span class="python-keyword">def</span> <span class="python-function">is_safe</span>(row, col):
+        <span class="python-comment"># Check column</span>
+        <span class="python-keyword">for</span> i <span class="python-keyword">in</span> <span class="python-function">range</span>(row):
+            <span class="python-keyword">if</span> board[i][col] == <span class="python-string">'Q'</span>:
+                <span class="python-keyword">return</span> <span class="python-keyword">False</span>
+        
+        <span class="python-comment"># Check diagonal (top-left to bottom-right)</span>
+        i, j = row - <span class="python-number">1</span>, col - <span class="python-number">1</span>
+        <span class="python-keyword">while</span> i >= <span class="python-number">0</span> <span class="python-keyword">and</span> j >= <span class="python-number">0</span>:
+            <span class="python-keyword">if</span> board[i][j] == <span class="python-string">'Q'</span>:
+                <span class="python-keyword">return</span> <span class="python-keyword">False</span>
+            i -= <span class="python-number">1</span>
+            j -= <span class="python-number">1</span>
+        
+        <span class="python-comment"># Check diagonal (top-right to bottom-left)</span>
+        i, j = row - <span class="python-number">1</span>, col + <span class="python-number">1</span>
+        <span class="python-keyword">while</span> i >= <span class="python-number">0</span> <span class="python-keyword">and</span> j < n:
+            <span class="python-keyword">if</span> board[i][j] == <span class="python-string">'Q'</span>:
+                <span class="python-keyword">return</span> <span class="python-keyword">False</span>
+            i -= <span class="python-number">1</span>
+            j += <span class="python-number">1</span>
+        
+        <span class="python-keyword">return</span> <span class="python-keyword">True</span>
+    
+    <span class="python-keyword">def</span> <span class="python-function">backtrack</span>(row):
+        <span class="python-comment"># Base case: all queens placed successfully</span>
+        <span class="python-keyword">if</span> row == n:
+            solution = [<span class="python-string">''</span>.join(row) <span class="python-keyword">for</span> row <span class="python-keyword">in</span> board]
+            solutions.append(solution)
+            <span class="python-keyword">return</span>
+        
+        <span class="python-comment"># Try placing queen in each column of current row</span>
+        <span class="python-keyword">for</span> col <span class="python-keyword">in</span> <span class="python-function">range</span>(n):
+            <span class="python-keyword">if</span> is_safe(row, col):
+                <span class="python-comment"># Choose: place queen</span>
+                board[row][col] = <span class="python-string">'Q'</span>
+                
+                <span class="python-comment"># Explore: recurse to next row</span>
+                backtrack(row + <span class="python-number">1</span>)
+                
+                <span class="python-comment"># Unchoose: backtrack</span>
+                board[row][col] = <span class="python-string">'.'</span>
+    
+    backtrack(<span class="python-number">0</span>)
+    <span class="python-keyword">return</span> solutions
+
+<span class="python-comment"># Example usage</span>
+solutions = solve_n_queens(<span class="python-number">4</span>)
+<span class="python-keyword">print</span>(<span class="python-string">f"Found {len(solutions)} solutions for 4-Queens:"</span>)
+<span class="python-keyword">for</span> i, solution <span class="python-keyword">in</span> <span class="python-function">enumerate</span>(solutions):
+    <span class="python-keyword">print</span>(<span class="python-string">f"\nSolution {i + 1}:"</span>)
+    <span class="python-keyword">for</span> row <span class="python-keyword">in</span> solution:
+        <span class="python-keyword">print</span>(row)</code></pre>
+            </div>
+
+            <h3>🧩 How N-Queens Backtracking Works:</h3>
+            <div class="algorithm-steps">
+                <h4>Step-by-Step Process:</h4>
+                <ol>
+                    <li><strong>Start with empty board:</strong> Begin at row 0</li>
+                    <li><strong>Place queen:</strong> Try placing a queen in each column of current row</li>
+                    <li><strong>Check safety:</strong> Verify no conflicts with previously placed queens</li>
+                    <li><strong>Recurse:</strong> If safe, move to next row and repeat</li>
+                    <li><strong>Backtrack:</strong> If no safe position found, remove last queen and try next column</li>
+                    <li><strong>Solution found:</strong> When all N queens are placed safely</li>
+                </ol>
+            </div>
+
+            <h2>🎯 Key Recursion Patterns</h2>
+            
+            <div class="code-container">
+                <div class="code-header">Common Recursion Patterns</div>
+                <pre><code><span class="python-comment"># 1. Linear Recursion (like factorial)</span>
+<span class="python-keyword">def</span> <span class="python-function">linear_recursion</span>(n):
+    <span class="python-keyword">if</span> n <= <span class="python-number">0</span>:  <span class="python-comment"># Base case</span>
+        <span class="python-keyword">return</span> <span class="python-number">1</span>
+    <span class="python-keyword">return</span> n * linear_recursion(n - <span class="python-number">1</span>)
+
+<span class="python-comment"># 2. Binary Recursion (like fibonacci)</span>
+<span class="python-keyword">def</span> <span class="python-function">binary_recursion</span>(n):
+    <span class="python-keyword">if</span> n <= <span class="python-number">1</span>:  <span class="python-comment"># Base case</span>
+        <span class="python-keyword">return</span> n
+    <span class="python-keyword">return</span> binary_recursion(n - <span class="python-number">1</span>) + binary_recursion(n - <span class="python-number">2</span>)
+
+<span class="python-comment"># 3. Tail Recursion (optimizable)</span>
+<span class="python-keyword">def</span> <span class="python-function">tail_factorial</span>(n, acc=<span class="python-number">1</span>):
+    <span class="python-keyword">if</span> n <= <span class="python-number">1</span>:
+        <span class="python-keyword">return</span> acc
+    <span class="python-keyword">return</span> tail_factorial(n - <span class="python-number">1</span>, n * acc)
+
+<span class="python-comment"># 4. Tree Recursion (like tree traversal)</span>
+<span class="python-keyword">def</span> <span class="python-function">tree_sum</span>(node):
+    <span class="python-keyword">if</span> node <span class="python-keyword">is</span> <span class="python-keyword">None</span>:
+        <span class="python-keyword">return</span> <span class="python-number">0</span>
+    <span class="python-keyword">return</span> node.val + tree_sum(node.left) + tree_sum(node.right)</code></pre>
+            </div>
+
+            <div class="interview-questions">
+                <h3>🎤 Top 10 Interview Questions: Recursion & Backtracking</h3>
+                <div class="question-list">
+                    <div class="question-item">
+                        <strong>Implement a function to calculate the power of a number using recursion</strong>
+                        <span class="difficulty easy">Easy</span>
+                    </div>
+                    <div class="question-item">
+                        <strong>Find all permutations of a given string using backtracking</strong>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <div class="question-item">
+                        <strong>Solve the classic Tower of Hanoi problem recursively</strong>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <div class="question-item">
+                        <strong>Generate all possible combinations of parentheses for n pairs</strong>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <div class="question-item">
+                        <strong>Implement binary search using recursion</strong>
+                        <span class="difficulty easy">Easy</span>
+                    </div>
+                    <div class="question-item">
+                        <strong>Solve Sudoku puzzle using backtracking algorithm</strong>
+                        <span class="difficulty hard">Hard</span>
+                    </div>
+                    <div class="question-item">
+                        <strong>Find all paths from top-left to bottom-right in a matrix</strong>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <div class="question-item">
+                        <strong>Implement subset sum problem using recursion</strong>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <div class="question-item">
+                        <strong>Generate all possible letter combinations of a phone number</strong>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <div class="question-item">
+                        <strong>Solve the Word Search problem using backtracking</strong>
+                        <span class="difficulty hard">Hard</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2>🚀 Pro Tips for Interviews</h2>
+            
+            <div class="key-concepts">
+                <div class="concept-card">
+                    <h4>🎯 Always Define Base Case First</h4>
+                    <p>Start by identifying and implementing the base case. This prevents infinite recursion and makes your logic clearer.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📊 Consider Time & Space Complexity</h4>
+                    <p>Recursion uses O(n) space due to call stack. Some problems might need iterative solutions for better space efficiency.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🧠 Use Memoization</h4>
+                    <p>Cache results of expensive recursive calls to avoid redundant computations and improve performance significantly.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔍 Trace Through Examples</h4>
+                    <p>Walk through your recursive function with small examples to verify correctness before coding complex cases.</p>
+                </div>
+            </div>
+
+            <div class="tip">
+                <strong>🎯 Interview Strategy:</strong> When solving recursion problems, always explain your base case, recursive relationship, and time/space complexity. Draw the recursion tree for complex problems to visualize the solution.
+            </div>
+        </div>
+
+        <div class="footer">
+            🚀 Powered by Shaivi Connect
+        </div>
+    </div>
+</body>
+</html>
