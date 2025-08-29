@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 16: Practice Problems | Python Interview Series</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+        }
+        h2 {
+            font-size: 2em;
+        }
+        h3 {
+            font-size: 1.5em;
+            border-bottom: none;
+            margin-top: 30px;
+        }
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+        }
+        code {
+            background-color: #ecf0f1;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .problem-card {
+            background-color: #eaf2f8;
+            border-left: 5px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        details {
+            margin-top: 15px;
+            background-color: #fdfefe;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+        }
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+            padding: 10px;
+            background-color: #ecf0f1;
+            color: #2980b9;
+        }
+        .solution {
+            padding: 15px;
+            border-top: 1px solid #bdc3c7;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Day 16: Practice Problems 💻</h1>
+        <p>Apply your knowledge of recursion and backtracking with these common interview problems. Try to solve them on your own before looking at the solution!</p>
+
+        <hr>
+
+        <h2>Easy Problems</h2>
+        
+        <div class="problem-card">
+            <h3>Problem 1: Reverse a String</h3>
+            <p>Write a recursive function to reverse a given string.</p>
+            <p><strong>Example:</strong></p>
+            <p>Input: <code>"hello"</code><br>
+            Output: <code>"olleh"</code></p>
+
+            <details>
+                <summary>Click for Solution</summary>
+                <div class="solution">
+                    <h4>Explanation</h4>
+                    <p>The base case is an empty string, which is its own reverse. The recursive step involves taking the first character, putting it at the end, and calling the function on the rest of the string.</p>
+                    <p><code>reverse("hello")</code> = <code>reverse("ello")</code> + 'h' <br>
+                       = (<code>reverse("llo")</code> + 'e') + 'h'<br>
+                       = ...and so on.
+                    </p>
+<pre><code>
+def reverse_string(s):
+    # Base Case: if the string is empty, return it
+    if len(s) == 0:
+        return s
+    # Recursive Case:
+    else:
+        # Call the function on the substring (from index 1 to end)
+        # and append the first character to the end
+        return reverse_string(s[1:]) + s[0]
+
+# Example usage:
+my_string = "hello"
+print(f"Original: {my_string}")
+print(f"Reversed: {reverse_string(my_string)}")
+</code></pre>
+                </div>
+            </details>
+        </div>
+
+        <hr>
+        
+        <h2>Medium Problems</h2>
+
+        <div class="problem-card">
+            <h3>Problem 2: Generate Parentheses</h3>
+            <p>Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.</p>
+            <p><strong>Example:</strong></p>
+            <p>Input: <code>n = 3</code><br>
+            Output: <code>["((()))", "(()())", "(())()", "()(())", "()()()"]</code></p>
+            
+            <details>
+                <summary>Click for Solution</summary>
+                <div class="solution">
+                    <h4>Explanation</h4>
+                    <p>This is a classic backtracking problem. We build the string from left to right. We can add a '(' if we have open parentheses left to place. We can add a ')' if the number of closing parentheses is less than the number of open parentheses used so far. The recursion stops when the string length is $2 \times n$.</p>
+<pre><code>
+def generate_parentheses(n):
+    solutions = []
+    
+    def backtrack(current_string, open_count, close_count):
+        # Base Case: if the string is complete
+        if len(current_string) == n * 2:
+            solutions.append(current_string)
+            return
+
+        # Recursive Cases:
+        # 1. Add an open parenthesis if we can
+        if open_count < n:
+            backtrack(current_string + "(", open_count + 1, close_count)
+        
+        # 2. Add a close parenthesis if it's valid to do so
+        if close_count < open_count:
+            backtrack(current_string + ")", open_count, close_count + 1)
+
+    backtrack("", 0, 0)
+    return solutions
+
+# Example usage:
+n = 3
+print(f"Valid parentheses for n={n}: {generate_parentheses(n)}")
+</code></pre>
+                </div>
+            </details>
+        </div>
+
+        <div class="problem-card">
+            <h3>Problem 3: Permutations</h3>
+            <p>Given an array <code>nums</code> of distinct integers, return all the possible permutations. You can return the answer in any order.</p>
+            <p><strong>Example:</strong></p>
+            <p>Input: <code>nums = [1, 2, 3]</code><br>
+            Output: <code>[[1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1]]</code></p>
+            
+            <details>
+                <summary>Click for Solution</summary>
+                <div class="solution">
+                    <h4>Explanation</h4>
+                    <p>We use backtracking to explore all possible arrangements. The core idea is to iterate through the numbers. For each number, if it hasn't been used yet in the current permutation, we add it, then recursively call the function to build the rest of the permutation. After the recursive call returns, we "backtrack" by removing the number, allowing it to be used in a different position in other permutations.</p>
+<pre><code>
+def permute(nums):
+    result = []
+    
+    def backtrack(current_permutation, remaining_nums):
+        # Base Case: if there are no remaining numbers, we have a full permutation
+        if not remaining_nums:
+            result.append(list(current_permutation))
+            return
+        
+        # Recursive Case: iterate through remaining numbers
+        for i in range(len(remaining_nums)):
+            # Choose a number
+            num = remaining_nums[i]
+            
+            # Explore
+            new_remaining = remaining_nums[:i] + remaining_nums[i+1:]
+            current_permutation.append(num)
+            backtrack(current_permutation, new_remaining)
+            
+            # Backtrack (un-choose)
+            current_permutation.pop()
+
+    backtrack([], nums)
+    return result
+
+# Example usage:
+nums = [1, 2, 3]
+print(f"Permutations of {nums}: {permute(nums)}")
+</code></pre>
+                </div>
+            </details>
+        </div>
+
+        <hr>
+
+        <h2>Hard Problems</h2>
+
+        <div class="problem-card">
+            <h3>Problem 4: Sudoku Solver</h3>
+            <p>Write a program to solve a Sudoku puzzle by filling the empty cells. An empty cell is indicated by the character <code>'.'</code>.</p>
+            <p><strong>Constraint:</strong> You may assume that the given Sudoku puzzle will have a single unique solution.</p>
+            
+            <details>
+                <summary>Click for Solution</summary>
+                <div class="solution">
+                    <h4>Explanation</h4>
+                    <p>This problem is solved using backtracking. We find an empty cell (a <code>'.'</code>). Then, we try to place numbers from 1 to 9 in that cell. For each number, we check if placing it is valid (doesn't violate Sudoku rules). If it's valid, we recursively call our solver to continue filling the board. If the recursive call successfully solves the puzzle, we are done. If not, we "backtrack" by resetting the cell to <code>'.'</code> and try the next number.</p>
+<pre><code>
+def solve_sudoku(board):
+    def is_valid(row, col, num):
+        # Check row
+        if num in board[row]:
+            return False
+        # Check column
+        for i in range(9):
+            if board[i][col] == num:
+                return False
+        # Check 3x3 box
+        box_row_start = (row // 3) * 3
+        box_col_start = (col // 3) * 3
+        for i in range(3):
+            for j in range(3):
+                if board[box_row_start + i][box_col_start + j] == num:
+                    return False
+        return True
+
+    def find_empty():
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] == '.':
+                    return (i, j)
+        return None
+
+    def backtrack():
+        empty_cell = find_empty()
+        if not empty_cell:
+            return True  # Puzzle solved
+
+        row, col = empty_cell
+
+        for i in range(1, 10):
+            num = str(i)
+            if is_valid(row, col, num):
+                board[row][col] = num  # Choose
+                
+                if backtrack():      # Explore
+                    return True
+                
+                board[row][col] = '.'  # Backtrack
+        
+        return False
+
+    backtrack()
+    return board
+
+# Example usage will be more complex and require a full board as input.
+# This code provides the core logic.
+</code></pre>
+                </div>
+            </details>
+        </div>
+
+
+        <div class="footer">
+            🚀 Powered by Shaivi Connect
+        </div>
+    </div>
+
+</body>
+</html>
