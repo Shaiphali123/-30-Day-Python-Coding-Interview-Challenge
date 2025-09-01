@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 17: Stack & Queue Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            text-align: center;
+        }
+        h2 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        pre {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #c0392b;
+        }
+        ul {
+            list-style-type: square;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .important {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Day 17: Stack & Queue</h1>
+        <p>Welcome to Day 17 of the Python Interview Challenge! Today, we're diving into two fundamental data structures: Stacks and Queues. Understanding these is crucial for a wide range of programming problems and is a common topic in technical interviews.</p>
+        
+        <h2>1. Introduction to Stack & Queue</h2>
+        <p>Both Stacks and Queues are <span class="important">linear data structures</span>, meaning they store data in a sequential manner. The key difference lies in how elements are added and removed.</p>
+        <ul>
+            <li><strong>Stack:</strong> Follows the <span class="important">LIFO (Last-In, First-Out)</span> principle. Think of a stack of plates—the last plate you put on is the first one you take off.</li>
+            <li><strong>Queue:</strong> Follows the <span class="important">FIFO (First-In, First-Out)</span> principle. This is just like a line at a grocery store—the first person in line is the first one to be served.</li>
+        </ul>
+        <p><strong>Real-world examples:</strong></p>
+        <ul>
+            <li><strong>Stack:</strong>
+                <ul>
+                    <li>The <span class="important">undo/redo</span> feature in a text editor. Each action is "pushed" onto a stack, and "undoing" an action "pops" it off.</li>
+                    <li>Browser history (the "back" button) is essentially a stack.</li>
+                </ul>
+            </li>
+            <li><strong>Queue:</strong>
+                <ul>
+                    <li>A <span class="important">printer queue</span>. Print jobs are added to the back of the queue and processed in the order they were received.</li>
+                    <li>Call center systems where calls are handled in the order they arrive.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>2. Explanation of Stack</h2>
+        <p>A Stack is an abstract data type that serves as a collection of elements, with two primary operations: <code>push</code> and <code>pop</code>.</p>
+        <ul>
+            <li><strong><span class="important">push(element)</span>:</strong> Adds an element to the top of the stack.</li>
+            <li><strong><span class="important">pop()</span>:</strong> Removes and returns the element from the top of the stack.</li>
+            <li><strong><span class="important">peek()</span>:</strong> Returns the top element without removing it.</li>
+            <li><strong><span class="important">isEmpty()</span>:</strong> Checks if the stack is empty.</li>
+        </ul>
+        <p>The LIFO principle is central to its operation. The last element added is the first one to be removed.</p>
+
+        <h2>3. Explanation of Queue</h2>
+        <p>A Queue is a linear data structure that operates based on the FIFO principle. Elements are added to the back and removed from the front.</p>
+        <ul>
+            <li><strong><span class="important">enqueue(element)</span>:</strong> Adds an element to the back (or tail) of the queue.</li>
+            <li><strong><span class="important">dequeue()</span>:</strong> Removes and returns the element from the front (or head) of the queue.</li>
+            <li><strong><span class="important">front()</span>:</strong> Returns the front element without removing it.</li>
+            <li><strong><span class="important">isEmpty()</span>:</strong> Checks if the queue is empty.</li>
+        </ul>
+
+        <h2>4. Python Implementations</h2>
+        <h3>Using a List as a Stack</h3>
+        <p>Python's built-in <code>list</code> can be easily used to implement a stack. The <code>append()</code> method acts as <code>push</code>, and <code>pop()</code> acts as <code>pop</code>.</p>
+        <pre><code>
+# Stack implementation using a list
+stack = []
+
+# Push elements
+stack.append('A') # push()
+stack.append('B') # push()
+stack.append('C') # push()
+print("Stack after pushes:", stack)
+
+# Peek at the top element
+if stack:
+    print("Top element (peek):", stack[-1])
+
+# Pop elements
+popped_item = stack.pop() # pop()
+print("Popped item:", popped_item)
+print("Stack after pop:", stack)
+
+# Check if empty
+print("Is stack empty?", not stack)
+        </code></pre>
+
+        <h3>Using <code>collections.deque</code> as a Queue</h3>
+        <p>While a list can technically be a queue (using <code>append()</code> and <code>pop(0)</code>), <code>pop(0)</code> is inefficient for large lists. The <code>collections.deque</code> (double-ended queue) is highly optimized for this purpose and is the preferred way to implement a queue in Python.</p>
+        <pre><code>
+from collections import deque
+
+# Queue implementation using deque
+queue = deque()
+
+# Enqueue elements
+queue.append('A') # enqueue()
+queue.append('B') # enqueue()
+queue.append('C') # enqueue()
+print("Queue after enqueues:", queue)
+
+# Dequeue elements
+dequeued_item = queue.popleft() # dequeue()
+print("Dequeued item:", dequeued_item)
+print("Queue after dequeue:", queue)
+
+# Front of the queue
+if queue:
+    print("Front element:", queue[0])
+        </code></pre>
+
+        <h3>Using the <code>queue</code> Module</h3>
+        <p>The built-in <code>queue</code> module is designed for multithreaded programming, but its <code>Queue</code> class is also a great way to implement a standard queue.</p>
+        <pre><code>
+from queue import Queue
+
+# Queue implementation using the queue module
+q = Queue()
+
+# Enqueue elements
+q.put('A') # enqueue()
+q.put('B') # enqueue()
+q.put('C') # enqueue()
+print("Queue size:", q.qsize())
+
+# Dequeue elements
+dequeued_item = q.get() # dequeue()
+print("Dequeued item:", dequeued_item)
+print("Queue size after dequeue:", q.qsize())
+        </code></pre>
+
+        <h2>5. Advantages & Disadvantages</h2>
+        <ul>
+            <li><strong>Stack Advantages:</strong>
+                <ul>
+                    <li><span class="important">Simplicity:</span> Easy to implement and understand.</li>
+                    <li><span class="important">LIFO Principle:</span> Natural fit for problems like recursion, expression evaluation, and backtracking.</li>
+                </ul>
+            </li>
+            <li><strong>Stack Disadvantages:</strong>
+                <ul>
+                    <li><span class="important">Limited Access:</span> Only the top element is accessible.</li>
+                </ul>
+            </li>
+        </ul>
+        <ul>
+            <li><strong>Queue Advantages:</strong>
+                <ul>
+                    <li><span class="important">FIFO Principle:</span> Ideal for scenarios requiring sequential processing, like job scheduling.</li>
+                    <li><span class="important">Fairness:</span> Ensures that elements are processed in the order they arrive.</li>
+                </ul>
+            </li>
+            <li><strong>Queue Disadvantages:</strong>
+                <ul>
+                    <li><span class="important">Limited Access:</span> Only the front and rear elements are accessible.</li>
+                </ul>
+            </li>
+        </ul>
+        
+        <h2>6. Common Interview Questions with Answers</h2>
+        <p>Here are some conceptual questions you might encounter:</p>
+        <ol>
+            <li><strong>What is the difference between a stack and a queue?</strong><br>
+                The main difference is the order of element access. A stack is LIFO (Last-In, First-Out), while a queue is FIFO (First-In, First-Out).</li>
+            <li><strong>When would you use a stack over a queue?</strong><br>
+                Use a stack for problems where the last item to be added is the first one you need to process. Examples include function call stacks, undo/redo functionality, and expression parsing.</li>
+            <li><strong>What is a real-world example of a queue?</strong><br>
+                A printer queue is a classic example. Jobs are added to the queue and printed in the order they were submitted. Other examples include waiting lines and task scheduling in an operating system.</li>
+        </ol>
+
+        <h2>7. Summary & Key Points</h2>
+        <ul>
+            <li><strong>Stack:</strong> LIFO (Last-In, First-Out) 🍔</li>
+            <li><strong>Queue:</strong> FIFO (First-In, First-Out) ➡️</li>
+            <li>Python <code>list</code> is a good stack. <code>append()</code> is <span class="important">push</span> and <code>pop()</code> is <span class="important">pop</span>.</li>
+            <li>Python <code>collections.deque</code> is the best choice for a queue due to its efficiency. <code>append()</code> is <span class="important">enqueue</span> and <code>popleft()</code> is <span class="important">dequeue</span>.</li>
+            <li>Both are linear data structures with restricted access.</li>
+            <li>Knowing when to use each is crucial for solving many programming challenges.</li>
+        </ul>
+    </div>
+</body>
+</html>
