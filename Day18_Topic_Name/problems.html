@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 18: Linked List Problems</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 40px;
+        }
+        .problem-card {
+            background-color: #ffffff;
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            border-left: 5px solid #3498db;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        h3 {
+            color: #2980b9;
+            margin-top: 25px;
+            font-size: 1.1em;
+        }
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 14px;
+        }
+        code {
+            font-family: "Courier New", Courier, monospace;
+        }
+        ul {
+            list-style-type: '✓  ';
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+        .note-section {
+            background-color: #fffbe6;
+            border-left: 5px solid #f0ad4e;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 8px;
+        }
+        .note-section h2 {
+            border-color: #f0ad4e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Day 18: Linked List Interview Problems 🐍</h1>
+
+        <div class="problem-card">
+            <h2>1. Implement a Singly Linked List</h2>
+            <p>Design a Singly Linked List class from scratch. It should support the fundamental operations: insertion, deletion, searching for a value, and traversing the list.</p>
+            <h3>Examples</h3>
+            <pre><code># Assume `ll` is an instance of your LinkedList class
+ll.insert_at_end(10)
+ll.insert_at_end(20)
+ll.insert_at_end(30)
+ll.traverse()       # Output: 10 -> 20 -> 30
+
+ll.search(20)       # Output: True
+ll.delete_node(20)
+ll.traverse()       # Output: 10 -> 30
+ll.search(20)       # Output: False</code></pre>
+            <h3>Constraints & Edge Cases</h3>
+            <ul>
+                <li><strong>Node Class:</strong> Start by defining a `Node` class with `data` and `next` attributes.</li>
+                <li><strong>Edge Cases:</strong> Handle operations on an empty list, and when deleting the head or tail node.</li>
+                <li><strong>Complexity:</strong> Analyze the time and space complexity for each implemented method.</li>
+            </ul>
+        </div>
+        
+        <div class="problem-card">
+            <h2>2. Reverse a Linked List</h2>
+            <p>Given the `head` of a singly linked list, reverse the list in-place and return the new head.</p>
+            <h3>Examples</h3>
+            <pre><code>Input:  head = 1 -> 2 -> 3 -> 4 -> 5 -> None
+Output: 5 -> 4 -> 3 -> 2 -> 1 -> None</code></pre>
+            <h3>Constraints & Edge Cases</h3>
+            <ul>
+                <li><strong>Time Complexity:</strong> Aim for $O(n)$, where $n$ is the number of nodes.</li>
+                <li><strong>Space Complexity:</strong> The iterative solution should be $O(1)$. A recursive solution is also possible but will use $O(n)$ space on the call stack.</li>
+                <li><strong>Edge Cases:</strong> An empty list or a list with a single node.</li>
+            </ul>
+        </div>
+        
+        <div class="problem-card">
+            <h2>3. Detect a Cycle in a Linked List</h2>
+            <p>Given the `head` of a linked list, determine if it has a cycle. A cycle exists if some node in the list can be reached again by continuously following the `next` pointer.</p>
+            <h3>Examples</h3>
+            <pre><code>Input:  head = 3 -> 2 -> 0 -> -4 -> (points back to 2)
+Output: True
+
+Input:  head = 1 -> 2 -> None
+Output: False</code></pre>
+            <h3>Constraints & Edge Cases</h3>
+            <ul>
+                <li><strong>Algorithm:</strong> This is a classic use case for Floyd's Tortoise and Hare (slow and fast pointers) algorithm.</li>
+                <li><strong>Time Complexity:</strong> $O(n)$.</li>
+                <li><strong>Space Complexity:</strong> $O(1)$.</li>
+                <li><strong>Edge Cases:</strong> Empty list, single node list.</li>
+            </ul>
+        </div>
+        
+        <div class="problem-card">
+            <h2>4. Merge Two Sorted Linked Lists</h2>
+            <p>You are given the heads of two sorted linked lists, `list1` and `list2`. Merge them into a single, sorted linked list and return the head of the merged list.</p>
+            <h3>Examples</h3>
+            <pre><code>Input:  list1 = 1 -> 2 -> 4, list2 = 1 -> 3 -> 4
+Output: 1 -> 1 -> 2 -> 3 -> 4 -> 4</code></pre>
+            <h3>Constraints & Edge Cases</h3>
+            <ul>
+                <li><strong>Time Complexity:</strong> $O(n + m)$, where $n$ and $m$ are the lengths of the two lists.</li>
+                <li><strong>Space Complexity:</strong> $O(1)$ if you rearrange the existing nodes.</li>
+                <li><strong>Edge Cases:</strong> Handle cases where one or both of the input lists are empty.</li>
+            </ul>
+        </div>
+        
+        <div class="problem-card">
+            <h2>5. Remove N-th Node From End of List</h2>
+            <p>Given the `head` of a linked list and an integer `n`, remove the $n$-th node from the end of the list and return its head.</p>
+            <h3>Examples</h3>
+            <pre><code>Input:  head = 1 -> 2 -> 3 -> 4 -> 5, n = 2
+Output: 1 -> 2 -> 3 -> 5
+
+Input:  head = 1, n = 1
+Output: None (empty list)</code></pre>
+            <h3>Constraints & Edge Cases</h3>
+            <ul>
+                <li><strong>Approach:</strong> A one-pass solution is preferred, typically using two pointers.</li>
+                <li><strong>Time Complexity:</strong> $O(L)$, where $L$ is the list length.</li>
+                <li><strong>Space Complexity:</strong> $O(1)$.</li>
+                <li><strong>Edge Cases:</strong> What if `n` is equal to the length of the list (i.e., you need to remove the head)? A dummy node can simplify this.</li>
+            </ul>
+        </div>
+
+        <div class="problem-card">
+            <h2>6. Add Two Numbers</h2>
+            <p>You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order. Add the two numbers and return the sum as a new linked list.</p>
+            <h3>Examples</h3>
+            <pre><code>Input:  l1 = 2 -> 4 -> 3, l2 = 5 -> 6 -> 4
+Output: 7 -> 0 -> 8
+Explanation: 342 + 465 = 807.</code></pre>
+            <h3>Constraints & Edge Cases</h3>
+            <ul>
+                <li><strong>Carry-over:</strong> Remember to handle the carry when the sum of digits exceeds 9.</li>
+                <li><strong>List Lengths:</strong> The lists can be of different lengths.</li>
+                <li><strong>Time Complexity:</strong> $O(\max(n, m))$.</li>
+                <li><strong>Space Complexity:</strong> $O(\max(n, m))$ for the result list.</li>
+            </ul>
+        </div>
+
+        <div class="problem-card">
+            <h2>7. Palindrome Linked List</h2>
+            <p>Given the `head` of a singly linked list, return `true` if it is a palindrome and `false` otherwise.</p>
+            <h3>Examples</h3>
+            <pre><code>Input:  1 -> 2 -> 2 -> 1
+Output: True
+
+Input:  1 -> 2
+Output: False</code></pre>
+            <h3>Constraints & Edge Cases</h3>
+            <ul>
+                <li><strong>Optimal Solution:</strong> An efficient solution involves finding the middle of the list, reversing the second half, and then comparing the two halves.</li>
+                <li><strong>Time Complexity:</strong> $O(n)$.</li>
+                <li><strong>Space Complexity:</strong> $O(1)$.</li>
+                <li><strong>Post-check:</strong> Remember to restore the list to its original state if required by the interviewer.</li>
+            </ul>
+        </div>
+
+        <div class="problem-card">
+            <h2>8. Intersection Node of Two Linked Lists</h2>
+            <p>Given the heads of two singly linked-lists `headA` and `headB`, return the node at which the two lists intersect. If they do not intersect, return `null`.</p>
+            <h3>Examples</h3>
+            <pre><code># listA = 4 -> 1 -> 8 -> 4 -> 5
+# listB = 5 -> 6 -> 1 -> 8 -> 4 -> 5
+# The lists intersect at the node with value 1.
+Output: Reference to the node with value 1</code></pre>
+            <h3>Constraints & Edge Cases</h3>
+            <ul>
+                <li><strong>Core Idea:</strong> The problem is that the lists can have different lengths before the intersection point. Find a way to make the pointers travel the same total distance.</li>
+                <li><strong>Time Complexity:</strong> $O(n + m)$.</li>
+                <li><strong>Space Complexity:</strong> $O(1)$.</li>
+            </ul>
+        </div>
+
+        <div class="problem-card">
+            <h2>9. Reverse Nodes in k-Group</h2>
+            <p>Given a linked list, reverse the nodes of the list `k` at a time and return the modified list. `k` is a positive integer and is less than or equal to the length of the list.</p>
+            <h3>Examples</h3>
+            <pre><code>Input:  head = 1 -> 2 -> 3 -> 4 -> 5, k = 2
+Output: 2 -> 1 -> 4 -> 3 -> 5
+
+Input:  head = 1 -> 2 -> 3 -> 4 -> 5, k = 3
+Output: 3 -> 2 -> 1 -> 4 -> 5</code></pre>
+            <h3>Constraints & Edge Cases</h3>
+            <ul>
+                <li><strong>Final Group:</strong> If the number of remaining nodes is less than `k`, they should be left as they are.</li>
+                <li><strong>Complexity:</strong> This is a challenging problem. Aim for $O(n)$ time and $O(1)$ space. Recursion can simplify the logic but may use $O(n/k)$ stack space.</li>
+            </ul>
+        </div>
+
+        <div class="problem-card">
+            <h2>10. Copy List with Random Pointer</h2>
+            <p>Construct a deep copy of a linked list where each node contains a `val`, a `next` pointer, and an additional `random` pointer which can point to any node in the list or `null`.</p>
+            <h3>Examples</h3>
+            <pre><code># The input is a list of nodes where each node is represented as [val, random_index].
+Input:  head = [[7,null],[13,0],[11,4],[10,2],[1,0]]
+Output: [[7,null],[13,0],[11,4],[10,2],[1,0]]</code></pre>
+            <h3>Constraints & Edge Cases</h3>
+            <ul>
+                <li><strong>Deep Copy:</strong> The copied list should be made of new nodes, not references to the old ones.</li>
+                <li><strong>Common Approach:</strong> Use a hash map to store a mapping from old nodes to new nodes. This takes $O(n)$ time and $O(n)$ space.</li>
+                <li><strong>Optimal Approach:</strong> A clever $O(1)$ space solution exists where you weave the new nodes into the original list, connect the random pointers, and then separate the lists.</li>
+            </ul>
+        </div>
+
+        <div class="note-section">
+            <h2>Note from Your Interviewer 📝</h2>
+            <ul>
+                <li><strong>Draw it Out:</strong> Always use a whiteboard or paper to draw the nodes and trace how your pointers (`head`, `current`, `prev`, `next`, `slow`, `fast`) are moving. This prevents a huge number of bugs.</li>
+                <li><strong>Handle Nulls:</strong> Before you access `node.next`, always ask yourself: "What if `node` is `None`?" This is the most common source of errors.</li>
+                <li><strong>Use a Dummy Head:</strong> For problems involving list modification (like removing the head or merging), creating a `dummy` or `sentinel` node before the actual head can unify your logic and eliminate many edge cases.</li>
+                <li><strong>Communicate Your Approach:</strong> Talk through your logic before and while you code. Explain the trade-offs of your chosen approach (e.g., iterative vs. recursive, time vs. space).</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
