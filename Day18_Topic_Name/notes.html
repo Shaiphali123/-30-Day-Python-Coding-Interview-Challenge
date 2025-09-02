@@ -1,0 +1,359 @@
+Of course\! Here is a more comprehensive version of the `Notes.html` file, expanded to cover all critical interview points in greater detail. This version includes more code examples, advanced questions, and a focus on complexity analysis and trade-offs.
+
+Save the following code as `Notes.html`.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 18: Linked List Interview Deep Dive</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            background-color: #f8f9fa;
+            color: #212529;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px 45px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
+            border: 1px solid #e9ecef;
+        }
+        h1 {
+            color: #0056b3;
+            text-align: center;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 15px;
+            margin-bottom: 35px;
+        }
+        h2 {
+            color: #17a2b8;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 10px;
+            margin-top: 45px;
+        }
+        h3 {
+            color: #343a40;
+            margin-top: 25px;
+        }
+        pre {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 18px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: "Fira Code", "Courier New", Courier, monospace;
+            font-size: 14.5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2) inset;
+        }
+        code {
+            font-family: "Fira Code", "Courier New", Courier, monospace;
+            background-color: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #c7254e;
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            color: inherit;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+        li::before {
+            content: '✓';
+            color: #28a745;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        strong {
+            color: #0056b3;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ced4da;
+            padding: 14px;
+            text-align: center;
+        }
+        .comparison-table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .comparison-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .tip {
+            background-color: #e7f5ff;
+            border-left: 5px solid #007bff;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+            margin: 50px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Day 18: Linked List Interview Deep Dive 🐍</h1>
+
+        <h2>1. Core Concepts of Linked Lists</h2>
+        <p>
+            Think of a linked list as a <strong>treasure hunt</strong>. The `head` is your first clue. Each clue (a `Node`) tells you a piece of information (`data`) and, critically, where to find the next clue (`next` pointer). The hunt ends when you find a clue that points nowhere (`None`).
+        </p>
+        
+        <ul>
+            <li><strong>Node:</strong> The basic building block, containing `data` and a `next` pointer. In a doubly linked list, it also has a `prev` pointer.</li>
+            <li><strong>Head:</strong> The entry point. If you lose the head, you lose the whole list!</li>
+            <li><strong>Tail:</strong> The last node, whose `next` pointer is `None`.</li>
+        </ul>
+        
+        <hr>
+
+        <h2>2. Array vs. Linked List: The Big Trade-Off</h2>
+        <p>This is a classic interview question. The "right" choice depends entirely on the problem's requirements.</p>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Array / Dynamic Array (e.g., Python List)</th>
+                    <th>Linked List</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Access (by index)</strong></td>
+                    <td>⚡️ <strong>Fast: $O(1)$</strong></td>
+                    <td>🐌 <strong>Slow: $O(n)$</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Insertion / Deletion (Start)</strong></td>
+                    <td>🐌 <strong>Slow: $O(n)$</strong> (all elements must be shifted)</td>
+                    <td>⚡️ <strong>Fast: $O(1)$</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Insertion / Deletion (End)</strong></td>
+                    <td>⚡️ <strong>Fast: $O(1)$</strong> (amortized for dynamic arrays)</td>
+                    <td>⚡️ <strong>Fast: $O(1)$</strong> (if a `tail` pointer is maintained)</td>
+                </tr>
+                <tr>
+                    <td><strong>Insertion / Deletion (Middle)</strong></td>
+                    <td>🐌 <strong>Slow: $O(n)$</strong></td>
+                    <td>🐌 <strong>Slow: $O(n)$</strong> (to find the element), but the pointer update is $O(1)$.</td>
+                </tr>
+                <tr>
+                    <td><strong>Memory Layout</strong></td>
+                    <td><strong>Contiguous</strong> (elements are neighbors in memory)</td>
+                    <td><strong>Non-contiguous</strong> (nodes can be anywhere)</td>
+                </tr>
+                <tr>
+                    <td><strong>Cache Locality</strong></td>
+                    <td>✅ <strong>High</strong> (CPU caches can pre-fetch nearby elements)</td>
+                    <td>❌ <strong>Low</strong> (nodes can be scattered, causing cache misses)</td>
+                </tr>
+                <tr>
+                    <td><strong>Best Use Case</strong></td>
+                    <td>Frequent indexing/access is needed. Data size is known or stable.</td>
+                    <td>Frequent insertions/deletions at ends. Dynamic size is crucial.</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <hr>
+        
+        <h2>3. Python Implementations & Operations</h2>
+
+        <h3>Singly Linked List Node</h3>
+        <pre><code># The fundamental building block
+class Node:
+    def __init__(self, data):
+        self.data = data  # Stores the value of the node
+        self.next = None  # Pointer to the next node in the list</code></pre>
+        
+        <h3>Doubly Linked List Node</h3>
+        <pre><code># The node for a list you can traverse forwards and backwards
+class DoublyNode:
+    def __init__(self, data):
+        self.data = data
+        self.next = None  # Pointer to the next node
+        self.prev = None  # Pointer to the previous node</code></pre>
+        
+        <div class="tip">
+            <strong>Dummy Head / Sentinel Node:</strong> In interviews, using a `dummy` node (a placeholder node before the actual head) can simplify your code significantly. It eliminates edge cases for operations on the head of the list (e.g., insertion or deletion), as the head is now treated like any other node.
+        </div>
+
+        <h3>Example: Deleting a Node (Singly Linked List)</h3>
+        <pre><code># In a SinglyLinkedList class
+def delete_node(self, key):
+    current = self.head
+    
+    # Case 1: The node to be deleted is the head
+    if current and current.data == key:
+        self.head = current.next
+        current = None # Free memory
+        print(f"Deleted head node with key {key}")
+        return
+
+    # Case 2: Search for the key, keeping track of the previous node
+    prev = None
+    while current and current.data != key:
+        prev = current
+        current = current.next
+
+    # If the key was not found in the list
+    if not current:
+        print(f"Key {key} not found in the list.")
+        return
+
+    # Case 3: Unlink the node from the list
+    prev.next = current.next
+    current = None # Free memory
+    print(f"Deleted node with key {key}")
+    
+# Time Complexity: O(n) - because we might have to search the whole list.
+# Space Complexity: O(1) - we only use a few pointers.</code></pre>
+
+        <hr>
+
+        <h2>4. Must-Know Interview Problems & Solutions</h2>
+        
+        <h3>1. Reverse a Linked List</h3>
+        <p>The goal is to reverse the direction of all pointers.</p>
+        <pre><code># Iterative Approach - O(n) Time, O(1) Space
+def reverse_iterative(self):
+    prev = None
+    current = self.head
+    while current:
+        next_node = current.next  # Store the next node
+        current.next = prev       # Reverse the current node's pointer
+        prev = current            # Move prev one step forward
+        current = next_node       # Move current one step forward
+    self.head = prev              # The new head is the old tail
+
+# Recursive Approach - O(n) Time, O(n) Space (due to recursion stack)
+def reverse_recursive(self, current, prev=None):
+    # Base case: if we are at the end of the list
+    if not current:
+        self.head = prev
+        return
+    
+    next_node = current.next
+    current.next = prev
+    self.reverse_recursive(next_node, current)</code></pre>
+
+        <h3>2. Detect a Cycle (Floyd's Tortoise and Hare)</h3>
+        <p>A classic problem solved elegantly with two pointers.</p>
+        
+        <pre><code>def has_cycle(self):
+    slow = self.head
+    fast = self.head
+
+    while fast and fast.next:
+        slow = slow.next          # Moves 1 step
+        fast = fast.next.next     # Moves 2 steps
+        
+        if slow == fast:
+            return True  # Pointers met, a cycle exists
+    
+    return False # Fast pointer reached the end, no cycle</code></pre>
+        <div class="tip">
+            <strong>Follow-up Question:</strong> Find the starting node of the cycle.
+            <br>1. After detecting the cycle, reset one pointer (e.g., `slow`) to the `head`.
+            <br>2. Move both `slow` and `fast` pointers one step at a time.
+            <br>3. The node where they meet again is the start of the cycle.
+        </div>
+        
+        <h3>3. Find the Nth Node from the End</h3>
+        <p>Another two-pointer trick. Maintain a gap of 'N' nodes between them.</p>
+        <pre><code>def find_nth_from_end(self, n):
+    p1 = self.head # Fast pointer
+    p2 = self.head # Slow pointer
+
+    # Move p1 n steps into the list
+    for _ in range(n):
+        if not p1:
+            return None # List is shorter than n
+        p1 = p1.next
+
+    # Move both pointers until p1 reaches the end
+    while p1:
+        p1 = p1.next
+        p2 = p2.next
+    
+    return p2 # p2 is now at the Nth node from the end</code></pre>
+
+        <h3>4. Merge Two Sorted Linked Lists</h3>
+        <p>Combine two sorted lists into a single sorted list.</p>
+        <pre><code># Iterative Approach with a dummy head
+def merge_sorted_lists(l1, l2):
+    dummy = Node(0)
+    tail = dummy
+
+    while l1 and l2:
+        if l1.data < l2.data:
+            tail.next = l1
+            l1 = l1.next
+        else:
+            tail.next = l2
+            l2 = l2.next
+        tail = tail.next
+
+    # Append the remaining nodes from either list
+    if l1:
+        tail.next = l1
+    elif l2:
+        tail.next = l2
+
+    return dummy.next # The merged list starts after the dummy node</code></pre>
+        
+        <hr>
+        
+        <h2>5. Real-World Use Cases & Advanced Concepts</h2>
+        <ul>
+            <li><strong>Operating Systems:</strong> The `free` list in memory management systems is a linked list of available memory blocks. Also used in file allocation tables (like FAT32).</li>
+            <li><strong>Blockchain:</strong> A blockchain is essentially a linked list where each "block" (node) contains data and a cryptographic hash of the previous block, ensuring immutability.</li>
+            <li><strong>LRU Cache:</strong> A Least Recently Used (LRU) cache is often implemented with a combination of a hash map (for $O(1)$ lookup) and a doubly linked list (for $O(1)$ removal of the least recently used item).</li>
+            <li><strong>Advanced Variation - Skip Lists:</strong> A probabilistic data structure built on linked lists that adds multiple layers of "express lane" pointers to achieve $O(\log n)$ average search time, mimicking a balanced binary search tree.</li>
+        </ul>
+
+        <hr>
+
+        <h2>6. Interview Cheat Sheet 🚀</h2>
+        <ul>
+            <li>When you hear <strong>"cycle," "middle," or "Nth from end,"</strong> your first thought should be: <strong>Two Pointers (Slow & Fast)</strong>.</li>
+            <li>To simplify head-related edge cases (e.g., merging, reversing), use a <strong>Dummy Node (Sentinel)</strong>.</li>
+            <li><strong>Reversing a list?</strong> Track three variables: `prev`, `current`, `next_node`. It's a simple, powerful pattern.</li>
+            <li>Be ready to discuss <strong>Time & Space Complexity</strong> for every operation. Space complexity for recursive solutions often involves the call stack ($O(n)$ for a simple traversal).</li>
+            <li>Mention <strong>Cache Locality</strong> when comparing with arrays to show a deeper understanding of hardware performance.</li>
+            <li>A <strong>Doubly Linked List</strong> is your tool of choice when you need efficient backward traversal or $O(1)$ deletion of a node given only a pointer to it.</li>
+        </ul>
+
+    </div>
+</body>
+</html>
+```
