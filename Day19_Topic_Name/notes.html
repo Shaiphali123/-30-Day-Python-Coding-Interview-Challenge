@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Day 19: Python Dictionary Use Cases</title>
   <style>
-    /* Global */
     body {
       font-family: "Segoe UI", Roboto, Arial, sans-serif;
       line-height: 1.75;
@@ -22,8 +21,6 @@
       border-radius: 10px;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
     }
-
-    /* Headings */
     h1, h2, h3 {
       color: #2c3e50;
       margin-top: 25px;
@@ -43,13 +40,9 @@
       margin-top: 20px;
       color: #34495e;
     }
-
-    /* Paragraphs and lists */
     p { margin: 12px 0; }
     ul { padding-left: 20px; }
     li { margin-bottom: 8px; }
-
-    /* Code styling */
     code {
       background-color: #f4f4f6;
       padding: 3px 6px;
@@ -68,8 +61,12 @@
       line-height: 1.5;
       margin: 18px 0;
     }
-
-    /* Interview Q&A cards */
+    pre code {
+      color: #f8f8f2 !important;
+      background: none !important;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.95em;
+    }
     .qa {
       background: #f9f9ff;
       border-left: 5px solid #8e44ad;
@@ -81,8 +78,6 @@
       margin-top: 0;
       color: #8e44ad;
     }
-
-    /* Divider */
     hr {
       border: 0;
       height: 1px;
@@ -94,21 +89,12 @@
 <body>
   <div class="container">
     <h1>🗓️ Day 19: Python Dictionary Use Cases</h1>
-    <p>
-      Dictionaries are one of Python's most powerful and versatile data structures. 
-      Their <strong>key-value pair</strong> system allows for flexible and efficient 
-      solutions to many common programming problems. Let's explore some key use cases.
-    </p>
+    <p>Dictionaries are one of Python's most powerful and versatile data structures. Their <strong>key-value pair</strong> system allows for flexible and efficient solutions to many common programming problems. Let's explore some key use cases.</p>
 
     <hr>
 
     <h2>1. Representing Structured Data (like JSON)</h2>
-    <p>
-      Dictionaries are perfect for modeling real-world objects or structured data, 
-      much like JSON objects in web development. Each key represents an attribute, 
-      and the value is the data for that attribute.
-    </p>
-
+    <p>Dictionaries are perfect for modeling real-world objects or structured data, much like JSON objects in web development.</p>
     <h3>Example: User Profile</h3>
     <pre><code># A dictionary representing a user's profile
 user_profile = {
@@ -126,11 +112,7 @@ print(f"Permissions: {user_profile['permissions'][0]}")
     <hr>
 
     <h2>2. Frequency Counting 📊</h2>
-    <p>
-      A classic use case for dictionaries is to count the occurrences of items in a sequence. 
-      The item becomes the key, and its count becomes the value.
-    </p>
-
+    <p>A classic use case for dictionaries is to count the occurrences of items in a sequence.</p>
     <h3>Example: Counting Characters in a String</h3>
     <pre><code>text = "hello world"
 char_counts = {}
@@ -142,6 +124,7 @@ print(char_counts)
 </code></pre>
     <p><strong>Pro Tip:</strong> Use <code>collections.Counter</code> for concise solutions:</p>
     <pre><code>from collections import Counter
+
 text = "hello world"
 print(Counter(text))
 </code></pre>
@@ -149,12 +132,7 @@ print(Counter(text))
     <hr>
 
     <h2>3. Caching / Memoization ⚡</h2>
-    <p>
-      Dictionaries can act as a cache to store the results of expensive computations. 
-      This technique, called <strong>memoization</strong>, improves performance by 
-      avoiding recalculations.
-    </p>
-
+    <p>Dictionaries can act as a cache to store the results of expensive computations (memoization).</p>
     <h3>Example: Fibonacci Sequence</h3>
     <pre><code>fib_cache = {}
 
@@ -173,11 +151,7 @@ print(f"Fibonacci(35) = {fibonacci(35)}")
     <hr>
 
     <h2>4. Grouping Data 📂</h2>
-    <p>
-      Dictionaries are also handy for grouping items by a property, 
-      such as categorizing students by grade.
-    </p>
-
+    <p>You can group items from a list based on a property using dictionaries.</p>
     <h3>Example: Grouping Students by Grade</h3>
     <pre><code>students = [
     {"name": "Alice", "grade": "A"},
@@ -201,9 +175,7 @@ print(grades)
 
     <div class="qa">
       <h3>Q1: How do you merge two dictionaries?</h3>
-      <p>
-        <strong>Answer:</strong> Use either <code>update()</code> or dictionary unpacking (<code>**</code>).
-      </p>
+      <p><strong>Answer:</strong> Use either <code>update()</code> or dictionary unpacking (<code>**</code>).</p>
       <pre><code>dict1 = {'a': 1, 'b': 2}
 dict2 = {'b': 3, 'c': 4}
 
@@ -223,7 +195,7 @@ merged2 = {**dict1, **dict2}
       <pre><code>d = {'a': 100}
 print(d['a'])      # 100
 print(d.get('b'))  # None
-print(d.get('b',0))# 0
+print(d.get('b', 0))# 0
 </code></pre>
     </div>
 
