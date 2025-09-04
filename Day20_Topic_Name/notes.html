@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🗓️ Day 20: Python Set Operations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h3 {
+            color: #34495e;
+            font-size: 1.4rem;
+            margin: 25px 0 15px 0;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 5px;
+        }
+
+        .property-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .property-box ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .property-box li {
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .property-box li:before {
+            content: "✦";
+            margin-right: 10px;
+            color: #fff;
+        }
+
+        .code-container {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-container:before {
+            content: "Python";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 0.8rem;
+            color: #95a5a6;
+        }
+
+        .code-container pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .operation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .operation-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .operation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .operation-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .use-case {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .interview-question {
+            background: #fff;
+            border: 1px solid #e74c3c;
+            border-left: 5px solid #e74c3c;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .interview-question h4 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .answer {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 3px solid #27ae60;
+        }
+
+        .complexity-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .complexity-table th,
+        .complexity-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .complexity-table th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        .complexity-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #f39c12;
+        }
+
+        .highlight-box h4 {
+            color: #d35400;
+            margin-bottom: 10px;
+        }
+
+        .conclusion {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .conclusion h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .operation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗓️ Day 20: Python Set Operations</h1>
+            <p>Master the power of sets for automation testing and data manipulation</p>
+        </div>
+
+        <!-- Section 1: Introduction -->
+        <div class="section">
+            <h2>🎯 Introduction to Python Sets</h2>
+            
+            <p>A <strong>set</strong> in Python is a built-in data type that represents an unordered collection of unique elements. Think of it as a mathematical set - no duplicates allowed, and order doesn't matter.</p>
+
+            <div class="property-box">
+                <h3>Key Properties of Sets:</h3>
+                <ul>
+                    <li><strong>Unordered:</strong> Elements have no defined order or index</li>
+                    <li><strong>Mutable:</strong> You can add/remove elements after creation</li>
+                    <li><strong>No Duplicates:</strong> Each element appears only once</li>
+                    <li><strong>Hashable Elements:</strong> Only immutable objects can be set elements</li>
+                </ul>
+            </div>
+
+            <div class="code-container">
+<pre># Creating sets
+empty_set = set()  # Note: {} creates a dict, not a set
+numbers = {1, 2, 3, 4, 5}
+languages = {"Python", "Java", "JavaScript", "Python"}  # Duplicate removed
+print(languages)  # Output: {'Python', 'Java', 'JavaScript'}
+
+# From other iterables
+list_to_set = set([1, 2, 2, 3, 3, 4])
+print(list_to_set)  # Output: {1, 2, 3, 4}</pre>
+            </div>
+
+            <div class="highlight-box">
+                <h4>Why Sets Are Crucial for Automation & QA:</h4>
+                <ul>
+                    <li><strong>Data Deduplication:</strong> Remove duplicate test cases or log entries</li>
+                    <li><strong>Validation:</strong> Ensure unique user IDs, email addresses, or test identifiers</li>
+                    <li><strong>Comparison:</strong> Quickly compare expected vs actual results</li>
+                    <li><strong>Performance:</strong> O(1) average lookup time for membership testing</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 2: Core Set Operations -->
+        <div class="section">
+            <h2>⚙️ Core Set Operations</h2>
+
+            <div class="operation-grid">
+                <div class="operation-card">
+                    <h4>🔗 Union ( | or union() )</h4>
+                    <p>Combines all unique elements from both sets</p>
+                    <div class="code-container">
+<pre>set1 = {1, 2, 3}
+set2 = {3, 4, 5}
+
+# Method 1: Using operator
+result = set1 | set2
+print(result)  # {1, 2, 3, 4, 5}
+
+# Method 2: Using method
+result = set1.union(set2)
+print(result)  # {1, 2, 3, 4, 5}</pre>
+                    </div>
+                </div>
+
+                <div class="operation-card">
+                    <h4>🎯 Intersection ( & or intersection() )</h4>
+                    <p>Returns elements common to both sets</p>
+                    <div class="code-container">
+<pre>passed_tests = {"test1", "test2", "test3"}
+failed_tests = {"test2", "test4", "test5"}
+
+# Common tests that both passed and failed?
+# (This shouldn't happen in real scenarios)
+common = passed_tests & failed_tests
+print(common)  # {"test2"}
+
+# Using method
+common = passed_tests.intersection(failed_tests)</pre>
+                    </div>
+                </div>
+
+                <div class="operation-card">
+                    <h4>➖ Difference ( - or difference() )</h4>
+                    <p>Elements in first set but not in second</p>
+                    <div class="code-container">
+<pre>all_tests = {"test1", "test2", "test3", "test4"}
+executed_tests = {"test1", "test3"}
+
+# Which tests were not executed?
+not_executed = all_tests - executed_tests
+print(not_executed)  # {"test2", "test4"}
+
+# Using method
+not_executed = all_tests.difference(executed_tests)</pre>
+                    </div>
+                </div>
+
+                <div class="operation-card">
+                    <h4>🔄 Symmetric Difference ( ^ )</h4>
+                    <p>Elements in either set but not in both</p>
+                    <div class="code-container">
+<pre>expected_users = {"user1", "user2", "user3"}
+actual_users = {"user2", "user3", "user4"}
+
+# Users that are either missing or extra
+discrepancy = expected_users ^ actual_users
+print(discrepancy)  # {"user1", "user4"}
+
+# Using method
+discrepancy = expected_users.symmetric_difference(actual_users)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>🔍 Subset and Superset Operations</h3>
+            <div class="code-container">
+<pre># Subset and Superset checks
+required_permissions = {"read", "write"}
+user_permissions = {"read", "write", "execute", "delete"}
+
+# Check if user has all required permissions
+has_all_required = required_permissions.issubset(user_permissions)
+print(f"Has all required permissions: {has_all_required}")  # True
+
+# Check if user has more than required
+has_more = user_permissions.issuperset(required_permissions)
+print(f"Has more than required: {has_more}")  # True
+
+# Check if sets are disjoint (no common elements)
+admin_actions = {"create_user", "delete_user"}
+guest_actions = {"view_profile", "edit_profile"}
+are_disjoint = admin_actions.isdisjoint(guest_actions)
+print(f"No common actions: {are_disjoint}")  # True</pre>
+            </div>
+
+            <div class="complexity-table">
+                <table class="complexity-table">
+                    <thead>
+                        <tr>
+                            <th>Operation</th>
+                            <th>Time Complexity</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>add(element)</td>
+                            <td>O(1) average</td>
+                            <td>Adding test results</td>
+                        </tr>
+                        <tr>
+                            <td>remove(element)</td>
+                            <td>O(1) average</td>
+                            <td>Removing completed tests</td>
+                        </tr>
+                        <tr>
+                            <td>element in set</td>
+                            <td>O(1) average</td>
+                            <td>Checking if test exists</td>
+                        </tr>
+                        <tr>
+                            <td>Union (|)</td>
+                            <td>O(len(s1) + len(s2))</td>
+                            <td>Combining test suites</td>
+                        </tr>
+                        <tr>
+                            <td>Intersection (&)</td>
+                            <td>O(min(len(s1), len(s2)))</td>
+                            <td>Finding common failures</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section 3: Real-World Use Cases -->
+        <div class="section">
+            <h2>🌍 Real-World Use Cases in Automation</h2>
+
+            <div class="use-case">
+                <h4>1. Removing Duplicates from Test Data</h4>
+                <div class="code-container">
+<pre># Remove duplicate test case IDs from a list
+test_cases = ["TC001", "TC002", "TC001", "TC003", "TC002", "TC004"]
+unique_tests = list(set(test_cases))
+print(f"Original: {len(test_cases)}, Unique: {len(unique_tests)}")
+# Output: Original: 6, Unique: 4</pre>
+                </div>
+            </div>
+
+            <div class="use-case">
+                <h4>2. Comparing Test Results with Expected Outcomes</h4>
+                <div class="code-container">
+<pre>def compare_test_results(expected_pass, actual_pass):
+    expected = set(expected_pass)
+    actual = set(actual_pass)
+    
+    # Tests that should pass but failed
+    unexpected_failures = expected - actual
+    
+    # Tests that passed but weren't expected to
+    unexpected_passes = actual - expected
+    
+    # Tests that passed as expected
+    expected_passes = expected & actual
+    
+    return {
+        'unexpected_failures': unexpected_failures,
+        'unexpected_passes': unexpected_passes,
+        'expected_passes': expected_passes
+    }
+
+# Example usage
+expected = ["test_login", "test_logout", "test_profile"]
+actual = ["test_login", "test_profile", "test_admin"]
+
+results = compare_test_results(expected, actual)
+print("Unexpected failures:", results['unexpected_failures'])
+print("Unexpected passes:", results['unexpected_passes'])</pre>
+                </div>
+            </div>
+
+            <div class="use-case">
+                <h4>3. Validating Unique Constraints in Automation</h4>
+                <div class="code-container">
+<pre>def validate_unique_users(user_list):
+    """Ensure all user IDs are unique"""
+    user_ids = [user['id'] for user in user_list]
+    unique_ids = set(user_ids)
+    
+    if len(user_ids) != len(unique_ids):
+        duplicates = [uid for uid in user_ids if user_ids.count(uid) > 1]
+        return False, f"Duplicate IDs found: {set(duplicates)}"
+    
+    return True, "All user IDs are unique"
+
+# Test data
+users = [
+    {'id': 'user1', 'name': 'Alice'},
+    {'id': 'user2', 'name': 'Bob'},
+    {'id': 'user1', 'name': 'Charlie'}  # Duplicate ID
+]
+
+is_valid, message = validate_unique_users(users)
+print(f"Validation result: {message}")</pre>
+                </div>
+            </div>
+
+            <div class="use-case">
+                <h4>4. Log Analysis and Event Tracking</h4>
+                <div class="code-container">
+<pre>def analyze_automation_logs(expected_events, actual_events):
+    """Compare expected vs actual events in automation logs"""
+    expected_set = set(expected_events)
+    actual_set = set(actual_events)
+    
+    missing_events = expected_set - actual_set
+    extra_events = actual_set - expected_set
+    occurred_events = expected_set & actual_set
+    
+    print(f"✅ Expected events occurred: {len(occurred_events)}")
+    print(f"❌ Missing events: {missing_events}")
+    print(f"⚠️ Unexpected events: {extra_events}")
+    
+    return len(missing_events) == 0 and len(extra_events) == 0
+
+# Example log analysis
+expected_events = [
+    "user_login", "page_load", "data_fetch", "user_logout"
+]
+actual_events = [
+    "user_login", "page_load", "error_occurred", "user_logout"
+]
+
+is_successful = analyze_automation_logs(expected_events, actual_events)</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Interview Questions -->
+        <div class="section">
+            <h2>🎤 Interview Questions (QA/Automation Focus)</h2>
+
+            <div class="interview-question">
+                <h4>Q1: What's the difference between set and frozenset?</h4>
+                <div class="answer">
+                    <p><strong>Answer:</strong></p>
+                    <ul>
+                        <li><strong>set:</strong> Mutable - can add/remove elements after creation</li>
+                        <li><strong>frozenset:</strong> Immutable - cannot be modified after creation</li>
+                        <li><strong>Use case:</strong> frozenset can be used as dictionary keys or elements in other sets</li>
+                    </ul>
+                    <div class="code-container">
+<pre># Mutable set
+test_cases = {"TC001", "TC002"}
+test_cases.add("TC003")  # Works fine
+
+# Immutable frozenset
+frozen_cases = frozenset(["TC001", "TC002"])
+# frozen_cases.add("TC003")  # This would raise AttributeError
+
+# frozenset as dict key
+test_results = {frozen_cases: "passed"}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="interview-question">
+                <h4>Q2: How do you remove duplicates from a list using a set?</h4>
+                <div class="answer">
+                    <p><strong>Answer:</strong></p>
+                    <div class="code-container">
+<pre># Method 1: Simple conversion (loses order)
+test_ids = ["TC001", "TC002", "TC001", "TC003", "TC002"]
+unique_ids = list(set(test_ids))
+
+# Method 2: Preserve order using dict.fromkeys() (Python 3.7+)
+unique_ordered = list(dict.fromkeys(test_ids))
+
+# Method 3: Manual approach preserving order
+def remove_duplicates_preserve_order(items):
+    seen = set()
+    result = []
+    for item in items:
+        if item not in seen:
+            seen.add(item)
+            result.append(item)
+    return result
+
+unique_ordered_manual = remove_duplicates_preserve_order(test_ids)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="interview-question">
+                <h4>Q3: What's the time complexity of add, remove, and search operations in sets?</h4>
+                <div class="answer">
+                    <p><strong>Answer:</strong></p>
+                    <ul>
+                        <li><strong>add():</strong> O(1) average case, O(n) worst case</li>
+                        <li><strong>remove():</strong> O(1) average case, O(n) worst case</li>
+                        <li><strong>search (in operator):</strong> O(1) average case, O(n) worst case</li>
+                        <li><strong>Why it's fast:</strong> Sets use hash tables internally</li>
+                        <li><strong>Automation benefit:</strong> Fast lookup for test case validation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="interview-question">
+                <h4>Q4: Given two sets, how do you find elements only in the first set?</h4>
+                <div class="answer">
+                    <p><strong>Answer:</strong> Use the difference operation (-) or difference() method</p>
+                    <div class="code-container">
+<pre>executed_tests = {"test_login", "test_search", "test_checkout"}
+passed_tests = {"test_login", "test_checkout"}
+
+# Tests that were executed but failed
+failed_tests = executed_tests - passed_tests
+# or
+failed_tests = executed_tests.difference(passed_tests)
+
+print(failed_tests)  # {"test_search"}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="interview-question">
+                <h4>Q5: How would you use sets to validate automation logs?</h4>
+                <div class="answer">
+                    <p><strong>Answer:</strong> Create a comprehensive log validator using set operations</p>
+                    <div class="code-container">
+<pre>class LogValidator:
+    def __init__(self, required_events, forbidden_events=None):
+        self.required_events = set(required_events)
+        self.forbidden_events = set(forbidden_events or [])
+    
+    def validate(self, actual_logs):
+        actual_events = set(actual_logs)
+        
+        # Check for missing required events
+        missing = self.required_events - actual_events
+        
+        # Check for forbidden events
+        forbidden_found = actual_events & self.forbidden_events
+        
+        # Check for unexpected events (not required or forbidden)
+        all_expected = self.required_events | self.forbidden_events
+        unexpected = actual_events - all_expected
+        
+        is_valid = not missing and not forbidden_found
+        
+        return {
+            'valid': is_valid,
+            'missing_required': missing,
+            'forbidden_found': forbidden_found,
+            'unexpected_events': unexpected
+        }
+
+# Usage example
+validator = LogValidator(
+    required_events=["start_test", "login_success", "end_test"],
+    forbidden_events=["error", "timeout"]
+)
+
+log_events = ["start_test", "login_success", "data_loaded", "end_test"]
+result = validator.validate(log_events)
+print(f"Validation passed: {result['valid']}")</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Code Examples -->
+        <div class="section">
+            <h2>💻 Comprehensive Code Examples</h2>
+
+            <h3>Automation Test Suite Comparison Tool</h3>
+            <div class="code-container">
+<pre>class TestSuiteComparator:
+    def __init__(self):
+        self.comparison_results = {}
+    
+    def compare_suites(self, suite_a, suite_b, suite_a_name="Suite A", suite_b_name="Suite B"):
+        set_a = set(suite_a)
+        set_b = set(suite_b)
+        
+        # All operations in one analysis
+        union = set_a | set_b  # All unique tests
+        intersection = set_a & set_b  # Common tests
+        only_in_a = set_a - set_b  # Tests only in suite A
+        only_in_b = set_b - set_a  # Tests only in suite B
+        symmetric_diff = set_a ^ set_b  # Tests in either but not both
+        
+        self.comparison_results = {
+            'total_unique_tests': len(union),
+            'common_tests': len(intersection),
+            'common_test_list': intersection,
+            f'only_in_{suite_a_name.lower().replace(" ", "_")}': only_in_a,
+            f'only_in_{suite_b_name.lower().replace(" ", "_")}': only_in_b,
+            'different_tests': symmetric_diff,
+            'similarity_percentage': (len(intersection) / len(union)) * 100 if union else 0
+        }
+        
+        return self.comparison_results
+    
+    def generate_report(self):
+        if not self.comparison_results:
+            return "No comparison data available"
+        
+        report = []
+        report.append("=" * 50)
+        report.append("TEST SUITE COMPARISON REPORT")
+        report.append("=" * 50)
+        report.append(f"Total unique tests across both suites: {self.comparison_results['total_unique_tests']}")
+        report.append(f"Common tests: {self.comparison_results['common_tests']}")
+        report.append(f"Similarity: {self.comparison_results['similarity_percentage']:.1f}%")
+        report.append("")
+        
+        for key, value in self.comparison_results.items():
+            if key.startswith('only_in_') and value:
+                suite_name = key.replace('only_in_', '').replace('_', ' ').title()
+                report.append(f"Tests only in {suite_name}: {value}")
+        
+        return "\n".join(report)
+
+# Example usage
+regression_tests = [
+    "test_user_login", "test_user_logout", "test_password_reset",
+    "test_profile_update", "test_data_export"
+]
+
+smoke_tests = [
+    "test_user_login", "test_basic_navigation", "test_home_page_load",
+    "test_user_logout"
+]
+
+comparator = TestSuiteComparator()
+results = comparator.compare_suites(regression_tests, smoke_tests, "Regression", "Smoke")
+print(comparator.generate_report())</pre>
+            </div>
+
+            <h3>Real-time Test Execution Monitor</h3>
+            <div class="code-container">
+<pre>class TestExecutionMonitor:
+    def __init__(self, expected_tests):
+        self.expected_tests = set(expected_tests)
+        self.started_tests = set()
+        self.completed_tests = set()
+        self.failed_tests = set()
+        self.skipped_tests = set()
+    
+    def start_test(self, test_name):
+        if test_name in self.expected_tests:
+            self.started_tests.add(test_name)
+            print(f"🚀 Started: {test_name}")
+        else:
+            print(f"⚠️ Unexpected test started: {test_name}")
+    
+    def complete_test(self, test_name, status="passed"):
+        if test_name in self.started_tests:
+            self.completed_tests.add(test_name)
+            if status == "failed":
+                self.failed_tests.add(test_name)
+            print(f"✅ Completed: {test_name} - {status}")
+        else:
+            print(f"❌ Test completed without being started: {test_name}")
+    
+    def skip_test(self, test_name):
+        self.skipped_tests.add(test_name)
+        print(f"⏭️ Skipped: {test_name}")
+    
+    def get_status_report(self):
+        not_started = self.expected_tests - self.started_tests - self.skipped_tests
+        in_progress = self.started_tests - self.completed_tests
+        passed_tests = self.completed_tests - self.failed_tests
+        
+        return {
+            'total_expected': len(self.expected_tests),
+            'not_started': not_started,
+            'in_progress': in_progress,
+            'completed': len(self.completed_tests),
+            'passed': len(passed_tests),
+            'failed': len(self.failed_tests),
+            'skipped': len(self.skipped_tests),
+            'completion_rate': (len(self.completed_tests) / len(self.expected_tests)) * 100
+        }
+
+# Example usage
+expected_tests = [
+    "test_login", "test_navigation", "test_search", 
+    "test_purchase", "test_logout"
+]
+
+monitor = TestExecutionMonitor(expected_tests)
+
+# Simulate test execution
+monitor.start_test("test_login")
+monitor.complete_test("test_login", "passed")
+monitor.start_test("test_navigation")
+monitor.complete_test("test_navigation", "passed")
+monitor.skip_test("test_search")
+monitor.start_test("test_purchase")
+monitor.complete_test("test_purchase", "failed")
+
+# Get status report
+status = monitor.get_status_report()
+print(f"\n📊 Execution Status:")
+print(f"Completion Rate: {status['completion_rate']:.1f}%")
+print(f"Not Started: {status['not_started']}")
+print(f"In Progress: {status['in_progress']}")
+print(f"Failed: {status['failed']}")
+print(f"Skipped: {status['skipped']}")</pre>
+            </div>
+        </div>
+
+        <!-- Section 6: Conclusion -->
+        <div class="conclusion">
+            <h2>🎯 Conclusion: Why Master Set Operations?</h2>
+            <p>Python sets are incredibly powerful for handling unique data and performing efficient comparisons. In automation testing and QA, they provide:</p>
+            
+            <div style="text-align: left; margin: 20px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 10px;">🚀 Performance Benefits</h4>
+                    <ul>
+                        <li>O(1) average lookup time</li>
+                        <li>Efficient duplicate removal</li>
+                        <li>Fast set operations</li>
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 10px;">🔍 Data Validation</h4>
+                    <ul>
+                        <li>Ensure uniqueness constraints</li>
+                        <li>Compare expected vs actual results</li>
+                        <li>Identify missing or extra elements</li>
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 10px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 10px;">🛠️ Automation Excellence</h4>
+                    <ul>
+                        <li>Log analysis and validation</li>
+                        <li>Test case management</li>
+                        <li>Result comparison and reporting</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p style="margin-top: 30px; font-size: 1.1em; font-weight: bold; color: #2c3e50;">
+                Mastering set operations is essential for any QA automation engineer. They provide elegant solutions 
+                to common problems and demonstrate your understanding of efficient data structures in interviews!
+            </p>
+
+            <div style="margin-top: 30px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 10px;">
+                <h4>📚 Key Takeaways:</h4>
+                <ul style="margin: 10px 0;">
+                    <li>Sets eliminate duplicates automatically and provide fast membership testing</li>
+                    <li>Union, intersection, and difference operations solve common automation challenges</li>
+                    <li>Set comparisons are perfect for validating test results and expected outcomes</li>
+                    <li>Time complexity of O(1) makes sets ideal for large-scale data processing</li>
+                    <li>Understanding sets demonstrates strong algorithmic thinking in technical interviews</li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 20px; font-style: italic; color: #7f8c8d;">
+                "In automation testing, the ability to efficiently compare, validate, and process unique data sets 
+                is what separates good testers from great ones. Sets are your secret weapon!" 🎯
+            </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+            <h3 style="color: #2c3e50; margin-bottom: 15px;">🎉 Day 20 Complete!</h3>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">You've mastered Python set operations for automation testing</p>
+            
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <div style="background: #27ae60; color: white; padding: 10px 20px; border-radius: 25px;">
+                    ✅ Set Theory Applied
+                </div>
+                <div style="background: #3498db; color: white; padding: 10px 20px; border-radius: 25px;">
+                    ⚡ Performance Optimized
+                </div>
+                <div style="background: #e74c3c; color: white; padding: 10px 20px; border-radius: 25px;">
+                    🎯 Interview Ready
+                </div>
+                <div style="background: #9b59b6; color: white; padding: 10px 20px; border-radius: 25px;">
+                    🛠️ Automation Expert
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
