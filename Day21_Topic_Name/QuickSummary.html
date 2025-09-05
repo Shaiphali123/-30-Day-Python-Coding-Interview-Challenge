@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Mini Revision</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 40px 0;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .revision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .concept-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .concept-card h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: "Python";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7em;
+        }
+
+        .output {
+            background: #e8f5e8;
+            border-left: 4px solid #28a745;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            border-radius: 4px;
+        }
+
+        .output::before {
+            content: "Output: ";
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .concept-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .concept-list li {
+            padding: 8px 0;
+            border-bottom: 1px dotted #ddd;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .concept-list li::before {
+            content: "🐍";
+            position: absolute;
+            left: 0;
+            top: 8px;
+        }
+
+        .quick-reference {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .quick-reference h2 {
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .reference-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .reference-item h3 {
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .interactive-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .try-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: transform 0.2s ease;
+            margin: 5px;
+        }
+
+        .try-button:hover {
+            transform: scale(1.05);
+        }
+
+        .result-box {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            min-height: 50px;
+            font-family: 'Courier New', monospace;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .revision-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .reference-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐍 Python Mini Revision</h1>
+            <p>Complete guide for quick Python concept review</p>
+        </div>
+
+        <div class="revision-grid">
+            <!-- Variables & Data Types -->
+            <div class="concept-card">
+                <h2>1. Variables & Data Types</h2>
+                <div class="code-block">
+# Basic Data Types
+name = "Alice"          # String
+age = 25               # Integer
+height = 5.8           # Float
+is_student = True      # Boolean
+items = [1, 2, 3]      # List
+coordinates = (10, 20) # Tuple
+person = {"name": "Bob"} # Dictionary
+unique_nums = {1, 2, 3} # Set
+                </div>
+                <ul class="concept-list">
+                    <li><strong>Strings:</strong> Immutable text data</li>
+                    <li><strong>Lists:</strong> Mutable, ordered collections</li>
+                    <li><strong>Tuples:</strong> Immutable, ordered collections</li>
+                    <li><strong>Dictionaries:</strong> Key-value pairs</li>
+                    <li><strong>Sets:</strong> Unique elements only</li>
+                </ul>
+            </div>
+
+            <!-- String Operations -->
+            <div class="concept-card">
+                <h2>2. String Operations</h2>
+                <div class="code-block">
+text = "Hello World"
+print(text.upper())     # HELLO WORLD
+print(text.lower())     # hello world
+print(text.split())     # ['Hello', 'World']
+print(len(text))        # 11
+print(text[0])          # H
+print(text[1:5])        # ello
+
+# f-strings (Modern way)
+name = "Alice"
+age = 25
+print(f"Hi {name}, you're {age}")
+                </div>
+                <div class="output">Hi Alice, you're 25</div>
+            </div>
+
+            <!-- Lists & Methods -->
+            <div class="concept-card">
+                <h2>3. Lists & Methods</h2>
+                <div class="code-block">
+fruits = ["apple", "banana"]
+fruits.append("cherry")    # Add to end
+fruits.insert(1, "grape")  # Insert at index
+fruits.remove("banana")    # Remove item
+fruits.sort()             # Sort in place
+
+# List comprehension
+squares = [x**2 for x in range(1, 6)]
+evens = [x for x in range(10) if x % 2 == 0]
+                </div>
+                <div class="output">[1, 4, 9, 16, 25]<br>[0, 2, 4, 6, 8]</div>
+            </div>
+
+            <!-- Control Flow -->
+            <div class="concept-card">
+                <h2>4. Control Flow</h2>
+                <div class="code-block">
+# If-elif-else
+score = 85
+if score >= 90:
+    grade = "A"
+elif score >= 80:
+    grade = "B"
+else:
+    grade = "C"
+
+# Loops
+for i in range(5):      # 0, 1, 2, 3, 4
+    print(i)
+
+fruits = ["apple", "banana"]
+for fruit in fruits:
+    print(fruit)
+                </div>
+            </div>
+
+            <!-- Functions -->
+            <div class="concept-card">
+                <h2>5. Functions</h2>
+                <div class="code-block">
+def greet(name, greeting="Hello"):
+    return f"{greeting}, {name}!"
+
+# Lambda functions
+square = lambda x: x**2
+print(square(5))        # 25
+
+# Map and Filter
+numbers = [1, 2, 3, 4, 5]
+squared = list(map(lambda x: x**2, numbers))
+evens = list(filter(lambda x: x % 2 == 0, numbers))
+                </div>
+            </div>
+
+            <!-- Exception Handling -->
+            <div class="concept-card">
+                <h2>6. Exception Handling</h2>
+                <div class="code-block">
+try:
+    num = int(input("Enter number: "))
+    result = 10 / num
+    print(f"Result: {result}")
+except ValueError:
+    print("Invalid input!")
+except ZeroDivisionError:
+    print("Cannot divide by zero!")
+except Exception as e:
+    print(f"Error: {e}")
+finally:
+    print("Always executes")
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Reference Section -->
+        <div class="quick-reference">
+            <h2>🚀 Quick Reference</h2>
+            <div class="reference-grid">
+                <div class="reference-item">
+                    <h3>Common Methods</h3>
+                    <p><code>len(), type(), str(), int(), float()</code></p>
+                </div>
+                <div class="reference-item">
+                    <h3>List Methods</h3>
+                    <p><code>append(), insert(), remove(), pop(), sort()</code></p>
+                </div>
+                <div class="reference-item">
+                    <h3>String Methods</h3>
+                    <p><code>upper(), lower(), split(), replace(), strip()</code></p>
+                </div>
+                <div class="reference-item">
+                    <h3>Dict Methods</h3>
+                    <p><code>keys(), values(), items(), get()</code></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Section -->
+        <div class="interactive-section">
+            <h2>🎮 Try It Out!</h2>
+            <p>Click the buttons below to see Python concepts in action:</p>
+            <button class="try-button" onclick="showListDemo()">List Operations</button>
+            <button class="try-button" onclick="showStringDemo()">String Methods</button>
+            <button class="try-button" onclick="showLoopDemo()">Loop Examples</button>
+            <button class="try-button" onclick="showFunctionDemo()">Functions</button>
+            <div id="result" class="result-box">Click a button above to see examples!</div>
+        </div>
+    </div>
+
+    <script>
+        function showListDemo() {
+            const result = document.getElementById('result');
+            result.innerHTML = `
+<strong>List Operations Demo:</strong><br>
+fruits = ['apple', 'banana']<br>
+fruits.append('cherry')<br>
+fruits.insert(1, 'grape')<br>
+Result: ${JSON.stringify(['apple', 'grape', 'banana', 'cherry'])}<br><br>
+List comprehension: [x*2 for x in [1,2,3,4,5]]<br>
+Result: ${JSON.stringify([2,4,6,8,10])}
+            `;
+        }
+
+        function showStringDemo() {
+            const result = document.getElementById('result');
+            const text = "Hello World";
+            result.innerHTML = `
+<strong>String Methods Demo:</strong><br>
+text = "${text}"<br>
+text.upper() = "${text.toUpperCase()}"<br>
+text.lower() = "${text.toLowerCase()}"<br>
+text.split() = ${JSON.stringify(text.split(' '))}<br>
+text.length = ${text.length}<br>
+text[0] = "${text[0]}" (first character)
+            `;
+        }
+
+        function showLoopDemo() {
+            const result = document.getElementById('result');
+            let output = '';
+            for(let i = 0; i < 5; i++) {
+                output += i + ' ';
+            }
+            result.innerHTML = `
+<strong>Loop Examples:</strong><br>
+for i in range(5): → ${output.trim()}<br><br>
+fruits = ['apple', 'banana', 'cherry']<br>
+for fruit in fruits:<br>
+&nbsp;&nbsp;print(fruit)<br>
+→ apple<br>
+→ banana<br>
+→ cherry
+            `;
+        }
+
+        function showFunctionDemo() {
+            const result = document.getElementById('result');
+            function greet(name, greeting = "Hello") {
+                return `${greeting}, ${name}!`;
+            }
+            result.innerHTML = `
+<strong>Function Examples:</strong><br>
+def greet(name, greeting="Hello"):<br>
+&nbsp;&nbsp;return f"{greeting}, {name}!"<br><br>
+greet("Alice") = "${greet("Alice")}"<br>
+greet("Bob", "Hi") = "${greet("Bob", "Hi")}"<br><br>
+Lambda: square = lambda x: x**2<br>
+square(5) = ${((x) => x**2)(5)}
+            `;
+        }
+
+        // Add some interactivity on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.concept-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.animation = 'fadeInUp 0.6s ease forwards';
+            });
+        });
+
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
