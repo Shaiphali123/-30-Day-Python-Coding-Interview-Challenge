@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Interview Questions - Mock Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #306998 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #306998 0%, #FFD43B 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            opacity: 0.95;
+        }
+
+        .timer-section {
+            background: rgba(255,255,255,0.15);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .timer {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FFD43B;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .test-info {
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
+            border-bottom: 1px solid #e0e6ff;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e0e6ff;
+        }
+
+        .info-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #306998;
+            margin-bottom: 5px;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #306998, #FFD43B);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .progress-section {
+            padding: 20px 30px;
+            background: white;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #306998, #FFD43B);
+            width: 0%;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .question-container {
+            padding: 40px;
+            display: none;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+        }
+
+        .question-container.active {
+            display: block;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e0e6ff;
+        }
+
+        .question-number {
+            background: linear-gradient(45deg, #306998, #FFD43B);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(48, 105, 152, 0.3);
+        }
+
+        .difficulty-tag {
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .difficulty-beginner { background: #d4edda; color: #155724; border: 2px solid #c3e6cb; }
+        .difficulty-intermediate { background: #fff3cd; color: #856404; border: 2px solid #ffeaa7; }
+        .difficulty-advanced { background: #f8d7da; color: #721c24; border: 2px solid #f5c6cb; }
+
+        .question {
+            font-size: 1.3rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .code-block {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 1rem;
+            overflow-x: auto;
+            border-left: 5px solid #FFD43B;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .code-block::before {
+            content: 'Python';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: #FFD43B;
+            color: #2d3748;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .options {
+            display: grid;
+            gap: 20px;
+        }
+
+        .option {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+            border: 3px solid #e0e6ff;
+            border-radius: 20px;
+            padding: 20px 25px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(48, 105, 152, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .option:hover::before {
+            left: 100%;
+        }
+
+        .option:hover {
+            border-color: #306998;
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(48, 105, 152, 0.15);
+        }
+
+        .option.selected {
+            background: linear-gradient(135deg, rgba(48, 105, 152, 0.1) 0%, rgba(255, 212, 59, 0.1) 100%);
+            border-color: #306998;
+            color: #306998;
+            font-weight: 600;
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(48, 105, 152, 0.2);
+        }
+
+        .option-label {
+            background: linear-gradient(45deg, #306998, #FFD43B);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            box-shadow: 0 3px 10px rgba(48, 105, 152, 0.3);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .results {
+            padding: 40px;
+            display: none;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+        }
+
+        .results.active {
+            display: block;
+        }
+
+        .score-card {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px rgba(40, 167, 69, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .score-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .score {
+            font-size: 5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .score-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .breakdown-item {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid #e0e6ff;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .breakdown-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .breakdown-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #306998;
+            margin-bottom: 10px;
+        }
+
+        .review-section {
+            margin-top: 30px;
+        }
+
+        .review-question {
+            background: white;
+            border: 2px solid #e0e6ff;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .review-question.correct {
+            border-left: 6px solid #28a745;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%);
+        }
+
+        .review-question.incorrect {
+            border-left: 6px solid #dc3545;
+            background: linear-gradient(135deg, #ffffff 0%, #fff8f8 100%);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .category-tag {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .timer {
+                font-size: 1.6rem;
+            }
+            
+            .control-buttons {
+                flex-wrap: wrap;
+            }
+            
+            .score {
+                font-size: 3.5rem;
+            }
+            
+            .code-block {
+                font-size: 0.9rem;
+                padding: 20px;
+            }
+
+            .question-container {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>🐍 Python Interview Questions</h1>
+                <p class="subtitle">Master Python Concepts for Technical Interviews</p>
+                <div class="timer-section">
+                    <div>
+                        <strong>Duration:</strong> 30 Minutes
+                    </div>
+                    <div class="timer" id="timer">30:00</div>
+                    <div>
+                        <strong>Questions:</strong> 15
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-info">
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-number">15</div>
+                    <div>Real Interview Questions</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-number">3</div>
+                    <div>Difficulty Levels</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-number">30</div>
+                    <div>Minutes Duration</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-number">8+</div>
+                    <div>Python Topics</div>
+                </div>
+            </div>
+            <div class="control-buttons">
+                <button class="btn btn-primary" onclick="startTest()">Start Interview Test</button>
+                <button class="btn btn-secondary" onclick="resetTest()">Reset</button>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div id="startScreen" class="question-container active">
+            <div style="text-align: center; padding: 50px 0;">
+                <h2 style="color: #306998; margin-bottom: 30px;">🎯 Ready for Your Python Interview?</h2>
+                <p style="font-size: 1.2rem; margin: 20px 0; color: #666; line-height: 1.6;">
+                    This comprehensive test simulates real Python interview questions asked by top tech companies.
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin: 40px 0;">
+                    <div style="background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%); padding: 25px; border-radius: 15px; border: 2px solid #e0e6ff;">
+                        <strong style="color: #306998;">🔧 Core Python</strong><br><br>
+                        Data types, variables, operators, control flow
+                    </div>
+                    <div style="background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%); padding: 25px; border-radius: 15px; border: 2px solid #e0e6ff;">
+                        <strong style="color: #306998;">🏗️ Data Structures</strong><br><br>
+                        Lists, dicts, sets, tuples, comprehensions
+                    </div>
+                    <div style="background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%); padding: 25px; border-radius: 15px; border: 2px solid #e0e6ff;">
+                        <strong style="color: #306998;">🎯 OOP Concepts</strong><br><br>
+                        Classes, inheritance, polymorphism
+                    </div>
+                    <div style="background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%); padding: 25px; border-radius: 15px; border: 2px solid #e0e6ff;">
+                        <strong style="color: #306998;">⚡ Advanced Topics</strong><br><br>
+                        Decorators, generators, context managers
+                    </div>
+                </div>
+                <div style="background: #fff3cd; padding: 20px; border-radius: 10px; border-left: 5px solid #ffc107; margin: 30px 0;">
+                    <strong>💡 Interview Tips:</strong> Take your time, read each question carefully, and think through the logic before selecting your answer.
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 1 -->
+        <div class="question-container" id="question1">
+            <div class="question-header">
+                <div class="question-number">Question 1/15</div>
+                <div class="difficulty-tag difficulty-beginner">Beginner</div>
+            </div>
+            <div class="question">
+                What is the output of the following Python code?
+                <div class="code-block">def func(x=[]):
+    x.append(1)
+    return x
+
+print(func())
+print(func())
+print(func())</div>
+                <div class="category-tag">Mutable Default Arguments</div>
+            </div>
+            <div class="options">
+                <div class="option" data-answer="A">
+                    <div class="option-label">A</div>
+                    <div>[1]<br>[1]<br>[1]</div>
+                </div>
+                <div class="option" data-answer="B">
+                    <div class="option-label">B</div>
+                    <div>[1]<br>[1, 1]<br>[1, 1, 1]</div>
+                </div>
+                <div class="option" data-answer="C">
+                    <div class="option-label">C</div>
+                    <div>Error</div>
+                </div>
+                <div class="option" data-answer="D">
+                    <div class="option-label">D</div>
+                    <div>Error</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="question-container" id="question7">
+            <div class="question-header">
+                <div class="question-number">Question 7/15</div>
+                <div class="difficulty-tag difficulty-intermediate">Intermediate</div>
+            </div>
+            <div class="question">
+                What is the most Pythonic way to swap two variables?
+                <div class="category-tag">Pythonic Practices</div>
+            </div>
+            <div class="options">
+                <div class="option" data-answer="A">
+                    <div class="option-label">A</div>
+                    <div>temp = a; a = b; b = temp</div>
+                </div>
+                <div class="option" data-answer="B">
+                    <div class="option-label">B</div>
+                    <div>a, b = b, a</div>
+                </div>
+                <div class="option" data-answer="C">
+                    <div class="option-label">C</div>
+                    <div>a = a + b; b = a - b; a = a - b</div>
+                </div>
+                <div class="option" data-answer="D">
+                    <div class="option-label">D</div>
+                    <div>a = a ^ b; b = a ^ b; a = a ^ b</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question-container" id="question8">
+            <div class="question-header">
+                <div class="question-number">Question 8/15</div>
+                <div class="difficulty-tag difficulty-advanced">Advanced</div>
+            </div>
+            <div class="question">
+                What will this generator function return?
+                <div class="code-block">def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        yield a
+        a, b = b, a + b
+
+fib_gen = fibonacci(5)
+print(list(fib_gen))</div>
+                <div class="category-tag">Generators</div>
+            </div>
+            <div class="options">
+                <div class="option" data-answer="A">
+                    <div class="option-label">A</div>
+                    <div>[0, 1, 1, 2, 3]</div>
+                </div>
+                <div class="option" data-answer="B">
+                    <div class="option-label">B</div>
+                    <div>[1, 1, 2, 3, 5]</div>
+                </div>
+                <div class="option" data-answer="C">
+                    <div class="option-label">C</div>
+                    <div>[0, 1, 2, 3, 4]</div>
+                </div>
+                <div class="option" data-answer="D">
+                    <div class="option-label">D</div>
+                    <div>[1, 2, 3, 5, 8]</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question-container" id="question9">
+            <div class="question-header">
+                <div class="question-number">Question 9/15</div>
+                <div class="difficulty-tag difficulty-beginner">Beginner</div>
+            </div>
+            <div class="question">
+                What is the correct way to check if a key exists in a dictionary?
+                <div class="category-tag">Dictionary Operations</div>
+            </div>
+            <div class="options">
+                <div class="option" data-answer="A">
+                    <div class="option-label">A</div>
+                    <div>if key in dict.keys():</div>
+                </div>
+                <div class="option" data-answer="B">
+                    <div class="option-label">B</div>
+                    <div>if key in dict:</div>
+                </div>
+                <div class="option" data-answer="C">
+                    <div class="option-label">C</div>
+                    <div>if dict.has_key(key):</div>
+                </div>
+                <div class="option" data-answer="D">
+                    <div class="option-label">D</div>
+                    <div>if dict[key] is not None:</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="question-container" id="question10">
+            <div class="question-header">
+                <div class="question-number">Question 10/15</div>
+                <div class="difficulty-tag difficulty-intermediate">Intermediate</div>
+            </div>
+            <div class="question">
+                What will be the output of this lambda function with map?
+                <div class="code-block">numbers = [1, 2, 3, 4, 5]
+result = list(map(lambda x: x * 2 if x % 2 == 0 else x * 3, numbers))
+print(result)</div>
+                <div class="category-tag">Lambda Functions</div>
+            </div>
+            <div class="options">
+                <div class="option" data-answer="A">
+                    <div class="option-label">A</div>
+                    <div>[3, 4, 9, 8, 15]</div>
+                </div>
+                <div class="option" data-answer="B">
+                    <div class="option-label">B</div>
+                    <div>[2, 4, 6, 8, 10]</div>
+                </div>
+                <div class="option" data-answer="C">
+                    <div class="option-label">C</div>
+                    <div>[3, 6, 9, 12, 15]</div>
+                </div>
+                <div class="option" data-answer="D">
+                    <div class="option-label">D</div>
+                    <div>[1, 4, 3, 8, 5]</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 11 -->
+        <div class="question-container" id="question11">
+            <div class="question-header">
+                <div class="question-number">Question 11/15</div>
+                <div class="difficulty-tag difficulty-advanced">Advanced</div>
+            </div>
+            <div class="question">
+                What is the purpose of the `__new__` method in Python classes?
+                <div class="category-tag">Advanced OOP</div>
+            </div>
+            <div class="options">
+                <div class="option" data-answer="A">
+                    <div class="option-label">A</div>
+                    <div>It initializes the object after creation</div>
+                </div>
+                <div class="option" data-answer="B">
+                    <div class="option-label">B</div>
+                    <div>It creates and returns a new instance of the class</div>
+                </div>
+                <div class="option" data-answer="C">
+                    <div class="option-label">C</div>
+                    <div>It's called when the object is deleted</div>
+                </div>
+                <div class="option" data-answer="D">
+                    <div class="option-label">D</div>
+                    <div>It's used for inheritance only</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 12 -->
+        <div class="question-container" id="question12">
+            <div class="question-header">
+                <div class="question-number">Question 12/15</div>
+                <div class="difficulty-tag difficulty-intermediate">Intermediate</div>
+            </div>
+            <div class="question">
+                What will be the output of this set operation?
+                <div class="code-block">set1 = {1, 2, 3, 4, 5}
+set2 = {4, 5, 6, 7, 8}
+result = set1 & set2
+print(result)</div>
+                <div class="category-tag">Set Operations</div>
+            </div>
+            <div class="options">
+                <div class="option" data-answer="A">
+                    <div class="option-label">A</div>
+                    <div>{1, 2, 3, 6, 7, 8}</div>
+                </div>
+                <div class="option" data-answer="B">
+                    <div class="option-label">B</div>
+                    <div>{4, 5}</div>
+                </div>
+                <div class="option" data-answer="C">
+                    <div class="option-label">C</div>
+                    <div>{1, 2, 3, 4, 5, 6, 7, 8}</div>
+                </div>
+                <div class="option" data-answer="D">
+                    <div class="option-label">D</div>
+                    <div>set()</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 13 -->
+        <div class="question-container" id="question13">
+            <div class="question-header">
+                <div class="question-number">Question 13/15</div>
+                <div class="difficulty-tag difficulty-advanced">Advanced</div>
+            </div>
+            <div class="question">
+                What is the correct way to implement a context manager using the `with` statement?
+                <div class="category-tag">Context Managers</div>
+            </div>
+            <div class="options">
+                <div class="option" data-answer="A">
+                    <div class="option-label">A</div>
+                    <div>Implement __enter__ and __exit__ methods</div>
+                </div>
+                <div class="option" data-answer="B">
+                    <div class="option-label">B</div>
+                    <div>Implement __with__ and __without__ methods</div>
+                </div>
+                <div class="option" data-answer="C">
+                    <div class="option-label">C</div>
+                    <div>Implement __start__ and __stop__ methods</div>
+                </div>
+                <div class="option" data-answer="D">
+                    <div class="option-label">D</div>
+                    <div>Implement __open__ and __close__ methods</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 14 -->
+        <div class="question-container" id="question14">
+            <div class="question-header">
+                <div class="question-number">Question 14/15</div>
+                <div class="difficulty-tag difficulty-intermediate">Intermediate</div>
+            </div>
+            <div class="question">
+                What is the difference between `is` and `==` operators in Python?
+                <div class="category-tag">Operators & Comparison</div>
+            </div>
+            <div class="options">
+                <div class="option" data-answer="A">
+                    <div class="option-label">A</div>
+                    <div>No difference, they work the same way</div>
+                </div>
+                <div class="option" data-answer="B">
+                    <div class="option-label">B</div>
+                    <div>`is` compares identity, `==` compares equality</div>
+                </div>
+                <div class="option" data-answer="C">
+                    <div class="option-label">C</div>
+                    <div>`is` compares equality, `==` compares identity</div>
+                </div>
+                <div class="option" data-answer="D">
+                    <div class="option-label">D</div>
+                    <div>`is` is for numbers, `==` is for strings</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 15 -->
+        <div class="question-container" id="question15">
+            <div class="question-header">
+                <div class="question-number">Question 15/15</div>
+                <div class="difficulty-tag difficulty-advanced">Advanced</div>
+            </div>
+            <div class="question">
+                What will be the output of this metaclass example?
+                <div class="code-block">class Meta(type):
+    def __new__(mcs, name, bases, attrs):
+        attrs['class_id'] = f"{name}_ID"
+        return super().__new__(mcs, name, bases, attrs)
+
+class MyClass(metaclass=Meta):
+    pass
+
+obj = MyClass()
+print(obj.class_id)</div>
+                <div class="category-tag">Metaclasses</div>
+            </div>
+            <div class="options">
+                <div class="option" data-answer="A">
+                    <div class="option-label">A</div>
+                    <div>MyClass_ID</div>
+                </div>
+                <div class="option" data-answer="B">
+                    <div class="option-label">B</div>
+                    <div>Meta_ID</div>
+                </div>
+                <div class="option" data-answer="C">
+                    <div class="option-label">C</div>
+                    <div>class_id</div>
+                </div>
+                <div class="option" data-answer="D">
+                    <div class="option-label">D</div>
+                    <div>Error</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                <button class="btn btn-success" onclick="submitTest()">Submit Interview Test</button>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div class="results" id="results">
+            <div class="score-card">
+                <div class="score-content">
+                    <h2>🎉 Interview Test Completed!</h2>
+                    <div class="score" id="finalScore">0/15</div>
+                    <p id="scoreMessage">Great job!</p>
+                </div>
+            </div>
+            
+            <div class="score-breakdown">
+                <div class="breakdown-item">
+                    <div class="breakdown-number" id="correctCount">0</div>
+                    <div>Correct Answers</div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="breakdown-number" id="incorrectCount">0</div>
+                    <div>Incorrect Answers</div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="breakdown-number" id="percentageScore">0%</div>
+                    <div>Interview Score</div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="breakdown-number" id="interviewGrade">F</div>
+                    <div>Grade</div>
+                </div>
+            </div>
+
+            <div class="control-buttons">
+                <button class="btn btn-primary" onclick="showReview()">Review Answers</button>
+                <button class="btn btn-secondary" onclick="resetTest()">Retake Test</button>
+            </div>
+
+            <div id="reviewSection" class="review-section hidden">
+                <h3>📋 Interview Answer Review</h3>
+                <div id="reviewContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 0;
+        let userAnswers = {};
+        let timerInterval;
+        let timeLeft = 30 * 60; // 30 minutes in seconds
+        let testStarted = false;
+
+        const correctAnswers = {
+            1: 'B', 2: 'A', 3: 'A', 4: 'B', 5: 'A',
+            6: 'B', 7: 'B', 8: 'A', 9: 'B', 10: 'A',
+            11: 'B', 12: 'B', 13: 'A', 14: 'B', 15: 'A'
+        };
+
+        const explanations = {
+            1: "Mutable default arguments are shared between function calls. Each call appends to the same list, creating [1], [1,1], [1,1,1].",
+            2: "Multiple exceptions are handled using tuple syntax: except (ValueError, TypeError):",
+            3: "The closure maintains its own x variable. f() increments and returns 11, 12. outer()() creates a new closure returning 11.",
+            4: "__str__ is for end-user readable strings, __repr__ is for developers and should be unambiguous.",
+            5: "lst[-2::-1] starts from index -2 (value 4) and goes backwards to the beginning: [4, 3, 2, 1].",
+            6: "The decorator executes before and after the function, printing: Before, Hello Alice, After, Greeted Alice.",
+            7: "Python's tuple unpacking a, b = b, a is the most Pythonic way to swap variables.",
+            8: "Generator yields Fibonacci sequence starting with 0, 1: [0, 1, 1, 2, 3].",
+            9: "The most efficient way to check key existence is 'if key in dict:' - it's cleaner and faster than .keys().",
+            10: "Lambda multiplies even numbers by 2, odd by 3: [3, 4, 9, 8, 15].",
+            11: "__new__ is responsible for creating and returning a new instance of the class before __init__ initializes it.",
+            12: "The & operator performs set intersection, returning common elements: {4, 5}.",
+            13: "Context managers require __enter__ and __exit__ methods to work with the 'with' statement.",
+            14: "'is' checks if two variables refer to the same object (identity), '==' checks if values are equal.",
+            15: "Metaclass adds class_id attribute during class creation. obj.class_id returns 'MyClass_ID'."
+        };
+
+        function startTest() {
+            testStarted = true;
+            document.getElementById('startScreen').classList.remove('active');
+            document.getElementById('question1').classList.add('active');
+            currentQuestion = 1;
+            startTimer();
+            updateProgress();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Change color when time is running out
+            const timer = document.getElementById('timer');
+            if (timeLeft < 300) { // Last 5 minutes
+                timer.style.color = '#ff6b6b';
+            } else if (timeLeft < 600) { // Last 10 minutes
+                timer.style.color = '#ffa726';
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion - 1) / 15) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function selectOption(questionNum, answer) {
+            userAnswers[questionNum] = answer;
+            
+            // Update UI
+            const options = document.querySelectorAll(`#question${questionNum} .option`);
+            options.forEach(option => {
+                option.classList.remove('selected');
+                if (option.dataset.answer === answer) {
+                    option.classList.add('selected');
+                }
+            });
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < 15) {
+                document.getElementById(`question${currentQuestion}`).classList.remove('active');
+                currentQuestion++;
+                document.getElementById(`question${currentQuestion}`).classList.add('active');
+                updateProgress();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 1) {
+                document.getElementById(`question${currentQuestion}`).classList.remove('active');
+                currentQuestion--;
+                document.getElementById(`question${currentQuestion}`).classList.add('active');
+                updateProgress();
+            }
+        }
+
+        function submitTest() {
+            clearInterval(timerInterval);
+            
+            // Hide all question containers
+            document.querySelectorAll('.question-container').forEach(container => {
+                container.classList.remove('active');
+            });
+            
+            // Show results
+            document.getElementById('results').classList.add('active');
+            
+            // Calculate score
+            let correct = 0;
+            for (let i = 1; i <= 15; i++) {
+                if (userAnswers[i] === correctAnswers[i]) {
+                    correct++;
+                }
+            }
+            
+            const percentage = Math.round((correct / 15) * 100);
+            
+            // Determine grade
+            let grade = 'F';
+            if (percentage >= 90) grade = 'A+';
+            else if (percentage >= 85) grade = 'A';
+            else if (percentage >= 80) grade = 'A-';
+            else if (percentage >= 75) grade = 'B+';
+            else if (percentage >= 70) grade = 'B';
+            else if (percentage >= 65) grade = 'B-';
+            else if (percentage >= 60) grade = 'C+';
+            else if (percentage >= 55) grade = 'C';
+            else if (percentage >= 50) grade = 'C-';
+            else if (percentage >= 40) grade = 'D';
+            
+            // Update results display
+            document.getElementById('finalScore').textContent = `${correct}/15`;
+            document.getElementById('correctCount').textContent = correct;
+            document.getElementById('incorrectCount').textContent = 15 - correct;
+            document.getElementById('percentageScore').textContent = `${percentage}%`;
+            document.getElementById('interviewGrade').textContent = grade;
+            
+            // Set interview feedback message
+            let message = "";
+            if (percentage >= 90) message = "🏆 Outstanding! You're ready for senior Python roles!";
+            else if (percentage >= 80) message = "🌟 Excellent! Strong Python interview performance!";
+            else if (percentage >= 70) message = "👍 Good job! You have solid Python fundamentals!";
+            else if (percentage >= 60) message = "📚 Decent start! Review advanced concepts for better results!";
+            else if (percentage >= 50) message = "💪 Keep studying! Focus on core Python concepts!";
+            else message = "📖 More practice needed! Start with Python basics!";
+            
+            document.getElementById('scoreMessage').textContent = message;
+        }
+
+        function showReview() {
+            const reviewSection = document.getElementById('reviewSection');
+            const reviewContent = document.getElementById('reviewContent');
+            
+            reviewSection.classList.toggle('hidden');
+            
+            if (!reviewSection.classList.contains('hidden')) {
+                let reviewHTML = '';
+                
+                for (let i = 1; i <= 15; i++) {
+                    const userAnswer = userAnswers[i] || 'Not answered';
+                    const correctAnswer = correctAnswers[i];
+                    const isCorrect = userAnswer === correctAnswer;
+                    
+                    reviewHTML += `
+                        <div class="review-question ${isCorrect ? 'correct' : 'incorrect'}">
+                            <h4>Question ${i} ${isCorrect ? '✅' : '❌'}</h4>
+                            <p><strong>Your Answer:</strong> ${userAnswer}</p>
+                            <p><strong>Correct Answer:</strong> ${correctAnswer}</p>
+                            <p><strong>Explanation:</strong> ${explanations[i]}</p>
+                        </div>
+                    `;
+                }
+                
+                reviewContent.innerHTML = reviewHTML;
+            }
+        }
+
+        function resetTest() {
+            // Reset all variables
+            currentQuestion = 0;
+            userAnswers = {};
+            timeLeft = 30 * 60;
+            testStarted = false;
+            
+            // Clear timer
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            
+            // Reset UI
+            document.querySelectorAll('.question-container').forEach(container => {
+                container.classList.remove('active');
+            });
+            document.getElementById('results').classList.remove('active');
+            document.getElementById('startScreen').classList.add('active');
+            document.getElementById('reviewSection').classList.add('hidden');
+            
+            // Reset timer display and color
+            const timer = document.getElementById('timer');
+            timer.textContent = '30:00';
+            timer.style.color = '#FFD43B';
+            
+            // Reset progress bar
+            document.getElementById('progressBar').style.width = '0%';
+            
+            // Clear selected options
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected');
+            });
+        }
+
+        // Add click event listeners to all options
+        document.addEventListener('DOMContentLoaded', function() {
+            for (let i = 1; i <= 15; i++) {
+                const options = document.querySelectorAll(`#question${i} .option`);
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        selectOption(i, this.dataset.answer);
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+                    <div class="option-label">D</div>
+                    <div>[]<br>[]<br>[]</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" disabled>Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-container" id="question2">
+            <div class="question-header">
+                <div class="question-number">Question 2/15</div>
+                <div class="difficulty-tag difficulty-intermediate">Intermediate</div>
+            </div>
+            <div class="question">
+                Which of the following is the correct way to handle multiple exceptions in Python?
+                <div class="category-tag">Exception Handling</div>
+            </div>
+            <div class="options">
+                <div class="option" data-answer="A">
+                    <div class="option-label">A</div>
+                    <div>try: ... except (ValueError, TypeError): ...</div>
+                </div>
+                <div class="option" data-answer="B">
+                    <div class="option-label">B</div>
+                    <div>try: ... except ValueError, TypeError: ...</div>
+                </div>
+                <div class="option" data-answer="C">
+                    <div class="option-label">C</div>
+                    <div>try: ... except ValueError or TypeError: ...</div>
+                </div>
+                <div class="option" data-answer="D">
+                    <div class="option-label">D</div>
+                    <div>try: ... except [ValueError, TypeError]: ...</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-container" id="question3">
+            <div class="question-header">
+                <div class="question-number">Question 3/15</div>
+                <div class="difficulty-tag difficulty-advanced">Advanced</div>
+            </div>
+            <div class="question">
+                What will be the output of this code involving closures?
+                <div class="code-block">def outer():
+    x = 10
+    def inner():
+        nonlocal x
+        x += 1
+        return x
+    return inner
+
+f = outer()
+print(f())
+print(f())
+print(outer()())</div>
+                <div class="category-tag">Closures & Scope</div>
+            </div>
+            <div class="options">
+                <div class="option" data-answer="A">
+                    <div class="option-label">A</div>
+                    <div>11<br>12<br>11</div>
+                </div>
+                <div class="option" data-answer="B">
+                    <div class="option-label">B</div>
+                    <div>11<br>11<br>11</div>
+                </div>
+                <div class="option" data-answer="C">
+                    <div class="option-label">C</div>
+                    <div>10<br>11<br>12</div>
+                </div>
+                <div class="option" data-answer="D">
+                    <div class="option-label">D</div>
+                    <div>Error</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-container" id="question4">
+            <div class="question-header">
+                <div class="question-number">Question 4/15</div>
+                <div class="difficulty-tag difficulty-intermediate">Intermediate</div>
+            </div>
+            <div class="question">
+                What is the difference between `__str__` and `__repr__` methods in Python classes?
+                <div class="category-tag">Object-Oriented Programming</div>
+            </div>
+            <div class="options">
+                <div class="option" data-answer="A">
+                    <div class="option-label">A</div>
+                    <div>No difference, they are the same</div>
+                </div>
+                <div class="option" data-answer="B">
+                    <div class="option-label">B</div>
+                    <div>__str__ is for end users, __repr__ is for developers/debugging</div>
+                </div>
+                <div class="option" data-answer="C">
+                    <div class="option-label">C</div>
+                    <div>__repr__ is for end users, __str__ is for developers/debugging</div>
+                </div>
+                <div class="option" data-answer="D">
+                    <div class="option-label">D</div>
+                    <div>__str__ returns bytes, __repr__ returns string</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-container" id="question5">
+            <div class="question-header">
+                <div class="question-number">Question 5/15</div>
+                <div class="difficulty-tag difficulty-beginner">Beginner</div>
+            </div>
+            <div class="question">
+                What will be the result of this list slicing operation?
+                <div class="code-block">lst = [1, 2, 3, 4, 5]
+print(lst[-2::-1])</div>
+                <div class="category-tag">List Operations</div>
+            </div>
+            <div class="options">
+                <div class="option" data-answer="A">
+                    <div class="option-label">A</div>
+                    <div>[4, 3, 2, 1]</div>
+                </div>
+                <div class="option" data-answer="B">
+                    <div class="option-label">B</div>
+                    <div>[5, 4, 3, 2, 1]</div>
+                </div>
+                <div class="option" data-answer="C">
+                    <div class="option-label">C</div>
+                    <div>[4, 5]</div>
+                </div>
+                <div class="option" data-answer="D">
+                    <div class="option-label">D</div>
+                    <div>[3, 2, 1]</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question-container" id="question6">
+            <div class="question-header">
+                <div class="question-number">Question 6/15</div>
+                <div class="difficulty-tag difficulty-advanced">Advanced</div>
+            </div>
+            <div class="question">
+                What is the output of this decorator example?
+                <div class="code-block">def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print("Before")
+        result = func(*args, **kwargs)
+        print("After")
+        return result
+    return wrapper
+
+@my_decorator
+def greet(name):
+    print(f"Hello {name}")
+    return f"Greeted {name}"
+
+result = greet("Alice")
+print(result)</div>
+                <div class="category-tag">Decorators</div>
+            </div>
+            <div class="options">
+                <div class="option" data-answer="A">
+                    <div class="option-label">A</div>
+                    <div>Hello Alice<br>Greeted Alice</div>
+                </div>
+                <div class="option" data-answer="B">
+                    <div class="option-label">B</div>
+                    <div>Before<br>Hello Alice<br>After<br>Greeted Alice</div>
+                </div>
+                <div class="option" data-answer="C">
+                    <div class="option-label">C</div>
+                    <div>Before<br>After<br>Hello Alice</div>
+                </div>
+                <div class="option" data-answer="D">
