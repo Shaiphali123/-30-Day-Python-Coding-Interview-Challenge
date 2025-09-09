@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 22 - Tricky String & Array Problems | Python Interview Series</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .hero-section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      animation: slideInDown 1s ease-out;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      animation: rotate 10s linear infinite;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-section h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 15px;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    .hero-section .subtitle {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 20px;
+    }
+
+    .day-badge {
+      display: inline-block;
+      background: linear-gradient(45deg, #ff6b6b, #feca57);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
+      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      color: white;
+      text-align: center;
+      margin: 50px 0 30px;
+      font-weight: 700;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .questions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .question-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(15px);
+      border-radius: 15px;
+      padding: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      animation: fadeInUp 1s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .question-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .question-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+    }
+
+    .question-number {
+      display: inline-block;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .question-card h3 {
+      color: #2c3e50;
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .code-block {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      padding: 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      position: relative;
+      border: 1px solid #313244;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .code-block::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ff5f56;
+      box-shadow: 20px 0 0 #ffbd2e, 40px 0 0 #27ca3f;
+    }
+
+    .code-content {
+      margin-top: 30px;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #cdd6f4;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .takeaways-section {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(15px);
+      border-radius: 15px;
+      padding: 30px;
+      margin: 40px 0;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: fadeInUp 1s ease-out 0.5s both;
+    }
+
+    .takeaways-section h2 {
+      color: #2c3e50;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .takeaway-item {
+      background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+      padding: 15px 20px;
+      margin: 15px 0;
+      border-radius: 10px;
+      border-left: 4px solid #667eea;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .takeaway-item:hover {
+      transform: translateX(10px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .takeaway-icon {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 15px;
+      margin-top: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .footer-content {
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .brand {
+      background: linear-gradient(45deg, #ff6b6b, #feca57);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+
+    .floating-elements {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .floating-element {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes slideInDown {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+      to { text-shadow: 0 4px 30px rgba(255, 255, 255, 0.3); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      33% { transform: translateY(-20px) rotate(120deg); }
+      66% { transform: translateY(-10px) rotate(240deg); }
+    }
+
+    @media (max-width: 768px) {
+      .questions-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .hero-section h1 {
+        font-size: 2rem;
+      }
+      
+      .hero-section {
+        padding: 30px 20px;
+      }
+    }
+
+    .syntax-highlight {
+      color: #a6e3a1;
+    }
+    .syntax-keyword {
+      color: #cba6f7;
+    }
+    .syntax-string {
+      color: #f9e2af;
+    }
+    .syntax-comment {
+      color: #6c7086;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-elements">
+    <div class="floating-element" style="width: 60px; height: 60px; top: 20%; left: 10%; animation-delay: 0s;"></div>
+    <div class="floating-element" style="width: 80px; height: 80px; top: 60%; right: 15%; animation-delay: 2s;"></div>
+    <div class="floating-element" style="width: 40px; height: 40px; bottom: 30%; left: 20%; animation-delay: 4s;"></div>
+  </div>
+
+  <div class="container">
+    <div class="hero-section">
+      <div class="hero-content">
+        <div class="day-badge">Day 22</div>
+        <h1>Tricky String & Array Problems</h1>
+        <p class="subtitle">
+          <b>Welcome to Day 22 of the Python Coding Interview Challenge!</b><br>
+          Master the most commonly asked string and array problems that test your problem-solving skills in technical interviews.
+        </p>
+      </div>
+    </div>
+
+    <h2 class="section-title">📌 Interview Questions & Solutions</h2>
+
+    <div class="questions-grid">
+      <div class="question-card">
+        <div class="question-number">1</div>
+        <h3>Reverse a String without using built-in functions</h3>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <div class="code-content">
+<span class="syntax-keyword">def</span> <span class="syntax-highlight">reverse_string</span>(s):
+    <span class="syntax-keyword">return</span> s[::-1]
+
+<span class="syntax-highlight">print</span>(<span class="syntax-highlight">reverse_string</span>(<span class="syntax-string">"ShaiviConnect"</span>))  <span class="syntax-comment"># tcennoCiviahS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">2</div>
+        <h3>Check if a String is a Palindrome</h3>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <div class="code-content">
+<span class="syntax-keyword">def</span> <span class="syntax-highlight">is_palindrome</span>(s):
+    <span class="syntax-keyword">return</span> s == s[::-1]
+
+<span class="syntax-highlight">print</span>(<span class="syntax-highlight">is_palindrome</span>(<span class="syntax-string">"madam"</span>))  <span class="syntax-comment"># True</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">3</div>
+        <h3>Find the First Non-Repeating Character</h3>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <div class="code-content">
+<span class="syntax-keyword">from</span> collections <span class="syntax-keyword">import</span> Counter
+
+<span class="syntax-keyword">def</span> <span class="syntax-highlight">first_non_repeating</span>(s):
+    count = <span class="syntax-highlight">Counter</span>(s)
+    <span class="syntax-keyword">for</span> char <span class="syntax-keyword">in</span> s:
+        <span class="syntax-keyword">if</span> count[char] == 1:
+            <span class="syntax-keyword">return</span> char
+    <span class="syntax-keyword">return</span> <span class="syntax-keyword">None</span>
+
+<span class="syntax-highlight">print</span>(<span class="syntax-highlight">first_non_repeating</span>(<span class="syntax-string">"aabbcde"</span>))  <span class="syntax-comment"># c</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">4</div>
+        <h3>Check if Two Strings are Anagrams</h3>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <div class="code-content">
+<span class="syntax-keyword">def</span> <span class="syntax-highlight">are_anagrams</span>(s1, s2):
+    <span class="syntax-keyword">return</span> <span class="syntax-highlight">sorted</span>(s1) == <span class="syntax-highlight">sorted</span>(s2)
+
+<span class="syntax-highlight">print</span>(<span class="syntax-highlight">are_anagrams</span>(<span class="syntax-string">"listen"</span>, <span class="syntax-string">"silent"</span>))  <span class="syntax-comment"># True</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">5</div>
+        <h3>Find Missing Number in an Array</h3>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <div class="code-content">
+<span class="syntax-keyword">def</span> <span class="syntax-highlight">missing_number</span>(arr, n):
+    total = n * (n + 1) // 2
+    <span class="syntax-keyword">return</span> total - <span class="syntax-highlight">sum</span>(arr)
+
+<span class="syntax-highlight">print</span>(<span class="syntax-highlight">missing_number</span>([1, 2, 4, 5], 5))  <span class="syntax-comment"># 3</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">6</div>
+        <h3>Find Duplicate in an Array</h3>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <div class="code-content">
+<span class="syntax-keyword">def</span> <span class="syntax-highlight">find_duplicate</span>(arr):
+    seen = <span class="syntax-highlight">set</span>()
+    <span class="syntax-keyword">for</span> num <span class="syntax-keyword">in</span> arr:
+        <span class="syntax-keyword">if</span> num <span class="syntax-keyword">in</span> seen:
+            <span class="syntax-keyword">return</span> num
+        seen.add(num)
+    <span class="syntax-keyword">return</span> <span class="syntax-keyword">None</span>
+
+<span class="syntax-highlight">print</span>(<span class="syntax-highlight">find_duplicate</span>([1, 2, 3, 4, 2]))  <span class="syntax-comment"># 2</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">7</div>
+        <h3>Rotate an Array by K steps</h3>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <div class="code-content">
+<span class="syntax-keyword">def</span> <span class="syntax-highlight">rotate_array</span>(arr, k):
+    k = k % <span class="syntax-highlight">len</span>(arr)
+    <span class="syntax-keyword">return</span> arr[-k:] + arr[:-k]
+
+<span class="syntax-highlight">print</span>(<span class="syntax-highlight">rotate_array</span>([1, 2, 3, 4, 5], 2))  <span class="syntax-comment"># [4, 5, 1, 2, 3]</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">8</div>
+        <h3>Find Maximum Subarray Sum (Kadane's Algorithm)</h3>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <div class="code-content">
+<span class="syntax-keyword">def</span> <span class="syntax-highlight">max_subarray_sum</span>(arr):
+    max_current = max_global = arr[0]
+    <span class="syntax-keyword">for</span> num <span class="syntax-keyword">in</span> arr[1:]:
+        max_current = <span class="syntax-highlight">max</span>(num, max_current + num)
+        <span class="syntax-keyword">if</span> max_current > max_global:
+            max_global = max_current
+    <span class="syntax-keyword">return</span> max_global
+
+<span class="syntax-highlight">print</span>(<span class="syntax-highlight">max_subarray_sum</span>([-2,1,-3,4,-1,2,1,-5,4]))  <span class="syntax-comment"># 6</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="takeaways-section">
+      <h2>✅ Key Takeaways</h2>
+      <div class="takeaway-item">
+        <div class="takeaway-icon">💡</div>
+        <div>Mastering tricky problems builds strong problem-solving ability and algorithmic thinking.</div>
+      </div>
+      <div class="takeaway-item">
+        <div class="takeaway-icon">⚡</div>
+        <div>Always optimize your solutions - Kadane's Algorithm achieves O(n) time complexity.</div>
+      </div>
+      <div class="takeaway-item">
+        <div class="takeaway-icon">🎯</div>
+        <div>String & Array questions are fundamental and appear in almost every technical interview.</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-content">
+        🚀 Day 22 completed – Powered by <span class="brand">Shaivi Connect</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function copyCode(button) {
+      const codeBlock = button.parentElement;
+      const code = codeBlock.querySelector('.code-content').textContent;
+      
+      navigator.clipboard.writeText(code).then(function() {
+        const originalText = button.textContent;
+        button.textContent = 'Copied!';
+        button.style.background = 'rgba(166, 227, 161, 0.3)';
+        
+        setTimeout(function() {
+          button.textContent = originalText;
+          button.style.background = 'rgba(255, 255, 255, 0.1)';
+        }, 2000);
+      });
+    }
+
+    // Add scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.question-card, .takeaways-section').forEach(el => {
+      el.style.animationPlayState = 'paused';
+      observer.observe(el);
+    });
+
+    // Add some interactive hover effects
+    document.querySelectorAll('.question-card').forEach((card, index) => {
+      card.style.animationDelay = `${index * 0.1}s`;
+      
+      card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-10px) scale(1.02)';
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+  </script>
+</body>
+</html>
