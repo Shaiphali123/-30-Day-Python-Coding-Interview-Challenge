@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Day 23 - Bit Manipulation in Python (QA Focus)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 15px 0;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background: #2c3e50;
+      color: white;
+    }
+    .tip {
+      background: #eafaf1;
+      border-left: 4px solid #27ae60;
+      padding: 10px;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📘 Day 23 – Bit Manipulation in Python (QA Interview Focus)</h1>
+
+  <h2>🔹 Why QA Engineers Should Know Bit Manipulation?</h2>
+  <p>
+    Bit manipulation is not a primary focus in QA interviews, but it shows strong
+    <b>problem-solving ability</b> and is sometimes used in <b>logic-based coding rounds</b>.
+  </p>
+  <ul>
+    <li>Helps in test data generation and validations.</li>
+    <li>Useful for basic coding tests during automation interviews.</li>
+    <li>Only <b>core tricks</b> are important for QA roles.</li>
+  </ul>
+
+  <h2>🔹 Core Bitwise Operators</h2>
+  <table>
+    <tr>
+      <th>Operator</th>
+      <th>Symbol</th>
+      <th>Example (a=5, b=3)</th>
+      <th>Result</th>
+    </tr>
+    <tr><td>AND</td><td>&amp;</td><td>5 &amp; 3</td><td>1</td></tr>
+    <tr><td>OR</td><td>|</td><td>5 | 3</td><td>7</td></tr>
+    <tr><td>XOR</td><td>^</td><td>5 ^ 3</td><td>6</td></tr>
+    <tr><td>NOT</td><td>~</td><td>~5</td><td>-6</td></tr>
+    <tr><td>Left Shift</td><td>&lt;&lt;</td><td>5 &lt;&lt; 1</td><td>10</td></tr>
+    <tr><td>Right Shift</td><td>&gt;&gt;</td><td>5 &gt;&gt; 1</td><td>2</td></tr>
+  </table>
+
+  <h2>🔹 QA-Relevant Use Cases</h2>
+
+  <h3>1️⃣ Check if a number is even or odd</h3>
+  <pre>
+n = 7
+if n & 1:
+    print("Odd")
+else:
+    print("Even")
+  </pre>
+
+  <h3>2️⃣ Check if a number is a power of 2</h3>
+  <pre>
+def is_power_of_two(n):
+    return n > 0 and (n & (n - 1)) == 0
+
+print(is_power_of_two(16))  # True
+print(is_power_of_two(18))  # False
+  </pre>
+
+  <h3>3️⃣ Find the single unique element in a list</h3>
+  <pre>
+nums = [2, 3, 5, 3, 2]
+res = 0
+for num in nums:
+    res ^= num
+print(res)  # 5
+  </pre>
+
+  <h3>4️⃣ Swap two numbers without using extra variable</h3>
+  <pre>
+a, b = 5, 7
+a = a ^ b
+b = a ^ b
+a = a ^ b
+print(a, b)  # 7, 5
+  </pre>
+
+  <h2>🔹 Sample QA Interview Questions</h2>
+  <ul>
+    <li><b>Q1:</b> How do you check if a number is odd or even using bitwise operators?</li>
+    <li><b>Q2:</b> Write a program to find the unique number in a list where others are duplicated.</li>
+    <li><b>Q3:</b> How to check if a number is a power of 2?</li>
+    <li><b>Q4:</b> Can you swap two numbers without a temp variable?</li>
+  </ul>
+
+  <div class="tip">
+    <h3>🔹 Interview Tip for QA</h3>
+    <p>
+      Focus only on <b>basic coding problems</b> with bitwise operators:
+      Odd/Even check, Power of 2 check, Unique element with XOR, and Swapping without temp.
+      Deeper DSA-level bit manipulation is not required for QA interviews.
+    </p>
+  </div>
+
+</body>
+</html>
