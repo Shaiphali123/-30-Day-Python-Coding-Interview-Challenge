@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Day 24 — OOP Interview Scenarios (Python) — Notes</title>
+  <style>
+    body{font-family:Inter, system-ui, Arial, sans-serif; max-width:900px; margin:32px auto; line-height:1.6; color:#111}
+    header{border-left:6px solid #4f46e5; padding-left:14px}
+    h1,h2,h3{margin:1em 0 0.4em}
+    pre{background:#f3f4f6;padding:12px;border-radius:6px;overflow:auto}
+    .toc{background:#fbfbff;border:1px solid #eef2ff;padding:12px;border-radius:8px}
+    .qa{background:#fff8f0;border:1px solid #ffedd5;padding:10px;border-radius:6px}
+    .note{font-size:0.95rem;color:#374151}
+    ul{margin:0.2em 0 1em}
+    code{font-family:monospace;background:#f8fafc;padding:2px 4px;border-radius:4px}
+    .grid{display:grid;gap:12px}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Day 24 — OOP Interview Scenarios (Python)</h1>
+    <p class="note">Concise notes & sample answers for interview preparation — focus on practical OOP design, common scenarios, and Python code examples. Designed for automation/QA engineers preparing for interviews.</p>
+  </header>
+
+  <section class="toc">
+    <strong>Contents</strong>
+    <ol>
+      <li>Core OOP Concepts (quick recap)</li>
+      <li>Common Interview Scenarios & Solutions (with Python)</li>
+      <li>SOLID Principles (with examples)</li>
+      <li>Design Patterns you should know</li>
+      <li>Testing & QA perspective — how to test OOP code</li>
+      <li>Behavioral / System-design style OOP questions</li>
+      <li>Mini mock interview: questions + answers</li>
+      <li>Exercises & Challenges</li>
+    </ol>
+  </section>
+
+  <hr />
+
+  <h2>1. Core OOP Concepts — quick recap</h2>
+  <ul>
+    <li><strong>Encapsulation:</strong> Keep data (attributes) private and expose behavior through methods. Use properties/getters/setters in Python when needed.</li>
+    <li><strong>Abstraction:</strong> Expose only necessary details. Abstract base classes (ABC) and interfaces in Python (via abc module) help design contracts.</li>
+    <li><strong>Inheritance:</strong> "is-a" relationship. Use carefully — prefer composition over inheritance when possible.</li>
+    <li><strong>Polymorphism:</strong> Same interface, different implementations. Duck typing in Python is powerful here.</li>
+  </ul>
+
+  <h2>2. Common Interview Scenarios & Solutions (with Python)</h2>
+  <p>Below are frequently asked scenarios. For each: problem, approach, and a compact Python implementation.</p>
+
+  <h3>2.1 Design a simple <code>BankAccount</code> class (deposit, withdraw, transfer)</h3>
+  <pre><code>class BankAccount:
+    def __init__(self, owner: str, balance: float = 0.0):
+        self.owner = owner
+        self._balance = float(balance)
+
+    @property
+    def balance(self):
+        return self._balance
+
+    def deposit(self, amount: float):
+        if amount <= 0:
+            raise ValueError('Deposit must be positive')
+        self._balance += amount
+
+    def withdraw(self, amount: float):
+        if amount <= 0:
+            raise ValueError('Withdraw must be positive')
+        if amount > self._balance:
+            raise ValueError('Insufficient funds')
+        self._balance -= amount
+
+    def transfer_to(self, other_account, amount: float):
+        self.withdraw(amount)
+        other_account.deposit(amount)
+
+# Usage
+# a = BankAccount('Alice', 100)
+# b = BankAccount('Bob')
+# a.transfer_to(b, 30)
+</code></pre>
+
+  <p class="note">Interview tip: mention thread-safety if asked (use locks for concurrent access) and input validation.</p>
+
+  <h3>2.2 Implement a Singleton (why and how)</h3>
+  <pre><code>class SingletonMeta(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Config(metaclass=SingletonMeta):
+    def __init__(self):
+        self.value = 42
+
+# Usage: only one Config instance will exist
+</code></pre>
+  <p class="note">Interviewers might ask when singletons are appropriate — good for shared configuration but can make testing harder. Favor dependency injection for testability.</p>
+
+  <h3>2.3 Observer / Event system (useful for decoupling)</h3>
+  <pre><code>class Event:
+    def __init__(self):
+        self._listeners = []
+    def subscribe(self, fn):
+        self._listeners.append(fn)
+    def emit(self, *args, **kwargs):
+        for fn in list(self._listeners):
+            fn(*args, **kwargs)
+
+# Example usage
+# evt = Event()
+# evt.subscribe(lambda msg: print('got', msg))
+# evt.emit('hello')
+</code></pre>
+
+  <h3>2.4 Strategy Pattern (runtime behavior change)</h3>
+  <pre><code>class StrategyA:
+    def do(self, data):
+        return f'A processed {data}'
+
+class StrategyB:
+    def do(self, data):
+        return f'B processed {data}'
+
+class Context:
+    def __init__(self, strategy):
+        self._strategy = strategy
+    def run(self, data):
+        return self._strategy.do(data)
+
+# context = Context(StrategyA())
+# context.run('input')
+</code></pre>
+
+  <h2>3. SOLID principles — short Python examples</h2>
+  <ul>
+    <li><strong>S — Single Responsibility:</strong> A class should have only one reason to change. E.g., separate persistence from business logic.</li>
+    <li><strong>O — Open/Closed:</strong> Open for extension, closed for modification; use inheritance or composition to extend behavior.</li>
+    <li><strong>L — Liskov Substitution:</strong> Subtypes must be substitutable for their base types; avoid changing expected behavior in subclasses.</li>
+    <li><strong>I — Interface Segregation:</strong> Prefer small interfaces. In Python, split ABCs into focused protocols.
+    <li><strong>D — Dependency Inversion:</strong> High-level modules should not depend on low-level modules; use abstractions or injection.</li>
+  </ul>
+
+  <pre><code># Example: SRP — separate logger from processing
+class Processor:
+    def __init__(self, logger):
+        self.logger = logger
+    def process(self, data):
+        self.logger.log('processing')
+        return data.upper()
+</code></pre>
+
+  <h2>4. Design Patterns you should know (brief)</h2>
+  <ul>
+    <li>Creational: Singleton, Factory, Builder</li>
+    <li>Structural: Adapter, Decorator, Facade</li>
+    <li>Behavioral: Strategy, Observer, Command</li>
+  </ul>
+  <p class="note">Be able to explain where you used them, why chosen, and trade-offs.</p>
+
+  <h2>5. Testing & QA perspective — how to test OOP code</h2>
+  <ul>
+    <li>Unit tests for public behavior; mock external dependencies (databases, network, file I/O).</li>
+    <li>Test edge cases: invalid inputs, state transitions, exceptions.</li>
+    <li>Property-based tests and parametrized tests (pytest.mark.parametrize) for many input combinations.</li>
+    <li>Test class invariants and lifecycle: after operations, object should be in valid state.</li>
+    <li>Use dependency injection to make classes testable — avoid hard-coded singletons/global state in tests.</li>
+  </ul>
+
+  <pre><code># pytest example
+import pytest
+
+def test_deposit_withdraw():
+    from datetime import datetime
+    acc = BankAccount('Test', 100)
+    acc.deposit(50)
+    assert acc.balance == 150
+    acc.withdraw(30)
+    assert acc.balance == 120
+    with pytest.raises(ValueError):
+        acc.withdraw(1000)
+</code></pre>
+
+  <h2>6. Behavioral / System-design style OOP questions</h2>
+  <p>Examples interviewers ask to evaluate design thinking (not just code):</p>
+  <ul>
+    <li>Design a logging system that can switch between file, DB, and remote — how to make it extendable?</li>
+    <li>How would you design a plugin system for a test runner?</li>
+    <li>Design a notification system (email, SMS, push) where new channels can be added later.</li>
+  </ul>
+  <p class="note">Approach: clarify requirements, define key classes/interfaces, show sequence of interactions, mention trade-offs (complexity, testing, performance).</p>
+
+  <h2>7. Mini mock interview — common Q & strong answers</h2>
+  <div class="qa">
+    <strong>Q: What is the difference between composition and inheritance? When to use which?</strong>
+    <div class="note">A: Inheritance expresses "is-a"; composition expresses "has-a". Prefer composition to reduce coupling and increase flexibility. Use inheritance for polymorphic behaviour and when subclass truly is a subtype.</div>
+  </div>
+
+  <div class="qa">
+    <strong>Q: How would you make a class immutable in Python?</strong>
+    <div class="note">A: Use <code>__slots__</code> and avoid setters, or return frozen dataclasses: <code>@dataclass(frozen=True)</code>. For deep immutability, ensure contained objects are immutable or copied.</div>
+  </div>
+
+  <div class="qa">
+    <strong>Q: How to avoid issues with default mutable arguments?</strong>
+    <div class="note">A: Never use mutable default parameters. Use <code>None</code> and set inside: <code>def __init__(self, lst=None): self.lst = lst or []</code>.</div>
+  </div>
+
+  <h2>8. Exercises & Challenges</h2>
+  <ol>
+    <li><strong>Implement:</strong> A <code>LRUCache</code> class with <code>get</code> and <code>put</code> methods (use OrderedDict or doubly-linked list + dict).</li>
+    <li><strong>Design:</strong> A plugin system for a test runner where plugins can register setup/teardown hooks.</li>
+    <li><strong>Refactor:</strong> Given a large God-class that handles DB + validation + report generation, split responsibilities into smaller classes (write the refactored UML).</li>
+  </ol>
+
+  <h3>Mini MCQ (quick self-check)</h3>
+  <ol>
+    <li>Which principle suggests classes should have one reason to change? (A) Liskov (B) SRP (C) Open/Closed</li>
+    <li>Which pattern lets you change an algorithm at runtime? (A) Singleton (B) Strategy (C) Adapter</li>
+    <li>Why are mutable default args dangerous? (A) Performance (B) Shared state between calls (C) Syntax error</li>
+  </ol>
+
+  <footer>
+    <p class="note">That’s the core for Day 24. Want this converted to a printable PDF, LinkedIn carousel, poster for Instagram Reels, or a problem + solution pair (problem.html + solution.py)?</p>
+  </footer>
+</body>
+</html>
