@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 26 - Decorators & Generators in Python</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        h2 {
+            color: #764ba2;
+            font-size: 2em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        pre {
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        code {
+            color: #f8f8f2;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            border-left: 4px solid #764ba2;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .interview-tip {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .interview-tip h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        ul {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .key-takeaway {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .key-takeaway h2 {
+            color: white;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 20px;
+        }
+        
+        .key-takeaway ul {
+            list-style-type: none;
+            margin-left: 0;
+        }
+        
+        .key-takeaway li {
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .key-takeaway li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .example-box {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .example-box h4 {
+            color: #495057;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Day 26 - Decorators & Generators in Python</h1>
+            <p class="subtitle">Master Advanced Python Concepts for Technical Interviews</p>
+        </header>
+        
+        <div class="content">
+            <h2>1. Introduction</h2>
+            
+            <h3>What are Decorators?</h3>
+            <p>
+                Decorators are a powerful Python feature that allows you to modify or enhance the behavior of functions or classes without permanently modifying their source code. They're essentially functions that take another function as an argument and extend its behavior without explicitly modifying it. Think of decorators as wrappers that add extra functionality to existing functions in a clean, readable, and reusable way.
+            </p>
+            
+            <h3>What are Generators?</h3>
+            <p>
+                Generators are special Python functions that return an iterator object which produces values lazily (on-demand) rather than computing all values at once and storing them in memory. They use the <code>yield</code> keyword instead of <code>return</code> and are incredibly memory-efficient for working with large datasets or infinite sequences.
+            </p>
+            
+            <h2>2. Decorators</h2>
+            
+            <h3>Function Decorators Explanation</h3>
+            <p>
+                A decorator is implemented as a function that takes another function as an argument and returns a modified version of that function. The @ symbol is used as syntactic sugar to apply decorators to functions.
+            </p>
+            
+            <pre><code># Basic decorator structure
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        # Do something before
+        result = func(*args, **kwargs)
+        # Do something after
+        return result
+    return wrapper
+
+# Applying decorator
+@my_decorator
+def say_hello(name):
+    return f"Hello, {name}!"
+
+# This is equivalent to:
+# say_hello = my_decorator(say_hello)</code></pre>
+            
+            <h3>Example: Logging Decorator</h3>
+            <div class="example-box">
+                <h4>Real-world Use Case: Function Call Logging</h4>
+                <pre><code>import functools
+import datetime
+
+def log_function_call(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{timestamp}] Calling function: {func.__name__}")
+        print(f"Arguments: args={args}, kwargs={kwargs}")
+        
+        result = func(*args, **kwargs)
+        
+        print(f"[{timestamp}] Function {func.__name__} returned: {result}")
+        return result
+    return wrapper
+
+@log_function_call
+def calculate_discount(price, discount_percent):
+    """Calculate the discounted price"""
+    discount = price * (discount_percent / 100)
+    return price - discount
+
+# Usage
+final_price = calculate_discount(100, 20)
+# Output:
+# [2024-01-15 10:30:45] Calling function: calculate_discount
+# Arguments: args=(100, 20), kwargs={}
+# [2024-01-15 10:30:45] Function calculate_discount returned: 80.0</code></pre>
+            </div>
+            
+            <h3>Example: Timing Decorator</h3>
+            <div class="example-box">
+                <h4>Performance Monitoring Decorator</h4>
+                <pre><code>import time
+import functools
+
+def timer(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.perf_counter()
+        result = func(*args, **kwargs)
+        end_time = time.perf_counter()
+        execution_time = end_time - start_time
+        print(f"{func.__name__} took {execution_time:.4f} seconds to execute")
+        return result
+    return wrapper
+
+@timer
+def slow_function(n):
+    """Simulate a time-consuming operation"""
+    total = 0
+    for i in range(n):
+        total += i ** 2
+    return total
+
+# Usage
+result = slow_function(1000000)
+# Output: slow_function took 0.0842 seconds to execute</code></pre>
+            </div>
+            
+            <h3>Example: Authentication Decorator</h3>
+            <div class="example-box">
+                <h4>Security Decorator for Access Control</h4>
+                <pre><code>import functools
+
+def require_authentication(role=None):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            # Simulate checking user authentication
+            user = kwargs.get('user', None)
+            
+            if not user:
+                raise PermissionError("Authentication required")
+            
+            if not user.get('is_authenticated'):
+                raise PermissionError("User not authenticated")
+            
+            if role and user.get('role') != role:
+                raise PermissionError(f"Role '{role}' required")
+            
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+@require_authentication(role='admin')
+def delete_user(user_id, user=None):
+    return f"User {user_id} deleted successfully"
+
+@require_authentication()
+def view_profile(user_id, user=None):
+    return f"Viewing profile of user {user_id}"
+
+# Usage examples
+admin_user = {'is_authenticated': True, 'role': 'admin'}
+regular_user = {'is_authenticated': True, 'role': 'user'}
+
+# This works
+print(delete_user(123, user=admin_user))
+
+# This raises PermissionError
+try:
+    delete_user(123, user=regular_user)
+except PermissionError as e:
+    print(f"Error: {e}")</code></pre>
+            </div>
+            
+            <h3>Use Cases in Real-World Coding/Interviews</h3>
+            <div class="highlight">
+                <ul>
+                    <li><strong>Web Frameworks:</strong> Route handlers (@app.route in Flask), authentication checks</li>
+                    <li><strong>Caching:</strong> Memoization decorators to cache expensive function results</li>
+                    <li><strong>Validation:</strong> Input validation and type checking</li>
+                    <li><strong>Retry Logic:</strong> Automatic retry on failure with exponential backoff</li>
+                    <li><strong>Rate Limiting:</strong> API call rate limiting</li>
+                    <li><strong>Transaction Management:</strong> Database transaction handling</li>
+                </ul>
+            </div>
+            
+            <h2>3. Generators</h2>
+            
+            <h3>Difference between `return` and `yield`</h3>
+            <p>
+                The fundamental difference is that <code>return</code> terminates a function and returns a value, while <code>yield</code> pauses the function, saves its state, and returns a value. The function can then be resumed from where it left off.
+            </p>
+            
+            <pre><code># Regular function with return
+def get_squares_list(n):
+    squares = []
+    for i in range(n):
+        squares.append(i ** 2)
+    return squares  # Returns entire list at once
+
+# Generator function with yield
+def get_squares_generator(n):
+    for i in range(n):
+        yield i ** 2  # Yields one value at a time
+
+# Memory comparison
+list_squares = get_squares_list(1000000)  # Creates entire list in memory
+gen_squares = get_squares_generator(1000000)  # Creates generator object only</code></pre>
+            
+            <h3>Creating a Generator Function</h3>
+            <pre><code>def countdown(n):
+    """A simple generator that counts down from n to 1"""
+    print(f"Starting countdown from {n}")
+    while n > 0:
+        yield n
+        n -= 1
+    print("Countdown finished!")
+
+# Create generator object
+counter = countdown(5)
+print(type(counter))  # <class 'generator'></code></pre>
+            
+            <h3>Using `next()` and `for` loop with generators</h3>
+            <pre><code># Using next()
+gen = countdown(3)
+print(next(gen))  # Output: 3
+print(next(gen))  # Output: 2
+print(next(gen))  # Output: 1
+# print(next(gen))  # Would raise StopIteration
+
+# Using for loop (recommended way)
+for num in countdown(5):
+    print(f"T-minus {num}")
+    
+# Generator automatically handles StopIteration in for loops</code></pre>
+            
+            <h3>Example: Fibonacci Sequence Generator</h3>
+            <div class="example-box">
+                <h4>Memory-Efficient Fibonacci Implementation</h4>
+                <pre><code>def fibonacci_generator(limit=None):
+    """Generate Fibonacci numbers up to a limit or infinitely"""
+    a, b = 0, 1
+    count = 0
+    
+    while limit is None or count < limit:
+        yield a
+        a, b = b, a + b
+        count += 1
+
+# Generate first 10 Fibonacci numbers
+fib_gen = fibonacci_generator(10)
+fib_numbers = list(fib_gen)
+print(fib_numbers)  # [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+
+# Generate Fibonacci numbers up to a certain value
+def fibonacci_up_to_value(max_value):
+    a, b = 0, 1
+    while a <= max_value:
+        yield a
+        a, b = b, a + b
+
+# Get all Fibonacci numbers up to 100
+for fib in fibonacci_up_to_value(100):
+    print(fib, end=' ')  # 0 1 1 2 3 5 8 13 21 34 55 89</code></pre>
+            </div>
+            
+            <h3>Generator Expressions</h3>
+            <p>
+                Generator expressions are a concise way to create generators, similar to list comprehensions but with parentheses instead of square brackets.
+            </p>
+            
+            <pre><code># List comprehension (creates entire list)
+squares_list = [x**2 for x in range(1000000)]
+
+# Generator expression (creates generator object)
+squares_gen = (x**2 for x in range(1000000))
+
+# Memory usage comparison
+import sys
+print(f"List size: {sys.getsizeof(squares_list)} bytes")
+print(f"Generator size: {sys.getsizeof(squares_gen)} bytes")
+
+# Chaining generator expressions
+numbers = range(1, 11)
+squared = (x**2 for x in numbers)
+even_squares = (x for x in squared if x % 2 == 0)
+
+print(list(even_squares))  # [4, 16, 36, 64, 100]</code></pre>
+            
+            <h3>Advantages (Memory Efficiency, Lazy Evaluation)</h3>
+            <div class="highlight">
+                <h4>Key Benefits of Generators:</h4>
+                <ul>
+                    <li><strong>Memory Efficiency:</strong> Generate values on-the-fly instead of storing entire sequences</li>
+                    <li><strong>Lazy Evaluation:</strong> Compute values only when needed</li>
+                    <li><strong>Infinite Sequences:</strong> Can represent infinite sequences without memory overflow</li>
+                    <li><strong>Pipeline Processing:</strong> Chain generators for efficient data processing pipelines</li>
+                    <li><strong>State Preservation:</strong> Automatically maintains state between calls</li>
+                </ul>
+            </div>
+            
+            <pre><code># Example: Processing large files efficiently
+def read_large_file(file_path):
+    """Generator to read a large file line by line"""
+    with open(file_path, 'r') as file:
+        for line in file:
+            yield line.strip()
+
+def filter_lines(lines, keyword):
+    """Generator to filter lines containing keyword"""
+    for line in lines:
+        if keyword in line:
+            yield line
+
+# Process file without loading entire content into memory
+# lines = read_large_file('huge_log_file.txt')
+# error_lines = filter_lines(lines, 'ERROR')
+# for error in error_lines:
+#     print(error)</code></pre>
+            
+            <h2>4. Interview-Focused Section</h2>
+            
+            <div class="interview-tip">
+                <h4>🎯 Common Interview Questions about Decorators</h4>
+                <ul>
+                    <li><strong>Q: Why use decorators?</strong><br>
+                    A: Decorators provide clean separation of concerns, code reusability, and follow the DRY principle. They're perfect for cross-cutting concerns like logging, caching, and authentication.</li>
+                    
+                    <li><strong>Q: When should you use decorators?</strong><br>
+                    A: Use decorators when you need to apply the same functionality to multiple functions, implement aspect-oriented programming, or add metadata to functions/classes.</li>
+                    
+                    <li><strong>Q: Can you stack multiple decorators?</strong><br>
+                    A: Yes, decorators can be stacked. They're applied from bottom to top (closest to function first).</li>
+                    
+                    <li><strong>Q: What is functools.wraps and why use it?</strong><br>
+                    A: It preserves the original function's metadata (name, docstring, etc.) when creating wrapper functions.</li>
+                </ul>
+            </div>
+            
+            <pre><code># Example: Stacking decorators
+@timer
+@log_function_call
+@require_authentication()
+def process_data(data, user=None):
+    # Decorators applied in order: 
+    # require_authentication -> log_function_call -> timer
+    return len(data)</code></pre>
+            
+            <div class="interview-tip">
+                <h4>🎯 Common Interview Questions about Generators</h4>
+                <ul>
+                    <li><strong>Q: yield vs return - what's the key difference?</strong><br>
+                    A: yield produces a value and suspends the function's execution, maintaining state. return terminates the function completely.</li>
+                    
+                    <li><strong>Q: Real use cases for generators?</strong><br>
+                    A: Reading large files, API pagination, streaming data, implementing iterators, infinite sequences, data pipelines.</li>
+                    
+                    <li><strong>Q: Can you send values to a generator?</strong><br>
+                    A: Yes, using the send() method. This enables two-way communication with generators (coroutines).</li>
+                    
+                    <li><strong>Q: Generator vs Iterator?</strong><br>
+                    A: All generators are iterators, but not all iterators are generators. Generators are a simple way to create iterators.</li>
+                </ul>
+            </div>
+            
+            <pre><code># Advanced: Generator with send()
+def accumulator():
+    total = 0
+    while True:
+        value = yield total
+        if value is not None:
+            total += value
+
+acc = accumulator()
+next(acc)  # Initialize generator
+print(acc.send(10))  # 10
+print(acc.send(20))  # 30
+print(acc.send(5))   # 35</code></pre>
+            
+            <div class="key-takeaway">
+                <h2>🎯 Key Takeaways</h2>
+                <ul>
+                    <li><strong>Decorators are interview favorites:</strong> They demonstrate understanding of higher-order functions, closures, and clean code principles</li>
+                    <li><strong>Real-world applications:</strong> Both concepts are widely used in frameworks like Django, Flask, and modern Python applications</li>
+                    <li><strong>Memory efficiency matters:</strong> Generators show your understanding of memory optimization, crucial for handling big data</li>
+                    <li><strong>Code elegance:</strong> Both features lead to cleaner, more maintainable code - a key trait interviewers look for</li>
+                    <li><strong>Problem-solving tools:</strong> Decorators solve cross-cutting concerns; generators handle large datasets and infinite sequences</li>
+                    <li><strong>Advanced Python proficiency:</strong> Mastery of these concepts signals senior-level Python understanding</li>
+                    <li><strong>Common in coding challenges:</strong> Many interview problems benefit from generator-based solutions for optimal space complexity</li>
+                    <li><strong>Framework knowledge:</strong> Understanding these concepts helps in learning and using Python frameworks effectively</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
