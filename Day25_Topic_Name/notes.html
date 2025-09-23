@@ -104,4 +104,93 @@ nums = [1, 2, 3, 4]
 print(*nums)  # 1 2 3 4
     </pre>
 
-    <h2>14. Using **kwar**
+    <h2>14. Using **kwargs and *args</h2>
+    <pre>
+def demo(*args, **kwargs):
+    print(args)
+    print(kwargs)
+
+demo(1, 2, 3, a=10, b=20)
+    </pre>
+
+    <h2>15. Inline if with print()</h2>
+    <pre>
+x = 5
+print("Even") if x % 2 == 0 else print("Odd")
+    </pre>
+
+    <h2>16. Using collections.Counter</h2>
+    <pre>
+from collections import Counter
+print(Counter("mississippi"))  # counts characters
+    </pre>
+
+    <h2>17. Using defaultdict</h2>
+    <pre>
+from collections import defaultdict
+d = defaultdict(int)
+d["a"] += 1
+print(d)  # {'a': 1}
+    </pre>
+
+    <h2>18. Using itertools</h2>
+    <pre>
+import itertools
+nums = [1, 2, 3]
+print(list(itertools.permutations(nums)))
+    </pre>
+
+    <h2>19. Lambda + map + filter + reduce</h2>
+    <pre>
+from functools import reduce
+nums = [1, 2, 3, 4]
+print(list(map(lambda x: x*2, nums)))
+print(list(filter(lambda x: x%2==0, nums)))
+print(reduce(lambda x,y: x+y, nums))
+    </pre>
+
+    <h2>20. Sorted with key</h2>
+    <pre>
+data = ["apple", "banana", "pear"]
+print(sorted(data, key=len))  # ['pear', 'apple', 'banana']
+    </pre>
+
+    <h2>21. Using __slots__ to save memory</h2>
+    <pre>
+class Person:
+    __slots__ = ["name", "age"]
+    def __init__(self, name, age):
+        self.name, self.age = name, age
+    </pre>
+
+    <h2>22. Chained Comparison</h2>
+    <pre>
+x = 10
+print(5 < x < 15)  # True
+    </pre>
+
+    <h2>23. Using is vs ==</h2>
+    <pre>
+a = [1,2]
+b = [1,2]
+print(a == b)  # True (values equal)
+print(a is b)  # False (different objects)
+    </pre>
+
+    <h2>24. Try-Else in Exception Handling</h2>
+    <pre>
+try:
+    num = int("10")
+except ValueError:
+    print("Error")
+else:
+    print("Success")  # Runs if no exception
+    </pre>
+
+    <h2>25. Walrus Operator (Python 3.8+)</h2>
+    <pre>
+if (n := len([1,2,3,4])) > 3:
+    print(f"List is long ({n} elements)")
+    </pre>
+</body>
+</html>
