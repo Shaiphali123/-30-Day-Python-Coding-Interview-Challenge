@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Day 26 — Decorators & Generators Problems</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #fafafa; color: #333; }
+        h1 { color: #2c3e50; }
+        h2 { color: #34495e; margin-top: 20px; }
+        pre { background: #272822; color: #f8f8f2; padding: 10px; border-radius: 5px; }
+        .problem { background: #f0f8ff; padding: 12px; margin: 12px 0; border-left: 5px solid #3498db; }
+    </style>
+</head>
+<body>
+    <h1>Day 26 — Decorators & Generators (Practice Problems)</h1>
+    <p>Practice these problems to strengthen your knowledge of Python Decorators and Generators.</p>
+
+    <div class="problem">
+        <h2>1. Basic Decorator</h2>
+        <p>Create a decorator that prints "Function is being executed" before running the function.</p>
+        <pre>
+@your_decorator
+def greet():
+    print("Hello, World!")
+greet()
+# Expected:
+# Function is being executed
+# Hello, World!
+        </pre>
+    </div>
+
+    <div class="problem">
+        <h2>2. Timing Decorator</h2>
+        <p>Create a decorator that measures the execution time of a function.</p>
+        <pre>
+@timing_decorator
+def slow_function():
+    import time
+    time.sleep(2)
+    print("Done")
+
+slow_function()
+# Expected: Prints execution time
+        </pre>
+    </div>
+
+    <div class="problem">
+        <h2>3. Authentication Decorator</h2>
+        <p>Create a decorator that checks if the user is "admin" before executing the function.</p>
+        <pre>
+@auth_decorator
+def view_dashboard(user):
+    print(f"Welcome {user}!")
+
+view_dashboard("admin")
+view_dashboard("guest")
+# Expected:
+# Welcome admin!
+# Access denied
+        </pre>
+    </div>
+
+    <div class="problem">
+        <h2>4. Generator: Countdown</h2>
+        <p>Write a generator function <code>countdown(n)</code> that yields numbers from n down to 1.</p>
+        <pre>
+for num in countdown(5):
+    print(num, end=" ")
+# Expected: 5 4 3 2 1
+        </pre>
+    </div>
+
+    <div class="problem">
+        <h2>5. Fibonacci Generator</h2>
+        <p>Write a generator that yields the first 10 Fibonacci numbers.</p>
+        <pre>
+for num in fibonacci(10):
+    print(num, end=" ")
+# Expected: 0 1 1 2 3 5 8 13 21 34
+        </pre>
+    </div>
+
+    <div class="problem">
+        <h2>6. Infinite Generator</h2>
+        <p>Create an infinite generator that yields even numbers starting from 0.</p>
+        <pre>
+gen = even_numbers()
+for _ in range(5):
+    print(next(gen), end=" ")
+# Expected: 0 2 4 6 8
+        </pre>
+    </div>
+
+    <div class="problem">
+        <h2>7. Generator Expression</h2>
+        <p>Use a generator expression to calculate the sum of squares from 1 to 5.</p>
+        <pre>
+# Your code here
+# Expected: 55
+        </pre>
+    </div>
+
+    <div class="problem">
+        <h2>8. Chained Decorators</h2>
+        <p>Create two decorators <code>@bold</code> and <code>@italic</code> that wrap text in HTML tags.</p>
+        <pre>
+@bold
+@italic
+def greet():
+    return "Hello"
+
+print(greet())
+# Expected: &lt;b&gt;&lt;i&gt;Hello&lt;/i&gt;&lt;/b&gt;
+        </pre>
+    </div>
+
+</body>
+</html>
